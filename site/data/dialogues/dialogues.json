@@ -1,0 +1,2266 @@
+[
+  {
+    "id": "mira_default_herb_shed_morning",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "daily_context",
+    "priority": 20,
+    "weight": 3,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午"
+      ],
+      "locationIds": [
+        "herb_shed"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "米菈把剛摘下的葉片攤開，指尖有淡淡的藥草味。",
+      "「{playerName}，早上的藥性最穩。要是你今天要出門，最好現在先確認傷口。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "日常",
+      "藥草棚"
+    ]
+  },
+  {
+    "id": "mira_after_player_injured_evening",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "recent_reaction",
+    "priority": 80,
+    "weight": 1,
+    "conditions": {
+      "timeBlocks": [
+        "傍晚",
+        "夜晚"
+      ],
+      "locationIds": [
+        "herb_shed",
+        "dormitory"
+      ],
+      "affectionMin": 1,
+      "recentPlayerActions": [
+        "returned_injured",
+        "used_healing_item"
+      ],
+      "questStates": {
+        "mira_moondew_herb": [
+          "active",
+          "readyToReport"
+        ]
+      }
+    },
+    "lines": [
+      "米菈先看你的傷口，才抬頭看你。她的聲音很輕，但語氣比平常更堅定。",
+      "「我知道你想幫忙，可是你每次把自己弄成這樣，我都得重新計算藥草還夠不夠。」"
+    ],
+    "effects": {
+      "flags": [
+        "mira_warned_about_injury"
+      ]
+    },
+    "tags": [
+      "米菈",
+      "受傷反應",
+      "藥草棚"
+    ]
+  },
+  {
+    "id": "mira_moondew_ready_to_report",
+    "villagerId": "mira",
+    "command": "quest",
+    "category": "quest_ready",
+    "priority": 100,
+    "weight": 1,
+    "conditions": {
+      "locationIds": [
+        "herb_shed"
+      ],
+      "questStates": {
+        "mira_moondew_herb": [
+          "readyToReport"
+        ]
+      },
+      "requiredItems": {
+        "moondew_herb": 2
+      }
+    },
+    "lines": [
+      "米菈一碰到月露草，就立刻分辨出葉片裡清冷的草香。",
+      "「這些夠用了。今晚至少能多準備幾份治療藥。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "委託回報",
+      "月露草"
+    ]
+  },
+  {
+    "id": "sela_after_gate_wait_night",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "recent_reaction",
+    "priority": 70,
+    "weight": 1,
+    "conditions": {
+      "timeBlocks": [
+        "夜晚",
+        "深夜"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "recentPlayerActions": [
+        "reclamation_area_wait_30m",
+        "waited_at_reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "賽拉看了你一眼，又看向柵欄外的黑暗。",
+      "「{playerName}，晚上站在開墾區邊緣等，不會讓路變安全。你要問情報，就問清楚；要出門，就先說目的地。」"
+    ],
+    "effects": {
+      "flags": [
+        "sela_warned_about_waiting_at_gate"
+      ]
+    },
+    "tags": [
+      "賽拉",
+      "開墾區",
+      "夜晚"
+    ]
+  },
+  {
+    "id": "sela_after_forest_search",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "recent_reaction",
+    "priority": 85,
+    "weight": 1,
+    "conditions": {
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "recentPlayerActions": [
+        "forest_edge_search",
+        "searched_forest_edge"
+      ]
+    },
+    "lines": [
+      "賽拉聽完你描述林地入口的痕跡後，表情變得更冷。",
+      "「枝條不是自然折斷的。下次你再看到這種痕跡，先退回來，不要沿著它走。」"
+    ],
+    "effects": {
+      "flags": [
+        "sela_identified_forest_trace"
+      ]
+    },
+    "tags": [
+      "賽拉",
+      "林地",
+      "危險提示"
+    ]
+  },
+  {
+    "id": "aida_low_affection_village_plan",
+    "villagerId": "aida",
+    "command": "chat",
+    "category": "affection_reaction",
+    "priority": 40,
+    "weight": 2,
+    "conditions": {
+      "locationIds": [
+        "village_square_hub",
+        "dormitory"
+      ],
+      "affectionMin": 0,
+      "affectionMax": 1
+    },
+    "lines": [
+      "艾妲沒有立刻放下村莊記錄，只示意你把話說完。",
+      "「{playerName}，我會聽你的建議。但在那之前，我得先知道你會不會把說出口的事做完。」"
+    ],
+    "effects": {},
+    "tags": [
+      "艾妲",
+      "低好感",
+      "宿舍"
+    ]
+  },
+  {
+    "id": "nuosi_default_workshop_storage",
+    "villagerId": "nuosi",
+    "command": "chat",
+    "category": "daily_context",
+    "priority": 20,
+    "weight": 3,
+    "conditions": {
+      "locationIds": [
+        "workshop_storage"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "諾絲把工具敲回原位，沒有停下手邊的活。",
+      "「要聊天可以，手也一起動。這裡沒有只出嘴的位置。」"
+    ],
+    "effects": {},
+    "tags": [
+      "諾絲",
+      "工坊倉庫",
+      "日常"
+    ]
+  },
+  {
+    "id": "elaine_dormitory_manager_default",
+    "villagerId": "elaine",
+    "command": "chat",
+    "category": "daily_context",
+    "priority": 25,
+    "weight": 2,
+    "conditions": {
+      "locationIds": [
+        "dormitory"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "伊蓮把宿舍點名表壓在舊資料上，抬眼看向你。",
+      "「{playerName}，你要問今晚睡哪裡，還是要問那些不該在睡前看的遺跡紀錄？」"
+    ],
+    "effects": {},
+    "tags": [
+      "伊蓮",
+      "宿舍",
+      "日常"
+    ]
+  },
+  {
+    "id": "aida_pool_square_morning_01",
+    "villagerId": "aida",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "上午",
+        "中午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「廣場上的每一個決定都會影響今晚有沒有人能睡得安穩。你要提建議，就把風險也一起說清楚。」"
+    ],
+    "effects": {},
+    "tags": [
+      "艾妲",
+      "台詞池",
+      "村莊廣場"
+    ]
+  },
+  {
+    "id": "aida_pool_dormitory_afternoon_01",
+    "villagerId": "aida",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "下午",
+        "夜晚"
+      ],
+      "locationIds": [
+        "dormitory"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「我把記錄帶回宿舍，不是因為我不累，是因為明天醒來還得知道今天漏了什麼。」"
+    ],
+    "effects": {},
+    "tags": [
+      "艾妲",
+      "台詞池",
+      "宿舍"
+    ]
+  },
+  {
+    "id": "mira_pool_herb_shed_morning_01",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午"
+      ],
+      "locationIds": [
+        "herb_shed"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「嗯，清晨的藥草狀態最好判斷。你也一樣，傷口早點讓我看，比拖到晚上才說沒事好。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "台詞池",
+      "藥草棚"
+    ]
+  },
+  {
+    "id": "mira_pool_square_noon_01",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "中午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「中午大家偶爾會在廣場錯身，我會順便看她們的臉色。誰在硬撐，通常比傷口還明顯。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "台詞池",
+      "村莊廣場"
+    ]
+  },
+  {
+    "id": "nuosi_pool_workshop_morning_01",
+    "villagerId": "nuosi",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午"
+      ],
+      "locationIds": [
+        "workshop_storage"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「別站在門口擋光。要聊天就拿一把能用的工具，至少看起來像來幫忙。」"
+    ],
+    "effects": {},
+    "tags": [
+      "諾絲",
+      "台詞池",
+      "工坊倉庫"
+    ]
+  },
+  {
+    "id": "nuosi_pool_square_evening_01",
+    "villagerId": "nuosi",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "中午",
+        "傍晚"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「廣場開會最麻煩的地方，就是大家都覺得一張嘴比一把錘子好用。」"
+    ],
+    "effects": {},
+    "tags": [
+      "諾絲",
+      "台詞池",
+      "村莊廣場"
+    ]
+  },
+  {
+    "id": "sela_pool_reclamation_morning_01",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「柵欄外的腳印比昨天多。你如果要去森林，先說路線、回頭點，還有背包裡少了哪一樣。」"
+    ],
+    "effects": {},
+    "tags": [
+      "賽拉",
+      "台詞池",
+      "開墾區"
+    ]
+  },
+  {
+    "id": "sela_pool_square_noon_01",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "中午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「廣場空的時候，出口反而藏不住動靜。你如果聽見開墾區那邊突然安靜下來，先看路，不要急著往聲音那邊走。」"
+    ],
+    "effects": {},
+    "tags": [
+      "賽拉",
+      "台詞池",
+      "村莊廣場"
+    ]
+  },
+  {
+    "id": "tori_pool_square_morning_01",
+    "villagerId": "tori",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午",
+        "中午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「欸，今天廣場沒那麼冷清。你剛才停下來跟我說話，我就覺得今天可以多做一點事。」"
+    ],
+    "effects": {},
+    "tags": [
+      "托莉",
+      "台詞池",
+      "村莊廣場"
+    ]
+  },
+  {
+    "id": "tori_pool_reclamation_evening_01",
+    "villagerId": "tori",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "下午",
+        "傍晚"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「我只是整理田地，才沒有一直看森林那邊。真的沒有。」"
+    ],
+    "effects": {},
+    "tags": [
+      "托莉",
+      "台詞池",
+      "開墾區"
+    ]
+  },
+  {
+    "id": "elaine_pool_dormitory_morning_01",
+    "villagerId": "elaine",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午",
+        "下午"
+      ],
+      "locationIds": [
+        "dormitory"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「床位和點名表我每天都會看。少了一個名字，大家晚上就很難安心睡下。」"
+    ],
+    "effects": {},
+    "tags": [
+      "伊蓮",
+      "台詞池",
+      "宿舍"
+    ]
+  },
+  {
+    "id": "elaine_pool_square_evening_01",
+    "villagerId": "elaine",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "中午",
+        "傍晚"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「廣場適合談今天要做的事。遺跡、夢和舊記錄這些比較難說清楚的內容，回宿舍再談比較好。」"
+    ],
+    "effects": {},
+    "tags": [
+      "伊蓮",
+      "台詞池",
+      "村莊廣場"
+    ]
+  },
+  {
+    "id": "lizard_merchant_pool_reclamation_night_01",
+    "villagerId": "lizard_merchant",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "夜晚"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「小聲點。夜裡做買賣最重要的不是價格，是別讓不該聽見的人聽見。」"
+    ],
+    "effects": {},
+    "tags": [
+      "蜥蜴羅索",
+      "台詞池",
+      "開墾區"
+    ]
+  },
+  {
+    "id": "lizard_merchant_pool_reclamation_deepnight_01",
+    "villagerId": "lizard_merchant",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "深夜"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「深夜的螢石看起來比較亮。不是它變貴了，是你比較想活著回去。」"
+    ],
+    "effects": {},
+    "tags": [
+      "蜥蜴羅索",
+      "台詞池",
+      "開墾區"
+    ]
+  },
+  {
+    "id": "aida_pool_square_evening_01",
+    "villagerId": "aida",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "傍晚"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「傍晚最容易做出壞決定，因為每個人都已經累了。你要出門或改計畫，現在就說清楚。」"
+    ],
+    "effects": {},
+    "tags": [
+      "艾妲",
+      "台詞池",
+      "村莊廣場",
+      "傍晚"
+    ]
+  },
+  {
+    "id": "mira_pool_reclamation_afternoon_01",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "下午"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「開墾區的風會把森林的味道帶過來。聞到潮甜味的時候，最好別把傷口露在外面。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "台詞池",
+      "開墾區",
+      "下午"
+    ]
+  },
+  {
+    "id": "nuosi_pool_workshop_afternoon_01",
+    "villagerId": "nuosi",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "下午"
+      ],
+      "locationIds": [
+        "workshop_storage"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「下午我會檢查木料有沒有裂。你如果受傷或背包壞了，也趁現在說，別等到外面才出問題。」"
+    ],
+    "effects": {},
+    "tags": [
+      "諾絲",
+      "台詞池",
+      "工坊倉庫",
+      "下午"
+    ]
+  },
+  {
+    "id": "sela_pool_reclamation_evening_01",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "傍晚"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「天色一暗，森林會先吃掉距離感。你以為只走幾步，其實已經離村太遠了。」"
+    ],
+    "effects": {},
+    "tags": [
+      "賽拉",
+      "台詞池",
+      "開墾區",
+      "傍晚"
+    ]
+  },
+  {
+    "id": "tori_pool_dormitory_night_01",
+    "villagerId": "tori",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "夜晚",
+        "深夜"
+      ],
+      "locationIds": [
+        "dormitory"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「宿舍晚上太安靜了，安靜到我會一直想像森林那邊現在發生什麼事。你不准笑我。」"
+    ],
+    "effects": {},
+    "tags": [
+      "托莉",
+      "台詞池",
+      "宿舍",
+      "夜晚"
+    ]
+  },
+  {
+    "id": "elaine_pool_dormitory_night_01",
+    "villagerId": "elaine",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "夜晚",
+        "深夜"
+      ],
+      "locationIds": [
+        "dormitory"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「夜裡點名時，我最怕有人沒回來。故事可以明天再講，人一定要先回到宿舍。」"
+    ],
+    "effects": {},
+    "tags": [
+      "伊蓮",
+      "台詞池",
+      "宿舍",
+      "夜晚"
+    ]
+  },
+  {
+    "id": "lizard_merchant_pool_well_day_01",
+    "villagerId": "lizard_merchant",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午",
+        "中午",
+        "下午"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "requiredFlags": [
+        "lizard_merchant_day_access"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「白天來找我？行，但聲音放低。井底的生意靠的是陰影，不是招牌。」"
+    ],
+    "effects": {},
+    "tags": [
+      "蜥蜴羅索",
+      "台詞池",
+      "井底",
+      "白天"
+    ]
+  },
+  {
+    "id": "aida_pool_square_morning_02",
+    "villagerId": "aida",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「早上先確認食物、水、巡邏和傷患。其他事再急，也不能排在這四件前面。」"
+    ],
+    "effects": {},
+    "tags": [
+      "艾妲",
+      "台詞池",
+      "村莊廣場",
+      "早晨"
+    ]
+  },
+  {
+    "id": "aida_pool_square_noon_02",
+    "villagerId": "aida",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "中午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「中午最容易讓人以為還有時間。你要回報森林的事，趁現在說，別等到天黑才讓我重新安排。」"
+    ],
+    "effects": {},
+    "tags": [
+      "艾妲",
+      "台詞池",
+      "村莊廣場",
+      "中午"
+    ]
+  },
+  {
+    "id": "aida_pool_dormitory_night_02",
+    "villagerId": "aida",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "夜晚"
+      ],
+      "locationIds": [
+        "dormitory"
+      ],
+      "affectionMin": 1
+    },
+    "lines": [
+      "「我不是不想睡。只是乾糧、藥瓶和巡邏名單都要對過一遍，明天才不會有人被我漏掉。」"
+    ],
+    "effects": {},
+    "tags": [
+      "艾妲",
+      "台詞池",
+      "宿舍",
+      "夜晚"
+    ]
+  },
+  {
+    "id": "aida_pool_square_affection_02",
+    "villagerId": "aida",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 35,
+    "weight": 1,
+    "conditions": {
+      "locationIds": [
+        "village_square_hub",
+        "dormitory"
+      ],
+      "affectionMin": 3
+    },
+    "lines": [
+      "「你已經不是單純被照顧的人了。這代表我會更常要求你，也代表我開始把你算進明天的計畫裡。」"
+    ],
+    "effects": {},
+    "tags": [
+      "艾妲",
+      "台詞池",
+      "好感"
+    ]
+  },
+  {
+    "id": "aida_pool_dormitory_records_02",
+    "villagerId": "aida",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "下午",
+        "傍晚"
+      ],
+      "locationIds": [
+        "dormitory"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「今天誰拿了乾糧、哪個架子快散、誰傍晚還沒回來，這些都得寫清楚。明天的人不能只靠我記得。」"
+    ],
+    "effects": {},
+    "tags": [
+      "艾妲",
+      "台詞池",
+      "宿舍",
+      "紀錄"
+    ]
+  },
+  {
+    "id": "mira_pool_herb_shed_morning_02",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午"
+      ],
+      "locationIds": [
+        "herb_shed"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「別用手背去擦傷口。你看起來像是會把小問題拖成大問題的人。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "台詞池",
+      "藥草棚",
+      "早晨"
+    ]
+  },
+  {
+    "id": "mira_pool_herb_shed_noon_02",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "中午",
+        "下午"
+      ],
+      "locationIds": [
+        "herb_shed"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「藥棚中午最悶，所以味道也最準。月露草、繃帶、還有你身上那種剛從外面回來的味道。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "台詞池",
+      "藥草棚"
+    ]
+  },
+  {
+    "id": "mira_pool_square_afternoon_02",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "下午",
+        "傍晚"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「我在廣場看見誰走路變慢，就會記下來。你也在名單上，別露出那種意外的表情。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "台詞池",
+      "村莊廣場"
+    ]
+  },
+  {
+    "id": "mira_pool_reclamation_evening_02",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "傍晚"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「傍晚的風會讓傷口發癢。別抓，真的很癢就回藥棚，我會處理。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "台詞池",
+      "開墾區",
+      "傍晚"
+    ]
+  },
+  {
+    "id": "mira_pool_affection_02",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 35,
+    "weight": 1,
+    "conditions": {
+      "locationIds": [
+        "herb_shed",
+        "village_square_hub",
+        "reclamation_area"
+      ],
+      "affectionMin": 3
+    },
+    "lines": [
+      "「你願意先說自己哪裡痛，這很好。治療最麻煩的不是傷口，是一直說沒事的人。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "台詞池",
+      "好感"
+    ]
+  },
+  {
+    "id": "mira_pool_treatment_hint_02",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 32,
+    "weight": 2,
+    "conditions": {
+      "locationIds": [
+        "herb_shed"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「睡覺能讓你有力氣，但傷口不會因為你閉眼就自己聽話。生命要恢復，就得好好治療。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "台詞池",
+      "治療提示"
+    ]
+  },
+  {
+    "id": "sela_pool_reclamation_morning_02",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「清晨的腳印最乾淨。看不懂就別踩上去，踩上去就別說自己只是好奇。」"
+    ],
+    "effects": {},
+    "tags": [
+      "賽拉",
+      "台詞池",
+      "開墾區",
+      "早晨"
+    ]
+  },
+  {
+    "id": "sela_pool_square_afternoon_02",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "下午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「村裡的路你可以慢慢熟。村外的路不一樣，走錯一次就可能沒機會改。」"
+    ],
+    "effects": {},
+    "tags": [
+      "賽拉",
+      "台詞池",
+      "村莊廣場"
+    ]
+  },
+  {
+    "id": "sela_pool_reclamation_night_02",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "夜晚",
+        "深夜"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「夜裡不要相信遠處的亮點。有些是露水，有些是眼睛，還有些東西只是想讓你靠近。」"
+    ],
+    "effects": {},
+    "tags": [
+      "賽拉",
+      "台詞池",
+      "開墾區",
+      "夜晚"
+    ]
+  },
+  {
+    "id": "sela_pool_affection_02",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 35,
+    "weight": 1,
+    "conditions": {
+      "locationIds": [
+        "reclamation_area",
+        "village_square_hub"
+      ],
+      "affectionMin": 3
+    },
+    "lines": [
+      "「{playerName}，我還是不喜歡你靠近森林。但你如果真的要去，至少讓我知道你帶了什麼、從哪裡折返。」"
+    ],
+    "effects": {},
+    "tags": [
+      "賽拉",
+      "台詞池",
+      "好感"
+    ]
+  },
+  {
+    "id": "sela_pool_forest_hint_02",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 32,
+    "weight": 2,
+    "conditions": {
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「帶回來的東西不只看重量，也看你是怎麼帶回來的。慌張丟下的痕跡，會把麻煩帶到村口。」"
+    ],
+    "effects": {},
+    "tags": [
+      "賽拉",
+      "台詞池",
+      "森林提示"
+    ]
+  },
+  {
+    "id": "nuosi_pool_workshop_morning_02",
+    "villagerId": "nuosi",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午"
+      ],
+      "locationIds": [
+        "workshop_storage"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「早上工具最聽話，因為還沒被人亂放。你要借就記位置，還回來時別讓我猜。」"
+    ],
+    "effects": {},
+    "tags": [
+      "諾絲",
+      "台詞池",
+      "工坊倉庫",
+      "早晨"
+    ]
+  },
+  {
+    "id": "nuosi_pool_workshop_evening_02",
+    "villagerId": "nuosi",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "傍晚",
+        "夜晚"
+      ],
+      "locationIds": [
+        "workshop_storage"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「天黑以後別在倉庫裡亂摸。不是怕你偷東西，是怕你把我分好的材料弄亂。」"
+    ],
+    "effects": {},
+    "tags": [
+      "諾絲",
+      "台詞池",
+      "工坊倉庫",
+      "夜晚"
+    ]
+  },
+  {
+    "id": "nuosi_pool_square_noon_02",
+    "villagerId": "nuosi",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "中午",
+        "下午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「你看那邊的木架，斜了兩指寬。平常路過的人都說還能用，直到它真的倒下來為止。」"
+    ],
+    "effects": {},
+    "tags": [
+      "諾絲",
+      "台詞池",
+      "村莊廣場"
+    ]
+  },
+  {
+    "id": "nuosi_pool_affection_02",
+    "villagerId": "nuosi",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 35,
+    "weight": 1,
+    "conditions": {
+      "locationIds": [
+        "workshop_storage",
+        "village_square_hub"
+      ],
+      "affectionMin": 3
+    },
+    "lines": [
+      "「{playerName}，我不是誇你。只是你最近做事比較少讓我想重做一遍，這已經很難得了。」"
+    ],
+    "effects": {},
+    "tags": [
+      "諾絲",
+      "台詞池",
+      "好感"
+    ]
+  },
+  {
+    "id": "tori_pool_square_morning_02",
+    "villagerId": "tori",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「早上的廣場最適合決定今天要做什麼。你如果有想幫忙的事，現在說最不會打亂大家。」"
+    ],
+    "effects": {},
+    "tags": [
+      "托莉",
+      "台詞池",
+      "村莊廣場",
+      "早晨"
+    ]
+  },
+  {
+    "id": "tori_pool_reclamation_noon_02",
+    "villagerId": "tori",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "中午",
+        "下午"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「田地看起來很安靜，其實它一直在變。只是變得太慢，所以大家才會忘記它也需要被照顧。」"
+    ],
+    "effects": {},
+    "tags": [
+      "托莉",
+      "台詞池",
+      "開墾區"
+    ]
+  },
+  {
+    "id": "tori_pool_reclamation_affection_02",
+    "villagerId": "tori",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 35,
+    "weight": 1,
+    "conditions": {
+      "locationIds": [
+        "reclamation_area",
+        "village_square_hub"
+      ],
+      "affectionMin": 3
+    },
+    "lines": [
+      "「{playerName}，你真的會聽我說完耶。那我下次可以講更久一點嗎？只是一點點。」"
+    ],
+    "effects": {},
+    "tags": [
+      "托莉",
+      "台詞池",
+      "好感"
+    ]
+  },
+  {
+    "id": "elaine_pool_dormitory_morning_02",
+    "villagerId": "elaine",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午"
+      ],
+      "locationIds": [
+        "dormitory"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「早晨的宿舍最誠實。誰睡得不好，誰偷偷出門，床鋪都會替他們留下證詞。」"
+    ],
+    "effects": {},
+    "tags": [
+      "伊蓮",
+      "台詞池",
+      "宿舍",
+      "早晨"
+    ]
+  },
+  {
+    "id": "elaine_pool_square_noon_02",
+    "villagerId": "elaine",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "中午",
+        "下午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「廣場上說話很容易被聽見，所以大家白天通常只談工作。比較難開口的事，回宿舍後再說會安全一點。」"
+    ],
+    "effects": {},
+    "tags": [
+      "伊蓮",
+      "台詞池",
+      "村莊廣場"
+    ]
+  },
+  {
+    "id": "elaine_pool_dormitory_affection_02",
+    "villagerId": "elaine",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 35,
+    "weight": 1,
+    "conditions": {
+      "locationIds": [
+        "dormitory",
+        "village_square_hub"
+      ],
+      "affectionMin": 3
+    },
+    "lines": [
+      "「你現在問問題會先想一下對方能不能承受。這很好，有些真相不能一次全丟給大家。」"
+    ],
+    "effects": {},
+    "tags": [
+      "伊蓮",
+      "台詞池",
+      "好感"
+    ]
+  },
+  {
+    "id": "elaine_pool_ruin_hint_02",
+    "villagerId": "elaine",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 32,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "夜晚",
+        "深夜"
+      ],
+      "locationIds": [
+        "dormitory"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「如果你又夢到遺跡，醒來後先記下方向、聲音和看見的東西。嗯，害怕很正常，但只記恐懼，線索會變得很亂。」"
+    ],
+    "effects": {},
+    "tags": [
+      "伊蓮",
+      "台詞池",
+      "遺跡",
+      "夜晚"
+    ]
+  },
+  {
+    "id": "lizard_merchant_pool_reclamation_night_02",
+    "villagerId": "lizard_merchant",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "夜晚"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「螢石先數清楚，貨也先看清楚。夜晚適合成交，不適合事後爭辯。」"
+    ],
+    "effects": {},
+    "tags": [
+      "蜥蜴羅索",
+      "台詞池",
+      "開墾區",
+      "夜晚"
+    ]
+  },
+  {
+    "id": "lizard_merchant_pool_reclamation_deepnight_02",
+    "villagerId": "lizard_merchant",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "深夜"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「深夜的客人通常有兩種：急著活下去的，和急著證明自己不怕死的。我比較喜歡前者。」"
+    ],
+    "effects": {},
+    "tags": [
+      "蜥蜴羅索",
+      "台詞池",
+      "開墾區",
+      "深夜"
+    ]
+  },
+  {
+    "id": "lizard_merchant_pool_well_day_02",
+    "villagerId": "lizard_merchant",
+    "command": "chat",
+    "category": "line_pool",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午",
+        "中午",
+        "下午"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "requiredFlags": [
+        "lizard_merchant_day_access"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「白天的交易比較麻煩。影子太短，藉口也太少。你要買就快一點。」"
+    ],
+    "effects": {},
+    "tags": [
+      "蜥蜴羅索",
+      "台詞池",
+      "井底",
+      "白天"
+    ]
+  },
+  {
+    "id": "aida_schedule_village_square_hub_b0",
+    "villagerId": "aida",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「清晨先看廣場水桶、留言和今天要分派的人手。你若要幫忙，就從誰一抬頭都看得見的地方開始。」"
+    ],
+    "effects": {},
+    "tags": [
+      "艾妲",
+      "行程對白",
+      "村莊廣場",
+      "清晨"
+    ]
+  },
+  {
+    "id": "aida_schedule_reclamation_area_b1",
+    "villagerId": "aida",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "上午"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「上午要先確認田地和人手。食物撐不住，其他計畫寫得再整齊也只是紙。」"
+    ],
+    "effects": {},
+    "tags": [
+      "艾妲",
+      "行程對白",
+      "開墾區",
+      "上午"
+    ]
+  },
+  {
+    "id": "aida_schedule_workshop_storage_b3",
+    "villagerId": "aida",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "下午"
+      ],
+      "locationIds": [
+        "workshop_storage"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「下午我會來工坊對一次木料、舊工具和修補順序。哪一樣少記，明天就會有人多跑一趟。」"
+    ],
+    "effects": {},
+    "tags": [
+      "艾妲",
+      "行程對白",
+      "工坊倉庫",
+      "下午"
+    ]
+  },
+  {
+    "id": "mira_schedule_herb_shed_b0",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨"
+      ],
+      "locationIds": [
+        "herb_shed"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「清晨的葉片還帶著露水，處理起來比較聽話。你要是受傷，也最好趁早說。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "行程對白",
+      "藥草棚",
+      "清晨"
+    ]
+  },
+  {
+    "id": "mira_schedule_herb_shed_b1",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "上午"
+      ],
+      "locationIds": [
+        "herb_shed"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「上午我會先檢查藥草和繃帶。外出前多看一眼，比回來後少流一點血可靠。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "行程對白",
+      "藥草棚",
+      "上午"
+    ]
+  },
+  {
+    "id": "mira_schedule_herb_shed_b4",
+    "villagerId": "mira",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "傍晚"
+      ],
+      "locationIds": [
+        "herb_shed"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「傍晚我會把能用的藥先分好。夜裡出事時，沒有人有時間慢慢找瓶子。」"
+    ],
+    "effects": {},
+    "tags": [
+      "米菈",
+      "行程對白",
+      "藥草棚",
+      "傍晚"
+    ]
+  },
+  {
+    "id": "nuosi_schedule_workshop_storage_b0",
+    "villagerId": "nuosi",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨"
+      ],
+      "locationIds": [
+        "workshop_storage"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「清晨的工坊還沒吵起來，正好聽得出哪個架子快散了。別碰那邊，我還沒釘牢。」"
+    ],
+    "effects": {},
+    "tags": [
+      "諾絲",
+      "行程對白",
+      "工坊倉庫",
+      "清晨"
+    ]
+  },
+  {
+    "id": "nuosi_schedule_workshop_storage_b1",
+    "villagerId": "nuosi",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "上午"
+      ],
+      "locationIds": [
+        "workshop_storage"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「上午適合修東西，也適合罵昨天沒修好的東西。你要幫忙，就先把木材搬過來。」"
+    ],
+    "effects": {},
+    "tags": [
+      "諾絲",
+      "行程對白",
+      "工坊倉庫",
+      "上午"
+    ]
+  },
+  {
+    "id": "nuosi_schedule_village_square_hub_b2",
+    "villagerId": "nuosi",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "中午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「中午我只是出來喘口氣，不代表工具會自己變好。誰說缺什麼，你幫我記一下。」"
+    ],
+    "effects": {},
+    "tags": [
+      "諾絲",
+      "行程對白",
+      "村莊廣場",
+      "中午"
+    ]
+  },
+  {
+    "id": "nuosi_schedule_village_square_hub_b4",
+    "villagerId": "nuosi",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "傍晚"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「嘖，傍晚光線差，我會再檢查一次架子和工具。真的快壞的東西，通常都是這時候才被看見。」"
+    ],
+    "effects": {},
+    "tags": [
+      "諾絲",
+      "行程對白",
+      "村莊廣場",
+      "傍晚"
+    ]
+  },
+  {
+    "id": "sela_schedule_reclamation_area_b0",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「清晨的痕跡最新。腳印、斷枝、草上的水都看得清楚。你看到不懂的痕跡，先叫我，不要自己追。」"
+    ],
+    "effects": {},
+    "tags": [
+      "賽拉",
+      "行程對白",
+      "開墾區",
+      "清晨"
+    ]
+  },
+  {
+    "id": "sela_schedule_reclamation_area_b1",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "上午"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「上午視線最好，但別因此走太遠。你看得見森林，森林裡的東西也可能看得見你。」"
+    ],
+    "effects": {},
+    "tags": [
+      "賽拉",
+      "行程對白",
+      "開墾區",
+      "上午"
+    ]
+  },
+  {
+    "id": "sela_schedule_graveyard_b3",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "下午"
+      ],
+      "locationIds": [
+        "graveyard"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「下午我會巡到墓地外側。那裡草長得快，腳印也容易藏起來；看見新折的草莖，先別靠近墓碑背後。」"
+    ],
+    "effects": {},
+    "tags": [
+      "賽拉",
+      "行程對白",
+      "墓地",
+      "下午"
+    ]
+  },
+  {
+    "id": "sela_schedule_reclamation_area_b5",
+    "villagerId": "sela",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "夜晚"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「夜裡我巡到這裡，不是因為信任這片地。正好相反。」"
+    ],
+    "effects": {},
+    "tags": [
+      "賽拉",
+      "行程對白",
+      "開墾區",
+      "夜晚"
+    ]
+  },
+  {
+    "id": "tori_schedule_village_square_hub_b0",
+    "villagerId": "tori",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「清晨的廣場最空，我可以先把今天要搬的東西想一遍。雖然通常想到一半就想跑去做了。」"
+    ],
+    "effects": {},
+    "tags": [
+      "托莉",
+      "行程對白",
+      "村莊廣場",
+      "清晨"
+    ]
+  },
+  {
+    "id": "tori_schedule_village_square_hub_b1",
+    "villagerId": "tori",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "上午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「上午每個人都很忙，這樣最好。我也要忙起來，才不會被當成只會問問題的人。」"
+    ],
+    "effects": {},
+    "tags": [
+      "托莉",
+      "行程對白",
+      "村莊廣場",
+      "上午"
+    ]
+  },
+  {
+    "id": "tori_schedule_village_square_hub_b2",
+    "villagerId": "tori",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "中午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「中午太陽一照，什麼都看起來比較簡單。當然，真的做下去就不是那回事了。」"
+    ],
+    "effects": {},
+    "tags": [
+      "托莉",
+      "行程對白",
+      "村莊廣場",
+      "中午"
+    ]
+  },
+  {
+    "id": "tori_schedule_reclamation_area_b3",
+    "villagerId": "tori",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "下午"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「下午的開墾區最有感覺！土翻起來、草拔掉，就像真的有什麼在往前走。」"
+    ],
+    "effects": {},
+    "tags": [
+      "托莉",
+      "行程對白",
+      "開墾區",
+      "下午"
+    ]
+  },
+  {
+    "id": "tori_schedule_reclamation_area_b4",
+    "villagerId": "tori",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "傍晚"
+      ],
+      "locationIds": [
+        "reclamation_area"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「傍晚這裡會變得有點嚇人，但我才不會馬上回去。再一下下就好，真的。」"
+    ],
+    "effects": {},
+    "tags": [
+      "托莉",
+      "行程對白",
+      "開墾區",
+      "傍晚"
+    ]
+  },
+  {
+    "id": "elaine_schedule_dormitory_b0",
+    "villagerId": "elaine",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "清晨"
+      ],
+      "locationIds": [
+        "dormitory"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「清晨的宿舍最容易聽見真話。床鋪還安靜著，夢也還沒完全走。」"
+    ],
+    "effects": {},
+    "tags": [
+      "伊蓮",
+      "行程對白",
+      "宿舍",
+      "清晨"
+    ]
+  },
+  {
+    "id": "elaine_schedule_dormitory_b1",
+    "villagerId": "elaine",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "上午"
+      ],
+      "locationIds": [
+        "dormitory"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「上午我會整理昨夜的點名和舊紙。少一行字，有時候比少一個人還難發現。」"
+    ],
+    "effects": {},
+    "tags": [
+      "伊蓮",
+      "行程對白",
+      "宿舍",
+      "上午"
+    ]
+  },
+  {
+    "id": "elaine_schedule_village_square_hub_b2",
+    "villagerId": "elaine",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "中午"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「中午的廣場很適合交換消息。人們以為自己在聊天，其實是在替村子留下註腳。」"
+    ],
+    "effects": {},
+    "tags": [
+      "伊蓮",
+      "行程對白",
+      "村莊廣場",
+      "中午"
+    ]
+  },
+  {
+    "id": "elaine_schedule_dormitory_b3",
+    "villagerId": "elaine",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "下午"
+      ],
+      "locationIds": [
+        "dormitory"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「下午宿舍會安靜一點。我通常趁這時整理記錄，也比較容易聽見誰有事想說。」"
+    ],
+    "effects": {},
+    "tags": [
+      "伊蓮",
+      "行程對白",
+      "宿舍",
+      "下午"
+    ]
+  },
+  {
+    "id": "elaine_schedule_village_square_hub_b4",
+    "villagerId": "elaine",
+    "command": "chat",
+    "category": "schedule_context",
+    "priority": 30,
+    "weight": 2,
+    "conditions": {
+      "timeBlocks": [
+        "傍晚"
+      ],
+      "locationIds": [
+        "village_square_hub"
+      ],
+      "affectionMin": 0
+    },
+    "lines": [
+      "「傍晚大家都累，話不要說得太急。重要的事慢慢講，才不會讓人誤會。」"
+    ],
+    "effects": {},
+    "tags": [
+      "伊蓮",
+      "行程對白",
+      "村莊廣場",
+      "傍晚"
+    ]
+  }
+]

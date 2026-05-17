@@ -1,0 +1,409 @@
+[
+  {
+    "flagId": "opening_woke_in_village_seen",
+    "description": "已看過主角在山谷村醒來並被問起名字的開場事件。",
+    "sourceType": "event",
+    "sourceId": "opening_village_wake",
+    "unlocks": [
+      "開場流程進入主角命名介面"
+    ],
+    "notes": "由新遊戲開場事件寫入，玩家接著輸入主角名字。"
+  },
+  {
+    "flagId": "opening_recovery_intro_seen",
+    "description": "已看過主角命名後逐漸養傷並認識山谷村的開場介紹。",
+    "sourceType": "event",
+    "sourceId": "opening_recovery_intro",
+    "unlocks": [
+      "故事正式回到村莊自由行動"
+    ],
+    "notes": "由命名主角後啟動的養傷介紹事件最後一頁寫入。"
+  },
+  {
+    "flagId": "notice_board_message_read_today",
+    "description": "今天已經看過一次看板隨機留言事件。",
+    "sourceType": "event",
+    "sourceId": "notice_board_*.effects.dailyFlags",
+    "unlocks": [
+      "限制看板留言事件每天只觸發一次"
+    ],
+    "notes": "這是每日旗標，清晨每日重置時會清除。"
+  },
+  {
+    "flagId": "notice_board_tori_sela_seed_argument_seen",
+    "description": "已看過托莉和賽拉關於種子袋的看板拌嘴。",
+    "sourceType": "event",
+    "sourceId": "notice_board_tori_sela_seed_argument",
+    "unlocks": [
+      "避免同一看板留言事件重複出現"
+    ],
+    "notes": "由看板每日隨機留言事件寫入。"
+  },
+  {
+    "flagId": "notice_board_mira_nuosi_sleep_argument_seen",
+    "description": "已看過米菈和諾絲關於熬夜修東西的看板拌嘴。",
+    "sourceType": "event",
+    "sourceId": "notice_board_mira_nuosi_sleep_argument",
+    "unlocks": [
+      "避免同一看板留言事件重複出現"
+    ],
+    "notes": "由看板每日隨機留言事件寫入。"
+  },
+  {
+    "flagId": "notice_board_aida_elaine_blanket_argument_seen",
+    "description": "已看過艾妲和伊蓮關於宿舍毯子的看板拌嘴。",
+    "sourceType": "event",
+    "sourceId": "notice_board_aida_elaine_blanket_argument",
+    "unlocks": [
+      "避免同一看板留言事件重複出現"
+    ],
+    "notes": "由看板每日隨機留言事件寫入。"
+  },
+  {
+    "flagId": "notice_board_sela_nuosi_arrow_argument_seen",
+    "description": "已看過賽拉和諾絲關於箭矢品質的看板拌嘴。",
+    "sourceType": "event",
+    "sourceId": "notice_board_sela_nuosi_arrow_argument",
+    "unlocks": [
+      "避免同一看板留言事件重複出現"
+    ],
+    "notes": "由看板每日隨機留言事件寫入。"
+  },
+  {
+    "flagId": "notice_board_tori_mira_berry_argument_seen",
+    "description": "已看過托莉和米菈關於莓果能不能吃的看板拌嘴。",
+    "sourceType": "event",
+    "sourceId": "notice_board_tori_mira_berry_argument",
+    "unlocks": [
+      "避免同一看板留言事件重複出現"
+    ],
+    "notes": "由看板每日隨機留言事件寫入。"
+  },
+  {
+    "flagId": "tori_first_field_greeting_seen",
+    "description": "已看過托莉第一次說明田地與分送生菜的事件。",
+    "sourceType": "event",
+    "sourceId": "tori_first_field_greeting",
+    "unlocks": [
+      "托莉每日生菜贈送事件"
+    ],
+    "notes": "由第一次與托莉互動事件寫入。"
+  },
+  {
+    "flagId": "tori_daily_lettuce_gift_received",
+    "description": "今天已經從托莉那裡收到生菜。",
+    "sourceType": "event",
+    "sourceId": "tori_daily_lettuce_gift",
+    "unlocks": [
+      "限制托莉每日生菜贈送同一天只觸發一次"
+    ],
+    "notes": "這是每日旗標，清晨每日重置時會清除。"
+  },
+  {
+    "flagId": "nuosi_first_workshop_meeting_seen",
+    "description": "已看過諾絲第一次說明工坊規矩與基礎製作的事件。",
+    "sourceType": "event",
+    "sourceId": "nuosi_first_workshop_meeting",
+    "unlocks": [
+      "避免諾絲初見面事件重複觸發"
+    ],
+    "notes": "由諾絲第一次互動事件的最後一頁寫入，同時學會銳利碎石與箭矢配方。"
+  },
+  {
+    "flagId": "aida_first_village_briefing_seen",
+    "description": "已看過艾妲第一次說明村莊現況的事件。",
+    "sourceType": "event",
+    "sourceId": "aida_first_village_briefing",
+    "unlocks": [
+      "避免艾妲初次交代事件重複觸發"
+    ],
+    "notes": "由艾妲第一次互動事件的最後一頁寫入。"
+  },
+  {
+    "flagId": "sela_first_combat_tool_lesson_seen",
+    "description": "已看過賽拉第一次說明外出作戰工具的事件。",
+    "sourceType": "event",
+    "sourceId": "sela_first_combat_tool_lesson",
+    "unlocks": [
+      "避免賽拉作戰工具教學事件重複觸發",
+      "陷阱配方",
+      "火把配方",
+      "補網配方"
+    ],
+    "notes": "由賽拉第一次互動事件的最後一頁寫入，同時學會陷阱、火把與補網配方。"
+  },
+  {
+    "flagId": "sela_first_forest_edge_warning_seen",
+    "description": "已看過賽拉第一次在前往森林外圍前的警告事件。",
+    "sourceType": "event",
+    "sourceId": "sela_first_forest_edge_warning",
+    "unlocks": [
+      "避免第一次前往森林外圍警告事件重複觸發"
+    ],
+    "notes": "由第一次從村莊廣場前往森林外圍時的移動前事件選項寫入；玩家可選擇仍然前往或折返回廣場。"
+  },
+  {
+    "flagId": "mira_first_potion_lesson_seen",
+    "description": "已看過米菈第一次說明小型治療藥做法的事件。",
+    "sourceType": "event",
+    "sourceId": "mira_first_potion_lesson",
+    "unlocks": [
+      "避免米菈初見藥草教學事件重複觸發",
+      "小型治療藥配方"
+    ],
+    "notes": "由米菈第一次互動事件的最後一頁寫入，同時學會小型治療藥配方。"
+  },
+  {
+    "flagId": "elaine_first_fluorite_intro_seen",
+    "description": "已看過伊蓮第一次說明螢石用途並給予螢石的事件。",
+    "sourceType": "event",
+    "sourceId": "elaine_first_fluorite_intro",
+    "unlocks": [
+      "避免伊蓮初見螢石說明事件重複觸發"
+    ],
+    "notes": "由伊蓮第一次互動事件的最後一頁寫入，同時給予 10 個螢石。"
+  },
+  {
+    "flagId": "elaine_first_knowledge_myth_seen",
+    "description": "已看過第一次向伊蓮尋求知識時，她講述山谷舊神話、目前困境與自身懷疑的事件。",
+    "sourceType": "event",
+    "sourceId": "elaine_first_knowledge_myth",
+    "unlocks": [
+      "避免伊蓮第一次知識事件重複觸發"
+    ],
+    "notes": "由第一次點選伊蓮的尋求知識入口時觸發，在事件最後一頁寫入；事件結束後回到伊蓮知識頁。"
+  },
+  {
+    "flagId": "aida_trust_village_change_seen",
+    "description": "已看過艾妲在好感達到 5 以上後承認主角讓村莊調度往好處變化的事件。",
+    "sourceType": "event",
+    "sourceId": "aida_trust_village_change",
+    "unlocks": [
+      "避免艾妲信賴事件重複觸發"
+    ],
+    "notes": "由艾妲好感達到 5 以上，並在玩家按返回離開人物互動頁時觸發的事件寫入。"
+  },
+  {
+    "flagId": "mira_trust_village_change_seen",
+    "description": "已看過米菈在好感達到 5 以上後承認主角讓藥草與傷勢準備更有餘裕的事件。",
+    "sourceType": "event",
+    "sourceId": "mira_trust_village_change",
+    "unlocks": [
+      "避免米菈信賴事件重複觸發"
+    ],
+    "notes": "由米菈好感達到 5 以上，並在玩家按返回離開人物互動頁時觸發的事件寫入。"
+  },
+  {
+    "flagId": "nuosi_trust_village_change_seen",
+    "description": "已看過諾絲在好感達到 5 以上後承認主角讓修補工作不再只是勉強補破洞的事件。",
+    "sourceType": "event",
+    "sourceId": "nuosi_trust_village_change",
+    "unlocks": [
+      "避免諾絲信賴事件重複觸發"
+    ],
+    "notes": "由諾絲好感達到 5 以上，並在玩家按返回離開人物互動頁時觸發的事件寫入。"
+  },
+  {
+    "flagId": "sela_trust_village_change_seen",
+    "description": "已看過賽拉在好感達到 5 以上後承認主角讓外出回報與路線判斷更可靠的事件。",
+    "sourceType": "event",
+    "sourceId": "sela_trust_village_change",
+    "unlocks": [
+      "避免賽拉信賴事件重複觸發"
+    ],
+    "notes": "由賽拉好感達到 5 以上，並在玩家按返回離開人物互動頁時觸發的事件寫入。"
+  },
+  {
+    "flagId": "tori_trust_village_change_seen",
+    "description": "已看過托莉在好感達到 5 以上後承認主角讓村莊的今天比較像能接到明天的事件。",
+    "sourceType": "event",
+    "sourceId": "tori_trust_village_change",
+    "unlocks": [
+      "避免托莉信賴事件重複觸發"
+    ],
+    "notes": "由托莉好感達到 5 以上，並在玩家按返回離開人物互動頁時觸發的事件寫入。"
+  },
+  {
+    "flagId": "elaine_trust_village_change_seen",
+    "description": "已看過伊蓮在好感達到 5 以上後承認主角讓村莊記錄開始有往後寫的方向的事件。",
+    "sourceType": "event",
+    "sourceId": "elaine_trust_village_change",
+    "unlocks": [
+      "避免伊蓮信賴事件重複觸發"
+    ],
+    "notes": "由伊蓮好感達到 5 以上，並在玩家按返回離開人物互動頁時觸發的事件寫入。"
+  },
+  {
+    "flagId": "sela_sharp_stone_bow_completed",
+    "description": "已完成賽拉的銳利碎石交換。",
+    "sourceType": "quest",
+    "sourceId": "sela_sharp_stone_bow_request.rewards",
+    "unlocks": [
+      "賽拉後續遠程作戰教學"
+    ],
+    "notes": "提交兩個銳利碎石後，賽拉提供獵弓與四支箭矢。"
+  },
+  {
+    "flagId": "sela_smoke_bomb_recipe_completed",
+    "description": "已完成賽拉的煙霧彈配方委託。",
+    "sourceType": "quest",
+    "sourceId": "sela_smoke_bomb_recipe_request.rewards",
+    "unlocks": [
+      "煙霧彈配方"
+    ],
+    "notes": "向賽拉提交一份乾苔後取得，委託獎勵同時把 smoke_bomb_recipe 加入 knownRecipeIds。"
+  },
+  {
+    "flagId": "mira_moondew_completed",
+    "description": "已完成米菈的月露草委託。",
+    "sourceType": "quest",
+    "sourceId": "mira_moondew_herb.rewards",
+    "unlocks": [
+      "米菈藥草委託後續"
+    ],
+    "notes": "完成米菈的月露草委託。"
+  },
+  {
+    "flagId": "lizard_merchant_day_access",
+    "description": "已取得白天從井底找蜥蜴羅索的權限。",
+    "playerVisible": true,
+    "playerDescription": "白天時，你已經可以在井底拜訪蜥蜴羅索。",
+    "sourceType": "quest",
+    "sourceId": "lizard_merchant_dry_ration_request.rewards",
+    "unlocks": [
+      "lizard_well",
+      "lizard_merchant daytime access"
+    ],
+    "notes": "提交三個生菜後，白天可從井底找到蜥蜴羅索。"
+  },
+  {
+    "flagId": "dormitory_old_chest_claimed",
+    "description": "宿舍舊箱子的內容已被取完。",
+    "sourceType": "facility",
+    "sourceId": "dormitory_old_chest.smallStorage.oneTimeClaimFlag",
+    "unlocks": [
+      "宿舍舊箱子清空狀態"
+    ],
+    "notes": "玩家取完宿舍舊箱子內容後取得，用來記錄一次性寶箱已領取。"
+  },
+  {
+    "flagId": "graveyard_old_chest_claimed",
+    "description": "墓地舊箱子的內容已被取完。",
+    "sourceType": "facility",
+    "sourceId": "graveyard_old_chest.smallStorage.oneTimeClaimFlag",
+    "unlocks": [
+      "墓地舊箱子清空狀態"
+    ],
+    "notes": "玩家取完墓地舊箱子內容後取得，用來記錄一次性寶箱已領取。"
+  },
+  {
+    "flagId": "forbidden_books_truth_revealed",
+    "description": "禁忌之書相關真相已被揭露。",
+    "sourceType": "quest",
+    "sourceId": "forbidden_books_first_truth.rewards",
+    "unlocks": [
+      "禁忌之書後續主線"
+    ],
+    "notes": "完成第一段禁忌之書真相委託後取得，用來推進主線狀態。"
+  },
+  {
+    "flagId": "mira_low_health_warning_seen",
+    "description": "米菈已經因主角傷勢出聲提醒過一次。",
+    "sourceType": "event",
+    "sourceId": "mira_low_health_warning",
+    "unlocks": [
+      "避免米菈低生命提醒事件重複觸發"
+    ],
+    "notes": "由米菈低生命互動事件分支頁寫入。"
+  },
+  {
+    "flagId": "mira_warned_about_injury",
+    "description": "米菈已提醒主角不要硬撐傷勢。",
+    "sourceType": "dialogue",
+    "sourceId": "dialogues.effects.flags",
+    "unlocks": [
+      "米菈後續傷勢關切對話"
+    ],
+    "notes": "由米菈相關對話寫入，用來避免同一段提醒反覆觸發。"
+  },
+  {
+    "flagId": "sela_warned_about_waiting_at_gate",
+    "description": "賽拉已提醒主角不要在關隘外拖到太晚。",
+    "sourceType": "dialogue",
+    "sourceId": "dialogues.effects.flags",
+    "unlocks": [
+      "賽拉關隘提醒後續對話"
+    ],
+    "notes": "由賽拉相關對話寫入，用來記錄她已警告過關隘時間風險。"
+  },
+  {
+    "flagId": "sela_identified_forest_trace",
+    "description": "賽拉已辨認過森林裡的異常痕跡。",
+    "sourceType": "dialogue",
+    "sourceId": "dialogues.effects.flags",
+    "unlocks": [
+      "森林痕跡後續反應"
+    ],
+    "notes": "由賽拉相關對話寫入，用來記錄森林痕跡已被她判讀。"
+  },
+  {
+    "flagId": "storage_box_upgrade_1_completed",
+    "description": "已完成倉庫箱第一次加固。",
+    "sourceType": "quest",
+    "sourceId": "nuosi_storage_box_upgrade_1.rewards",
+    "unlocks": [
+      "倉庫箱等級提升到 2"
+    ],
+    "notes": "向諾絲提交五份木材後取得，委託獎勵同時讓 storage_box level +1。"
+  },
+  {
+    "flagId": "field_upgrade_1_completed",
+    "description": "已完成田地第一次整土。",
+    "sourceType": "quest",
+    "sourceId": "tori_field_upgrade_1.rewards",
+    "unlocks": [
+      "田地等級提升到 2"
+    ],
+    "notes": "向托莉提交三份泥土後取得，委託獎勵同時讓 field level +1。"
+  },
+  {
+    "flagId": "forest_hidden_cave_revealed",
+    "description": "已在森林外圍 10% 搜尋時發現隱藏的洞穴。",
+    "sourceType": "exploration",
+    "sourceId": "forest_edge.forage@outer:10",
+    "unlocks": [
+      "在森林外圍 10% 位置顯示隱藏的洞穴入口"
+    ],
+    "notes": "這是永久旗標；揭露後仍需位於對應探索位置才能進入洞穴。"
+  },
+  {
+    "flagId": "black_cat_first_encounter_seen",
+    "description": "已第一次在森林探索區看見黑貓。",
+    "sourceType": "event",
+    "sourceId": "black_cat_first_encounter",
+    "unlocks": [
+      "黑貓特殊行動的前置敘事已播放"
+    ],
+    "notes": "由黑貓第一次出現在探索位置時自動觸發的事件寫入。"
+  },
+  {
+    "flagId": "black_cat_first_delivery_pending",
+    "description": "黑貓第一次替主角把物品送回村莊，等待廣場事件提示。",
+    "sourceType": "interaction",
+    "sourceId": "blackCatCarryItems.confirm",
+    "unlocks": [
+      "進入村莊廣場時觸發艾妲說明失物箱事件"
+    ],
+    "notes": "由黑貓帶回東西整理介面確認後寫入；事件看過後保留為歷史狀態，但由 black_cat_first_delivery_notice_seen 阻止重複觸發。"
+  },
+  {
+    "flagId": "black_cat_first_delivery_notice_seen",
+    "description": "艾妲已說明黑貓送回的物品會被收到失物箱。",
+    "sourceType": "event",
+    "sourceId": "black_cat_first_delivery_notice",
+    "unlocks": [
+      "玩家理解黑貓帶回物品與失物箱的關係"
+    ],
+    "notes": "由第一次黑貓送回物品後進入村莊廣場的事件寫入。"
+  }
+]

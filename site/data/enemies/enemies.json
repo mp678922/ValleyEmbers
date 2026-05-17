@@ -1,0 +1,409 @@
+[
+  {
+    "id": "outer_forest_mist_bat",
+    "name": "霧翼蝠",
+    "region": "山谷森林外圍",
+    "category": "飛獸",
+    "appearanceDescription": "霧翼蝠從白霧裡掠出，薄膜般的翅膀沾著冷露，細小牙尖在灰光中一閃。",
+    "threatDescription": "牠貼著樹影忽近忽遠，像在等你露出破綻。",
+    "difficulty": 2,
+    "rangedDodge": 999,
+    "absoluteAmmoEvasion": true,
+    "fearedCombatTools": [
+      "capture_net"
+    ],
+    "effectiveMeleeWeapon": "劍",
+    "effectiveAmmo": "無",
+    "loot": {
+      "common": "cracked_bone",
+      "special": []
+    }
+  },
+  {
+    "id": "outer_forest_root_hare",
+    "name": "根角兔",
+    "region": "山谷森林外圍",
+    "category": "四足獸",
+    "appearanceDescription": "根角兔蹲在樹根間，額上彎角像枯枝，濕亮的眼睛死死盯著你的腳步。",
+    "threatDescription": "牠後腿繃得很緊，下一瞬就可能撞向你的膝側。",
+    "difficulty": 2,
+    "rangedDodge": 2,
+    "absoluteAmmoEvasion": false,
+    "fearedCombatTools": [
+      "trap"
+    ],
+    "effectiveMeleeWeapon": "槍",
+    "effectiveAmmo": "箭矢",
+    "loot": {
+      "common": "cracked_bone",
+      "special": [
+        "moondew_herb",
+        "beast_horn"
+      ]
+    }
+  },
+  {
+    "id": "outer_forest_bark_ape",
+    "name": "樹皮猿",
+    "region": "山谷森林外圍",
+    "category": "雙足獸",
+    "appearanceDescription": "牠伏在低枝與樹影之間，灰褐皮毛像裂開的樹皮，垂下的長臂幾乎掃過地面。",
+    "threatDescription": "牠歪著頭打量你，指節一下一下敲著樹幹。",
+    "difficulty": 2,
+    "rangedDodge": 1,
+    "absoluteAmmoEvasion": false,
+    "fearedCombatTools": [
+      "torch"
+    ],
+    "effectiveMeleeWeapon": "劍",
+    "effectiveAmmo": "石頭",
+    "loot": {
+      "common": "cracked_bone",
+      "special": [
+        "moondew_herb"
+      ]
+    }
+  },
+  {
+    "id": "outer_forest_thorn_boarlet",
+    "name": "刺背幼豬",
+    "region": "山谷森林外圍",
+    "category": "四足獸",
+    "appearanceDescription": "刺背幼豬從灌木裡拱出來，背脊短刺沾滿泥葉，鼻息粗熱得像小火苗。",
+    "threatDescription": "牠低著頭磨蹄，短短一段距離已足夠衝撞。",
+    "difficulty": 3,
+    "rangedDodge": 1,
+    "absoluteAmmoEvasion": false,
+    "fearedCombatTools": [
+      "trap"
+    ],
+    "effectiveMeleeWeapon": "槍",
+    "effectiveAmmo": "箭矢",
+    "loot": {
+      "common": "cracked_bone",
+      "special": [
+        "moondew_herb"
+      ]
+    }
+  },
+  {
+    "id": "outer_forest_hollow_owl",
+    "name": "空洞夜梟",
+    "region": "山谷森林外圍",
+    "category": "飛獸",
+    "appearanceDescription": "空洞夜梟停在枯枝上，羽毛灰白得像褪色布片，眼眶深黑得看不見底。",
+    "threatDescription": "牠無聲轉動頭顱，讓你覺得背後也被牠看見。",
+    "difficulty": 3,
+    "rangedDodge": 999,
+    "absoluteAmmoEvasion": true,
+    "fearedCombatTools": [
+      "capture_net"
+    ],
+    "effectiveMeleeWeapon": "劍",
+    "effectiveAmmo": "無",
+    "loot": {
+      "common": "cracked_bone",
+      "special": [
+        "feather"
+      ]
+    }
+  },
+  {
+    "id": "outer_forest_mudback_auroch",
+    "name": "移動巨木",
+    "region": "山谷森林外圍",
+    "category": "巨獸",
+    "appearanceDescription": "移動巨木從低矮樹叢後緩緩壓出，厚重身軀裹著濕泥與枯葉，背脊像一截被連根拔起的老樹。",
+    "threatDescription": "牠不需要跑得很快，只要往前推進，樹根與碎枝都被擠得喀喀作響。",
+    "difficulty": 6,
+    "rangedDodge": 1,
+    "absoluteAmmoEvasion": false,
+    "fearedCombatTools": [],
+    "effectiveMeleeWeapon": "無",
+    "effectiveAmmo": "箭矢",
+    "loot": {
+      "common": "cracked_bone",
+      "special": [
+        "beast_horn"
+      ]
+    }
+  },
+  {
+    "id": "middle_forest_blood_moth",
+    "name": "血粉蛾",
+    "region": "山谷森林中層",
+    "category": "飛獸",
+    "appearanceDescription": "血粉蛾在陰濕空氣裡拍翅，暗紅粉塵從翅緣落下，像一團活著的血霧。",
+    "threatDescription": "你只是吸進一點粉味，喉頭就開始發緊。",
+    "difficulty": 4,
+    "rangedDodge": 999,
+    "absoluteAmmoEvasion": true,
+    "fearedCombatTools": [
+      "capture_net"
+    ],
+    "effectiveMeleeWeapon": "劍",
+    "effectiveAmmo": "無",
+    "loot": {
+      "common": "beast_bone",
+      "special": []
+    }
+  },
+  {
+    "id": "middle_forest_ironjaw_wolf",
+    "name": "鐵顎狼",
+    "region": "山谷森林中層",
+    "category": "四足獸",
+    "appearanceDescription": "鐵顎狼伏在腐葉上，灰毛下的顎骨異常厚重，牙齒碰撞時發出乾硬聲響。",
+    "threatDescription": "牠盯著你的喉嚨和手腕，前爪壓低，像準備等你抬手時直接撲上來。",
+    "difficulty": 4,
+    "rangedDodge": 3,
+    "absoluteAmmoEvasion": false,
+    "fearedCombatTools": [
+      "trap"
+    ],
+    "effectiveMeleeWeapon": "槍",
+    "effectiveAmmo": "箭矢",
+    "loot": {
+      "common": "beast_bone",
+      "special": [
+        "beast_fang"
+      ]
+    }
+  },
+  {
+    "id": "middle_forest_masked_clawbeast",
+    "name": "覆面立爪獸",
+    "region": "山谷森林中層",
+    "category": "雙足獸",
+    "appearanceDescription": "覆面立爪獸直立在樹影裡，臉上硬殼像破面具，前爪比一般野獸更長，爪尖幾乎垂到膝下。",
+    "threatDescription": "牠慢慢抬起爪子，爪尖擦過樹皮，刮下一條淺白痕跡。",
+    "difficulty": 4,
+    "rangedDodge": 2,
+    "absoluteAmmoEvasion": false,
+    "fearedCombatTools": [
+      "torch"
+    ],
+    "effectiveMeleeWeapon": "劍",
+    "effectiveAmmo": "石頭",
+    "loot": {
+      "common": "beast_bone",
+      "special": [
+        "beast_fang"
+      ]
+    }
+  },
+  {
+    "id": "middle_forest_moss_bear",
+    "name": "苔甲熊",
+    "region": "山谷森林中層",
+    "category": "四足獸",
+    "appearanceDescription": "苔甲熊龐大的身體覆著厚苔與硬泥，肩背起伏時像一塊山石在呼吸。",
+    "threatDescription": "牠每往前壓一步，腳下的枯枝都被踩成碎末。",
+    "difficulty": 5,
+    "rangedDodge": 2,
+    "absoluteAmmoEvasion": false,
+    "fearedCombatTools": [
+      "trap"
+    ],
+    "effectiveMeleeWeapon": "槍",
+    "effectiveAmmo": "箭矢",
+    "loot": {
+      "common": "beast_bone",
+      "special": [
+        "moondew_herb"
+      ]
+    }
+  },
+  {
+    "id": "middle_forest_antler_crow",
+    "name": "鹿角鴉",
+    "region": "山谷森林中層",
+    "category": "飛獸",
+    "appearanceDescription": "鹿角鴉盤旋在樹冠間，黑羽下長著扭曲細角，尖喙反著冷冷的光。",
+    "threatDescription": "牠不急著俯衝，只在你頭頂畫出越來越低的圈。",
+    "difficulty": 5,
+    "rangedDodge": 999,
+    "absoluteAmmoEvasion": true,
+    "fearedCombatTools": [
+      "capture_net"
+    ],
+    "effectiveMeleeWeapon": "兩者",
+    "effectiveAmmo": "無",
+    "loot": {
+      "common": "beast_bone",
+      "special": [
+        "feather",
+        "beast_horn"
+      ]
+    }
+  },
+  {
+    "id": "middle_forest_stonehide_goliath",
+    "name": "石皮巨獸",
+    "region": "山谷森林中層",
+    "category": "巨獸",
+    "appearanceDescription": "石皮巨獸伏在陰影裡時像一段坍塌的岩壁，站起來後，灰硬皮層一片片錯開，露出底下沉重的肌肉。",
+    "threatDescription": "牠每次呼吸都帶著低沉震動，像整片林地在提醒你別靠得太近。",
+    "difficulty": 8,
+    "rangedDodge": 1,
+    "absoluteAmmoEvasion": false,
+    "fearedCombatTools": [],
+    "effectiveMeleeWeapon": "無",
+    "effectiveAmmo": "箭矢",
+    "loot": {
+      "common": "beast_bone",
+      "special": [
+        "beast_horn",
+        "beast_fang"
+      ]
+    }
+  },
+  {
+    "id": "deep_forest_ashwing_vulture",
+    "name": "灰翼禿鷲",
+    "region": "山谷森林深處",
+    "category": "飛獸",
+    "appearanceDescription": "灰翼禿鷲張開破布般的巨翼，禿裸脖頸上布滿暗斑，腐腥味先一步撲來。",
+    "threatDescription": "牠像在等你倒下，耐心比你的呼吸還穩。",
+    "difficulty": 7,
+    "rangedDodge": 999,
+    "absoluteAmmoEvasion": true,
+    "fearedCombatTools": [
+      "capture_net"
+    ],
+    "effectiveMeleeWeapon": "槍",
+    "effectiveAmmo": "無",
+    "loot": {
+      "common": "hard_beast_bone",
+      "special": [
+        "feather"
+      ]
+    }
+  },
+  {
+    "id": "deep_forest_curse_stag",
+    "name": "咒角鹿",
+    "region": "山谷森林深處",
+    "category": "四足獸",
+    "appearanceDescription": "咒角鹿立在昏暗林縫裡，長角纏著黑色紋路，清瘦身形卻透著不自然的力氣。",
+    "threatDescription": "牠踏出的每一步都很輕，卻讓你胸口發悶。",
+    "difficulty": 6,
+    "rangedDodge": 4,
+    "absoluteAmmoEvasion": false,
+    "fearedCombatTools": [
+      "trap"
+    ],
+    "effectiveMeleeWeapon": "槍",
+    "effectiveAmmo": "箭矢",
+    "loot": {
+      "common": "hard_beast_bone",
+      "special": [
+        "beast_horn"
+      ]
+    }
+  },
+  {
+    "id": "deep_forest_ruin_husk",
+    "name": "遺跡空殼",
+    "region": "山谷森林深處",
+    "category": "雙足獸",
+    "appearanceDescription": "遺跡空殼拖著碎石般的身體走來，胸腔空洞裡積著黑影，動作僵硬卻不停歇。",
+    "threatDescription": "你看不見牠的眼睛，卻知道牠正朝你靠近。",
+    "difficulty": 6,
+    "rangedDodge": 3,
+    "absoluteAmmoEvasion": false,
+    "fearedCombatTools": [
+      "torch"
+    ],
+    "effectiveMeleeWeapon": "劍",
+    "effectiveAmmo": "石頭",
+    "loot": {
+      "common": "hard_beast_bone",
+      "special": []
+    }
+  },
+  {
+    "id": "deep_forest_redclaw_ape",
+    "name": "赤爪猿",
+    "region": "山谷森林深處",
+    "category": "雙足獸",
+    "appearanceDescription": "赤爪猿蹲在斷木上，暗紅利爪抓進木頭，粗壯手臂上掛著乾掉的樹脂與血痕。",
+    "threatDescription": "牠咧嘴低吼，像在催你先動。",
+    "difficulty": 7,
+    "rangedDodge": 4,
+    "absoluteAmmoEvasion": false,
+    "fearedCombatTools": [
+      "torch"
+    ],
+    "effectiveMeleeWeapon": "劍",
+    "effectiveAmmo": "石頭",
+    "loot": {
+      "common": "hard_beast_bone",
+      "special": []
+    }
+  },
+  {
+    "id": "deep_forest_blackroot_hound",
+    "name": "黑根獵犬",
+    "region": "山谷森林深處",
+    "category": "四足獸",
+    "appearanceDescription": "黑根獵犬從盤根間鑽出，黑色根鬚纏著肋骨般的身軀，牙縫裡滲著土腥味。",
+    "threatDescription": "牠壓低身子繞行，一步一步把你往盤根和倒木之間逼去，那裡很難轉身逃跑。",
+    "difficulty": 7,
+    "rangedDodge": 3,
+    "absoluteAmmoEvasion": false,
+    "fearedCombatTools": [
+      "trap"
+    ],
+    "effectiveMeleeWeapon": "槍",
+    "effectiveAmmo": "箭矢",
+    "loot": {
+      "common": "hard_beast_bone",
+      "special": [
+        "beast_fang",
+        "moondew_herb"
+      ]
+    }
+  },
+  {
+    "id": "deep_forest_oldroot_colossus",
+    "name": "古根巨獸",
+    "region": "山谷森林深處",
+    "category": "巨獸",
+    "appearanceDescription": "古根巨獸拖著像老樹盤根般的四肢，背上覆滿黑苔與裂開的硬皮，眼睛埋在層層皺褶底下。",
+    "threatDescription": "牠靠近時沒有怒吼，只有沉重到讓胸口發悶的腳步聲，一下一下逼你後退。",
+    "difficulty": 10,
+    "rangedDodge": 2,
+    "absoluteAmmoEvasion": false,
+    "fearedCombatTools": [],
+    "effectiveMeleeWeapon": "無",
+    "effectiveAmmo": "箭矢",
+    "loot": {
+      "common": "hard_beast_bone",
+      "special": [
+        "beast_horn",
+        "moondew_herb"
+      ]
+    }
+  },
+  {
+    "id": "night_forest_black_shadow",
+    "name": "黑影",
+    "region": "夜間山谷森林",
+    "category": "詛咒",
+    "appearanceDescription": "黑影從樹與樹之間滲出，像一片被夜色撕下來的空洞。牠沒有清楚輪廓，卻讓你感覺自己正被什麼東西盯著。",
+    "threatDescription": "寒意貼著背脊往上爬，連腳下的落葉聲都像被吞進黑暗裡。",
+    "difficulty": 99,
+    "rangedDodge": 999,
+    "absoluteAmmoEvasion": true,
+    "fearedCombatTools": [
+      "torch"
+    ],
+    "effectiveMeleeWeapon": "無",
+    "effectiveAmmo": "無",
+    "loot": {
+      "common": null,
+      "special": []
+    }
+  }
+]

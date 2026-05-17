@@ -1,0 +1,113 @@
+[
+  {
+    "id": "forest_edge",
+    "title": "森林外圍",
+    "location": "山谷森林",
+    "sceneType": "exploration",
+    "description": "林木在你面前展開，潮濕的泥土氣味從腳邊慢慢漫上來。",
+    "impressionInfos": [
+      {
+        "id": "forest_edge_night_unease",
+        "weight": 4,
+        "conditions": {
+          "timeBlocks": ["夜晚", "深夜"]
+        },
+        "text": "夜色讓森林外圍變得陌生。樹影重疊得太深，遠處偶爾傳來枝條折斷的聲音，又很快安靜下去。你很難判斷那是野獸經過，還是有東西停在暗處等你靠近。"
+      },
+      {
+        "id": "forest_edge_after_hidden_cave",
+        "weight": 2,
+        "conditions": {
+          "requiredFlags": ["forest_hidden_cave_revealed"]
+        },
+        "text": "你已經知道這片外圍不只是一排排樹木。藤蔓後面、石縫旁和坡地底下都可能藏著入口；如果只沿著最明顯的小路走，很容易錯過能暫時避開危險的地方。"
+      }
+    ],
+    "sceneryDescriptions": [
+      "林木在你面前展開，潮濕的泥土氣味從腳邊慢慢漫上來。遠處偶爾傳來枝葉摩擦的細響，像有什麼東西正穿過看不見的樹影。",
+      "陽光被樹冠切成零碎的斑點，落在覆滿落葉的小徑上。越往裡看，樹幹之間的空隙越暗，村子的聲音也越來越聽不見。",
+      "風從林間掠過，帶起葉背一片灰綠的翻動。幾根枯枝在不遠處輕輕碰撞，你一時分不清那是風聲，還是某種生物踩過腐葉。",
+      "外圍的樹木還算稀疏，卻已經足夠遮住村子的聲音。腳下的泥地混著苔痕與碎石，每一步都提醒你，這裡不再是有人整理過的道路。",
+      "幾隻黑鳥從高處驚起，又很快沒入枝葉深處，只剩幾片暗色羽毛在視線邊緣晃過。森林重新安靜下來，你只能聽見自己的呼吸和鞋底踩過腐葉的聲音。",
+      "濕冷的霧貼著低矮灌木緩慢流動，讓遠一點的樹影都顯得模糊。你能看見幾條像路的空隙，但沒有哪一條真的保證能安全回來。"
+    ],
+    "baseCommandSet": "exploration"
+  },
+  {
+    "id": "aida_dialogue",
+    "title": "與艾妲對話",
+    "location": "村莊廣場",
+    "sceneType": "dialogue",
+    "targetVillagerId": "aida",
+    "baseCommandSet": "dialogueMenu",
+    "returnSceneId": "village_square_hub",
+    "description": "艾妲停下記錄，等你說明來意。她更重視實際成果，而不是漂亮的保證。"
+  },
+  {
+    "id": "mira_dialogue",
+    "title": "與米菈對話",
+    "location": "藥草棚",
+    "sceneType": "dialogue",
+    "targetVillagerId": "mira",
+    "baseCommandSet": "dialogueMenu",
+    "returnSceneId": "herb_shed",
+    "description": "米菈一邊整理藥草，一邊留意你的傷勢。她願意回答問題，但不希望你沒準備就離村。"
+  },
+  {
+    "id": "nuosi_dialogue",
+    "title": "與諾絲對話",
+    "location": "工坊倉庫",
+    "sceneType": "dialogue",
+    "targetVillagerId": "nuosi",
+    "baseCommandSet": "dialogueMenu",
+    "returnSceneId": "workshop_storage",
+    "description": "諾絲沒有停下手邊工作，只用眼角確認你是不是又帶著麻煩或材料上門。"
+  },
+  {
+    "id": "sela_dialogue",
+    "title": "與賽拉對話",
+    "location": "開墾區",
+    "sceneType": "dialogue",
+    "targetVillagerId": "sela",
+    "baseCommandSet": "dialogueMenu",
+    "returnSceneId": "reclamation_area",
+    "description": "賽拉看著村外道路，回答時依然保持警戒。她不反對你幫忙，但會要求你說清楚準備到哪裡去。"
+  },
+  {
+    "id": "tori_dialogue",
+    "title": "與托莉對話",
+    "location": "村莊廣場",
+    "sceneType": "dialogue",
+    "targetVillagerId": "tori",
+    "baseCommandSet": "dialogueMenu",
+    "returnSceneId": "village_square_hub",
+    "description": "托莉很快湊上來，想知道你在村外看過什麼。她的好奇心常常比耐心更快一步。"
+  },
+  {
+    "id": "elaine_dialogue",
+    "title": "與伊蓮對話",
+    "location": "宿舍",
+    "sceneType": "dialogue",
+    "targetVillagerId": "elaine",
+    "baseCommandSet": "dialogueMenu",
+    "returnSceneId": "dormitory",
+    "description": "伊蓮手邊放著宿舍點名表與舊資料。她抬頭看你一眼，把記錄紙壓平，等你選擇要問宿舍的事，還是遺跡的事。"
+  },
+  {
+    "id": "temple_ruins",
+    "title": "神殿遺跡",
+    "location": "山谷森林深處",
+    "sceneType": "story",
+    "description": "三層森林在你身後合攏，前方的石階卻沒有真正通向安全的地方。\n\n神殿遺跡半埋在潮濕霧氣裡，倒塌柱身上附著黑灰色沉積。你每一次呼吸都像吸進冷掉的灰，皮膚也隱約發麻。這裡不是普通的廢墟；瘴氣已經把縫隙、地面和破碎神像的基座都填滿了。\n\n現在能做的只是確認入口與危險。若要真正深入，還需要更多準備、線索，以及村裡每個人能承擔的職責。",
+    "choices": [
+      {
+        "id": "temple_ruins_return_forest",
+        "label": "退回森林深處",
+        "actionType": "move",
+        "timeCostSeconds": 600,
+        "nextSceneId": "forest_edge",
+        "progressLabel": "正在退回森林深處..."
+      }
+    ]
+  }
+]

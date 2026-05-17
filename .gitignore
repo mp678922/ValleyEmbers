@@ -1,0 +1,45 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+editor/backups/
+
+# Local temporary test and experiment outputs
+tmp/
+
+# Local downloaded/portable tools
+tools/ImageMagick/
+tools/ImageMagickPortable/
+tools/*.7z
+tools/*.zip
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+.venv/
+venv/
+
+# Build outputs
+dist/
+build/
+out/
+coverage/
+
+# Caches
+.cache/
+.turbo/
+.pytest_cache/
+__pycache__/

@@ -1,0 +1,209 @@
+[
+  {
+    "id": "village_square_hub",
+    "name": "村莊廣場",
+    "sceneType": "hub",
+    "description": "你一踏進廣場，就能看見通往宿舍、藥草棚、工坊和開墾區的路都從這裡分出去。空地上沒有多少人，卻留著幾道腳印、木桶拖痕和剛被貼好的紙條，讓你知道大家每天都會從這裡分頭去做事。",
+    "impressionInfos": [
+      {
+        "id": "square_morning_breath",
+        "weight": 2,
+        "conditions": {
+          "timeBlocks": ["清晨", "上午"]
+        },
+        "text": "廣場還帶著早晨的涼意，幾道腳步聲先後穿過空地。木門開合後，很快又只剩風聲；你能看出幾個女孩已經各自往田地、藥草棚和工坊去了。"
+      },
+      {
+        "id": "square_evening_fragile_warmth",
+        "weight": 2,
+        "conditions": {
+          "timeBlocks": ["傍晚", "夜晚"]
+        },
+        "text": "廣場的光線慢慢沉下去，說話聲也比白天輕。你看見一兩個熟悉身影從屋邊經過，短暫笑了幾聲，又很快把工具和籃子帶回該放的位置。"
+      },
+      {
+        "id": "square_default",
+        "weight": 1,
+        "text": "你一踏進廣場，就能看見通往宿舍、藥草棚、工坊和開墾區的路都從這裡分出去。空地上沒有多少人，卻留著幾道腳印、木桶拖痕和剛被貼好的紙條。"
+      }
+    ],
+    "baseCommandSet": "standardLocation",
+    "allowPresentVillagers": true,
+    "exits": [
+      { "to": "dormitory", "label": "前往宿舍", "timeCostSeconds": 180 },
+      { "to": "herb_shed", "label": "前往藥草棚", "timeCostSeconds": 180 },
+      { "to": "workshop_storage", "label": "前往工坊倉庫", "timeCostSeconds": 180 },
+      { "to": "reclamation_area", "label": "前往開墾區", "timeCostSeconds": 240 },
+      {
+        "to": "forest_edge",
+        "label": "離開村莊，前往森林外圍",
+        "timeCostSeconds": 600,
+        "eventBeforeMove": {
+          "eventId": "sela_first_forest_edge_warning"
+        }
+      }
+    ]
+  },
+  {
+    "id": "dormitory",
+    "name": "宿舍",
+    "sceneType": "location",
+    "description": "推門進來時，木板與布料的氣味還留在空氣裡。床鋪、長桌和靠牆的舊櫃把這裡擠得很滿，卻也勉強撐出一種能讓人歇下的安穩。",
+    "impressionInfos": [
+      {
+        "id": "dormitory_night_quiet",
+        "weight": 3,
+        "conditions": {
+          "timeBlocks": ["夜晚", "深夜"]
+        },
+        "text": "宿舍裡的聲音被夜色壓低，只剩布料摩擦與偶爾翻身的細響。你放輕腳步，看見床邊的武器和藥瓶都放在伸手可及的位置，才明白大家只是把害怕先放到明早再處理。"
+      },
+      {
+        "id": "dormitory_day_crowded",
+        "weight": 2,
+        "conditions": {
+          "timeBlocks": ["清晨", "上午", "中午", "下午", "傍晚"]
+        },
+        "text": "床鋪、長桌和舊櫃把宿舍擠得很滿，角落裡卻被整理得仔細。你能從摺好的毯子和補過的椅腳看出，這裡的人已經很習慣把不足的東西撐成剛好夠用。"
+      }
+    ],
+    "baseCommandSet": "standardLocation",
+    "allowPresentVillagers": true,
+    "localActions": [
+      {
+        "id": "dormitory_evening_weaving",
+        "label": "參與紡織工作",
+        "actionType": "work",
+        "dynamicAction": "participateWeavingWork",
+        "returnSceneId": "dormitory",
+        "timeCostSeconds": 1800,
+        "progressLabel": "正在參與紡織工作...",
+        "visibleWhen": {
+          "timeBlocks": ["夜晚"]
+        }
+      }
+    ],
+    "exits": [
+      { "to": "village_square_hub", "label": "返回村莊廣場", "timeCostSeconds": 180 }
+    ]
+  },
+  {
+    "id": "herb_shed",
+    "name": "藥草棚",
+    "sceneType": "location",
+    "description": "藥草的苦香和曬乾葉片的味道混在一起，讓棚內總帶著淡淡的藥味。桌上擺著繃帶、瓶罐和簡陋的診療床，看得出這裡常有人忙到深夜。",
+    "impressionInfos": [
+      {
+        "id": "herb_shed_working",
+        "weight": 2,
+        "conditions": {
+          "timeBlocks": ["清晨", "上午", "下午", "傍晚"]
+        },
+        "text": "藥草棚裡的苦香很清楚，像乾葉、布條和小瓶罐一起熬出的味道。桌面收得不算整齊，卻每樣東西都放在伸手能拿到的位置。"
+      },
+      {
+        "id": "herb_shed_night",
+        "weight": 2,
+        "conditions": {
+          "timeBlocks": ["夜晚", "深夜"]
+        },
+        "text": "棚內殘著一點燈油味，藥草陰影貼在牆上，像還有人剛剛在這裡忙過。你忽然明白，村裡許多安心感其實都來自這些深夜沒被看見的準備。"
+      }
+    ],
+    "baseCommandSet": "standardLocation",
+    "allowPresentVillagers": true,
+    "exits": [
+      { "to": "village_square_hub", "label": "返回村莊廣場", "timeCostSeconds": 180 }
+    ]
+  },
+  {
+    "id": "workshop_storage",
+    "name": "工坊倉庫",
+    "sceneType": "location",
+    "description": "一走進來，就能看見木料、礦石和工具堆在牆邊。空氣裡有乾木屑和鐵器碰撞後留下的味道，像是這裡從來沒有真正安靜過。",
+    "impressionInfos": [
+      {
+        "id": "workshop_storage_busy",
+        "weight": 2,
+        "text": "工坊倉庫裡堆著木料、礦石和還沒修完的舊工具。乾木屑黏在地面縫隙裡，幾件鐵器還攤在桌上，像是諾絲隨時會回來繼續修。"
+      },
+      {
+        "id": "workshop_storage_after_upgrade",
+        "weight": 2,
+        "conditions": {
+          "requiredFlags": ["storage_box_upgrade_1_completed"]
+        },
+        "text": "倉庫角落被重新加固過，木箱與板架比之前穩了些。修補痕跡稱不上漂亮，卻讓木料和工具能多放幾天，不必擔心架子突然垮下來。"
+      }
+    ],
+    "baseCommandSet": "standardLocation",
+    "allowPresentVillagers": true,
+    "exits": [
+      { "to": "village_square_hub", "label": "返回村莊廣場", "timeCostSeconds": 180 }
+    ]
+  },
+  {
+    "id": "reclamation_area",
+    "name": "開墾區",
+    "sceneType": "location",
+    "description": "村邊的風比裡頭更硬一些，翻過的泥土氣味也更明顯。田地、木料和未收拾乾淨的邊角堆在一起，讓人一眼就看出這裡總有做不完的活。 ",
+    "impressionInfos": [
+      {
+        "id": "reclamation_area_day",
+        "weight": 2,
+        "conditions": {
+          "timeBlocks": ["清晨", "上午", "中午", "下午", "傍晚"]
+        },
+        "text": "開墾區的風比村裡更硬，翻過的泥土帶著濕氣。田地邊還堆著沒收完的木料和碎草，你很容易看出這裡的每一點秩序都得靠人反覆維持。"
+      },
+      {
+        "id": "reclamation_area_night_trade_edge",
+        "weight": 2,
+        "conditions": {
+          "timeBlocks": ["夜晚", "深夜"]
+        },
+        "text": "夜裡的開墾區比白天空得多，風穿過木料堆時帶出細碎聲響。村子的燈還在身後，但你已經能感覺到邊界外的黑暗正貼得很近。"
+      },
+      {
+        "id": "reclamation_area_after_field_upgrade",
+        "weight": 2,
+        "conditions": {
+          "requiredFlags": ["field_upgrade_1_completed"]
+        },
+        "text": "田地的土被墊得更穩，翻起的泥色也深了些。雖然還稱不上豐收，但至少有幾排菜苗能站住，托莉明天澆水時也不用重新補一遍田埂。"
+      }
+    ],
+    "baseCommandSet": "standardLocation",
+    "allowPresentVillagers": true,
+    "exits": [
+      { "to": "village_square_hub", "label": "返回村莊廣場", "timeCostSeconds": 240 },
+      { "to": "graveyard", "label": "前往墓地", "timeCostSeconds": 180 }
+    ]
+  },
+  {
+    "id": "graveyard",
+    "name": "墓地",
+    "sceneType": "location",
+    "description": "低矮的石碑沿著村外坡地排列，雜草從縫隙裡鑽出來，風一吹就貼著地面沙沙作響。這裡離村子不遠，卻比開墾區安靜得多。",
+    "impressionInfos": [
+      {
+        "id": "graveyard_default",
+        "weight": 2,
+        "text": "低矮石碑沿著坡地排列，雜草從縫裡鑽出來，風一吹就貼著地面沙沙作響。這裡離村子不遠，卻安靜得像被日常刻意繞開。"
+      },
+      {
+        "id": "graveyard_evening",
+        "weight": 2,
+        "conditions": {
+          "timeBlocks": ["傍晚", "夜晚", "深夜"]
+        },
+        "text": "暮色壓低了墓地的石碑，草葉影子貼著地面晃動。你站在這裡時，會更清楚地想起這座村子不是空下來的，而是一步一步失去到只剩現在這些人。"
+      }
+    ],
+    "baseCommandSet": "standardLocation",
+    "allowPresentVillagers": true,
+    "exits": [
+      { "to": "reclamation_area", "label": "返回開墾區", "timeCostSeconds": 180 }
+    ]
+  }
+]

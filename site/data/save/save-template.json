@@ -1,0 +1,240 @@
+{
+  "schemaVersion": "save@v1",
+  "versions": {
+    "interfacePlan": "interface-ui@2026-05-17.02",
+    "program": "browser-prototype@2026-05-17.02"
+  },
+  "storage": {
+    "primary": "localStorage",
+    "saveMode": "manual",
+    "includes": [
+      "player",
+      "facilities",
+      "exploration",
+      "villagers",
+      "tradeStocks",
+      "quests",
+      "events",
+      "mainStory",
+      "dialogueHistory",
+      "lastActionResult",
+      "dailyReset"
+    ],
+    "exportFormat": "json",
+    "importBehavior": "overwriteCurrentLocalSave"
+  },
+  "time": {
+    "day": 1,
+    "secondsOfDay": 21600,
+    "display": "06:00",
+    "timeBlock": "清晨",
+    "dailyResetSecond": 21600,
+    "lastDailyResetDay": 1
+  },
+  "player": {
+    "name": "旅人",
+    "life": 10,
+    "maxLife": 10,
+    "stamina": 10,
+    "maxStamina": 10,
+    "restValue": 0,
+    "maxCarryWeight": 10,
+    "carrySkill": 0,
+    "gatheringSkill": 0,
+    "explorationSkill": 0,
+    "meleeWeaponSkill": 0,
+    "rangedWeaponSkill": 0,
+    "inventory": [
+      {
+        "itemId": "sword",
+        "count": 1
+      }
+    ],
+    "obtainedItemIds": [
+      "sword"
+    ],
+    "encounteredEnemyIds": [],
+    "knownEnemyWeaknessIds": [],
+    "knownRecipeIds": [],
+    "flags": [],
+    "dailyFlags": [],
+    "recentActions": []
+  },
+  "currentSceneId": "event:opening_valley_call:call_1",
+  "exploration": {
+    "active": false,
+    "regionId": null,
+    "currentLayer": null,
+    "progress": 0,
+    "dangerRate": 0,
+    "lastDangerPositionKey": null,
+    "sceneryText": "",
+    "sceneryPositionKey": null,
+    "blackCatPositionKey": null,
+    "blackCatPresent": false,
+    "forageState": {
+      "positionKey": null,
+      "usedAtCurrentPosition": false
+    },
+    "temporaryResourceNodes": [],
+    "temporaryLoot": [],
+    "encounterState": null,
+    "openFacilityInstanceId": null
+  },
+  "facilities": {
+    "protagonist_bed": {
+      "unlocked": true
+    },
+    "alchemy_table": {
+      "unlocked": true
+    },
+    "workbench": {
+      "unlocked": true
+    },
+    "berry_bush": {
+      "lastRestockDay": 0,
+      "items": []
+    },
+    "moondew_herb_patch": {
+      "lastRestockDay": 0,
+      "items": []
+    },
+    "apple_tree": {
+      "lastRestockDay": 0,
+      "items": []
+    },
+    "supply_box": {
+      "lastRestockDay": 0,
+      "items": []
+    },
+    "medical_supply_box": {
+      "lastRestockDay": 0,
+      "items": []
+    },
+    "field": {
+      "level": 1
+    },
+    "weed_patch": {
+      "lastRestockDay": 0,
+      "items": []
+    },
+    "stone_chip_pile": {
+      "lastRestockDay": 0,
+      "items": [],
+      "perLocationStates": {
+        "village_square_hub": {
+          "lastRestockDay": 0,
+          "lastGatherDay": 0,
+          "items": []
+        },
+        "reclamation_area": {
+          "lastRestockDay": 0,
+          "lastGatherDay": 0,
+          "items": []
+        }
+      }
+    },
+    "storage_box": {
+      "level": 1,
+      "capacityWeight": 20,
+      "items": []
+    },
+    "lost_and_found_box": {
+      "level": 0,
+      "capacityWeight": 9999,
+      "items": []
+    },
+    "discarded_items": {
+      "perLocationStates": {
+        "village_square_hub": {
+          "items": [],
+          "expiresAtTotalSeconds": 0
+        }
+      }
+    },
+    "notice_board": {
+      "lastMessageRefreshDay": 0,
+      "messageIdsToday": []
+    },
+    "lizard_well": {
+      "unlocked": false
+    }
+  },
+  "villagers": {
+    "aida": {
+      "affection": 0
+    },
+    "mira": {
+      "affection": 0
+    },
+    "nuosi": {
+      "affection": 0
+    },
+    "sela": {
+      "affection": 0
+    },
+    "tori": {
+      "affection": 0
+    },
+    "elaine": {
+      "affection": 0
+    }
+  },
+  "tradeStocks": {
+    "aida": {},
+    "mira": {},
+    "nuosi": {},
+    "sela": {},
+    "tori": {},
+    "elaine": {},
+    "lizard_merchant": {}
+  },
+  "quests": {
+    "active": [],
+    "completed": [],
+    "failed": []
+  },
+  "events": {
+    "completedEventIds": [],
+    "active": {
+      "eventId": "opening_valley_call",
+      "pageId": "call_1",
+      "returnSceneId": "village_square_hub",
+      "triggerType": "newGame",
+      "triggerSourceId": "opening",
+      "triggerContextKey": "newGame:opening",
+      "appliedPageIds": []
+    },
+    "lastExplorationDefeatCaregiverId": null,
+    "explorationDefeatCaregiverHistory": [],
+    "lastWeavingWorkEventId": "",
+    "remainingWeavingWorkEventIds": []
+  },
+  "mainStory": {
+    "forbiddenBooks": {
+      "completedRelatedTaskCount": 0,
+      "nextRevealIndex": 1,
+      "revealedBookIds": []
+    }
+  },
+  "dialogueHistory": {
+    "recentLineIds": [],
+    "shownCounts": {},
+    "seenByContext": {},
+    "lastShownAtTotalSeconds": {}
+  },
+  "debug": {
+    "enabled": false
+  },
+  "lastActionResult": null,
+  "pendingEncounterReport": null,
+  "dailyReset": {
+    "lastProcessedDay": 1,
+    "lastProcessedAt": {
+      "day": 1,
+      "secondsOfDay": 21600
+    },
+    "pending": false
+  },
+  "gameState": "playing"
+}

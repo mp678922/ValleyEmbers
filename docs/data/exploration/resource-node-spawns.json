@@ -1,0 +1,34 @@
+{
+  "resourceNodeTemplates": [
+    "berry_bush",
+    "moondew_herb_patch",
+    "weed_patch",
+    "stone_chip_pile",
+    "soil_pile"
+  ],
+  "spawnRules": {
+    "forward": {
+      "nodeCountWeights": [
+        { "count": 0, "weight": 50 },
+        { "count": 1, "weight": 30 },
+        { "count": 2, "weight": 20 }
+      ]
+    },
+    "backward": {
+      "nodeCountWeights": [
+        { "count": 0, "weight": 75 },
+        { "count": 1, "weight": 15 },
+        { "count": 2, "weight": 10 }
+      ],
+      "note": "依使用者規則將出現機率折半，並維持單一與雙重出現的原比例。"
+    },
+    "allowDuplicateNodesInSameSpawn": true,
+    "rerollOnEveryMove": true,
+    "clearOnLeaveExploration": true
+  },
+  "transientNodeRules": {
+    "villageFacilitiesRemainPersistent": true,
+    "explorationCopiesAreTemporary": true,
+    "saveStateOwner": "save.exploration.temporaryResourceNodes"
+  }
+}

@@ -1,0 +1,453 @@
+[
+  {
+    "id": "main_forbidden_books",
+    "title": "四本禁忌之書",
+    "description": "伊蓮提起的四本禁忌之書，像是被故意拆散的真相。你每追上一條線索，就像把山谷最深處的秘密又翻開一頁。",
+    "accepted": false,
+    "repeatable": false,
+    "completed": false,
+    "type": "main",
+    "giver": "elaine",
+    "statusOnAccept": "active",
+    "prerequisites": {
+      "flags": [
+        "asked_elaine_ruin_lore"
+      ]
+    },
+    "objectives": [
+      {
+        "id": "reveal_book_abundance",
+        "description": "追查第一本禁忌之書的線索：山谷之神曾為村莊帶來富饒",
+        "type": "completeNextForbiddenBookTask",
+        "revealIndex": 1,
+        "targetId": "forbidden_book_abundance"
+      },
+      {
+        "id": "reveal_book_priesthood",
+        "description": "追查第二本禁忌之書的線索：活祭是謊言，神殿每十年真正需要一名新祭司",
+        "type": "completeNextForbiddenBookTask",
+        "revealIndex": 2,
+        "targetId": "forbidden_book_priesthood"
+      },
+      {
+        "id": "reveal_book_madness",
+        "description": "追查第三本禁忌之書的線索：詛咒本質是失控瘴氣侵蝕山谷",
+        "type": "completeNextForbiddenBookTask",
+        "revealIndex": 3,
+        "targetId": "forbidden_book_madness"
+      },
+      {
+        "id": "reveal_book_defeat_god",
+        "description": "追查第四本禁忌之書的線索：擊敗山谷之神的方法",
+        "type": "completeNextForbiddenBookTask",
+        "revealIndex": 4,
+        "targetId": "forbidden_book_defeat_god"
+      }
+    ],
+    "rewards": {
+      "flags": [
+        "forbidden_books_truth_revealed"
+      ]
+    },
+    "nextQuestIds": [],
+    "tags": [
+      "主線",
+      "禁忌之書",
+      "山谷之神",
+      "遺跡"
+    ]
+  },
+  {
+    "id": "sela_sharp_stone_bow_request",
+    "title": "授予弓箭的資格",
+    "description": "先交給我兩片夠利的碎石。能把石片處理到這種程度，至少代表你知道怎麼準備能保命的東西。森林一到夜裡就不是同一個地方；你要學會在天黑前把該準備的都準備好。",
+    "accepted": false,
+    "repeatable": false,
+    "completed": false,
+    "type": "villager",
+    "giver": "sela",
+    "statusOnAccept": "active",
+    "prerequisites": {
+      "flags": []
+    },
+    "objectives": [
+      {
+        "id": "submit_sharp_stone_to_sela",
+        "description": "向賽拉提交 2 個銳利碎石",
+        "type": "submitItems",
+        "targetId": "sharp_stone",
+        "requiredCount": 2
+      }
+    ],
+    "rewards": {
+      "items": {
+        "bow": 1,
+        "arrow": 4
+      },
+      "villagerAffection": {
+        "sela": 2
+      },
+      "flags": [
+        "sela_sharp_stone_bow_completed"
+      ]
+    },
+    "nextQuestIds": [],
+    "tags": [
+      "賽拉",
+      "銳利碎石",
+      "獵弓",
+      "箭矢"
+    ]
+  },
+  {
+    "id": "sela_cracked_bone_melee_training",
+    "title": "賽拉的近戰訓練",
+    "description": "你最基本的近身動作還算站得住。帶三塊碎骨給我，骨頭脆、邊緣亂，正適合練習怎麼在混亂中穩住手腕、避開反咬。記住，這只是白天能用上的基本功；夜裡的森林不要只靠近身膽量硬撐。",
+    "accepted": false,
+    "repeatable": false,
+    "completed": false,
+    "type": "villager",
+    "giver": "sela",
+    "statusOnAccept": "active",
+    "prerequisites": {
+      "player": {
+        "meleeWeaponSkill": 1
+      }
+    },
+    "objectives": [
+      {
+        "id": "submit_cracked_bone_to_sela",
+        "description": "向賽拉提交 3 個碎骨，完成近戰訓練",
+        "type": "submitItems",
+        "targetId": "cracked_bone",
+        "requiredCount": 3
+      }
+    ],
+    "rewards": {
+      "player": {
+        "meleeWeaponSkill": 1
+      }
+    },
+    "nextQuestIds": [],
+    "tags": [
+      "賽拉",
+      "碎骨",
+      "近戰訓練",
+      "近戰技能"
+    ]
+  },
+  {
+    "id": "sela_smoke_bomb_recipe_request",
+    "title": "濃煙的準備",
+    "description": "你如果真的想在被追上前脫身，就先弄懂什麼東西能產煙。帶一份乾苔給我，我教你怎麼把它做成能救命的煙霧彈。尤其別在夜裡把逃路想得太乾淨；森林暗下來後，有些東西不是靠跑快就能甩開。",
+    "accepted": false,
+    "repeatable": false,
+    "completed": false,
+    "type": "villager",
+    "giver": "sela",
+    "statusOnAccept": "active",
+    "prerequisites": {
+      "flags": []
+    },
+    "objectives": [
+      {
+        "id": "submit_dry_moss_to_sela",
+        "description": "向賽拉提交 1 份乾苔，學會煙霧彈配方",
+        "type": "submitItems",
+        "targetId": "dry_moss",
+        "requiredCount": 1
+      }
+    ],
+    "rewards": {
+      "recipeIds": [
+        "smoke_bomb_recipe"
+      ],
+      "flags": [
+        "sela_smoke_bomb_recipe_completed"
+      ]
+    },
+    "nextQuestIds": [],
+    "tags": [
+      "賽拉",
+      "乾苔",
+      "煙霧彈",
+      "配方",
+      "戰術物品"
+    ]
+  },
+  {
+    "id": "mira_moondew_herb",
+    "title": "藥棚的月露草",
+    "description": "藥材快見底了。你可以交給我兩株月露草嗎？至少要讓棚裡還留得住救人的東西。",
+    "accepted": false,
+    "repeatable": false,
+    "completed": false,
+    "type": "villager",
+    "giver": "mira",
+    "statusOnAccept": "active",
+    "prerequisites": {
+      "flags": []
+    },
+    "objectives": [
+      {
+        "id": "submit_moondew_to_mira",
+        "description": "向米菈提交 2 株月露草",
+        "type": "submitItems",
+        "targetId": "moondew_herb",
+        "requiredCount": 2
+      }
+    ],
+    "rewards": {
+      "items": {
+        "empty_potion_bottle": 1
+      },
+      "villagerAffection": {
+        "mira": 2
+      },
+      "flags": [
+        "mira_moondew_completed"
+      ]
+    },
+    "nextQuestIds": [],
+    "tags": [
+      "藥草",
+      "米菈"
+    ]
+  },
+  {
+    "id": "lizard_merchant_dry_ration_request",
+    "title": "蜥蜴的請求",
+    "description": "蜥蜴羅索趴在井沿下方，眼睛往開墾區的方向瞇了瞇。\n\n「那邊田裡的生菜看起來很可口。我是商人，不是小偷，所以我不自己拿。你帶三份生菜來，讓我試試味道。作為交換，白天你也可以在井底找到我。」\n\n他說完晃了晃尾巴，像是已經把這筆買賣算得很清楚。",
+    "accepted": false,
+    "repeatable": false,
+    "completed": false,
+    "type": "special",
+    "giver": "lizard_merchant",
+    "statusOnAccept": "active",
+    "prerequisites": {},
+    "objectives": [
+      {
+        "id": "submit_lettuce_to_lizard",
+        "description": "把 3 個生菜交給蜥蜴羅索",
+        "type": "submitItems",
+        "targetId": "lettuce",
+        "requiredCount": 3
+      }
+    ],
+    "rewards": {
+      "flags": [
+        "lizard_merchant_day_access"
+      ]
+    },
+    "nextQuestIds": [],
+    "tags": [
+      "蜥蜴羅索",
+      "生菜",
+      "井",
+      "開墾區",
+      "白天解鎖"
+    ]
+  },
+  {
+    "id": "nuosi_wood_carry_training",
+    "title": "工坊的負重訓練",
+    "description": "先搬兩份木材給我。我順便教你怎麼綁束背包、分配肩背力道。這不是單純跑腿，是讓你之後能多帶一點東西回來的基本訓練。",
+    "accepted": false,
+    "repeatable": false,
+    "completed": false,
+    "type": "villager",
+    "giver": "nuosi",
+    "statusOnAccept": "active",
+    "prerequisites": {
+      "flags": []
+    },
+    "objectives": [
+      {
+        "id": "submit_wood_to_nuosi",
+        "description": "向諾絲提交 2 份木材，完成第一次負重訓練",
+        "type": "submitItems",
+        "targetId": "wood",
+        "requiredCount": 2
+      }
+    ],
+    "rewards": {
+      "player": {
+        "carrySkill": 1
+      }
+    },
+    "nextQuestIds": [
+      "nuosi_soil_stone_carry_training"
+    ],
+    "tags": [
+      "諾絲",
+      "木材",
+      "負重訓練",
+      "工坊"
+    ]
+  },
+  {
+    "id": "nuosi_storage_box_upgrade_1",
+    "title": "倉庫箱第一次加固",
+    "description": "倉庫箱要再撐久一點，先交給我五份木材。我把箱角和底板加固，之後能放的東西會多一些。",
+    "accepted": false,
+    "repeatable": false,
+    "completed": false,
+    "type": "village",
+    "giver": "nuosi",
+    "statusOnAccept": "active",
+    "prerequisites": {
+      "flags": []
+    },
+    "objectives": [
+      {
+        "id": "submit_wood_for_storage_box_upgrade",
+        "description": "向諾絲提交 5 份木材，完成倉庫箱第一次加固",
+        "type": "submitItems",
+        "targetId": "wood",
+        "requiredCount": 5
+      }
+    ],
+    "rewards": {
+      "facilities": {
+        "storage_box": {
+          "levelDelta": 1
+        }
+      },
+      "flags": [
+        "storage_box_upgrade_1_completed"
+      ]
+    },
+    "nextQuestIds": [],
+    "tags": [
+      "諾絲",
+      "木材",
+      "倉庫箱",
+      "設施升級",
+      "工坊"
+    ]
+  },
+  {
+    "id": "nuosi_soil_stone_carry_training",
+    "title": "工坊的負重訓練（二）",
+    "description": "這次換點更麻煩的重量。帶兩份泥土和兩顆石頭給我，我教你怎麼把零散又容易晃的東西固定好。",
+    "accepted": false,
+    "repeatable": false,
+    "completed": false,
+    "type": "villager",
+    "giver": "nuosi",
+    "statusOnAccept": "active",
+    "prerequisites": {
+      "player": {
+        "carrySkill": 1
+      }
+    },
+    "objectives": [
+      {
+        "id": "submit_soil_to_nuosi",
+        "description": "向諾絲提交 2 份泥土",
+        "type": "submitItems",
+        "targetId": "soil",
+        "requiredCount": 2
+      },
+      {
+        "id": "submit_stone_to_nuosi",
+        "description": "向諾絲提交 2 顆石頭",
+        "type": "submitItems",
+        "targetId": "stone_ammo",
+        "requiredCount": 2
+      }
+    ],
+    "rewards": {
+      "player": {
+        "carrySkill": 1
+      }
+    },
+    "nextQuestIds": [],
+    "tags": [
+      "諾絲",
+      "泥土",
+      "石頭",
+      "負重訓練",
+      "工坊"
+    ]
+  },
+  {
+    "id": "tori_berry_self_defense_training",
+    "title": "防身練習",
+    "description": "開墾區離村外太近，光會跑腿和採菜還不夠。你帶三份莓果來當練習後的補給，我陪你做一輪最基本的近身防身練習。",
+    "accepted": false,
+    "repeatable": false,
+    "completed": false,
+    "type": "villager",
+    "giver": "tori",
+    "statusOnAccept": "active",
+    "prerequisites": {
+      "flags": []
+    },
+    "objectives": [
+      {
+        "id": "submit_berries_to_tori",
+        "description": "向托莉提交 3 個莓果，完成近身防身練習",
+        "type": "submitItems",
+        "targetId": "berry",
+        "requiredCount": 3
+      }
+    ],
+    "rewards": {
+      "player": {
+        "meleeWeaponSkill": 1
+      },
+      "villagerAffection": {
+        "tori": 1
+      }
+    },
+    "nextQuestIds": [],
+    "tags": [
+      "托莉",
+      "莓果",
+      "防身訓練",
+      "近戰技能"
+    ]
+  },
+  {
+    "id": "tori_field_upgrade_1",
+    "title": "田地第一次整土",
+    "description": "田裡的土還太薄了。你可以帶三份泥土過來嗎？我把地墊高一點，之後能分出來的菜也會更穩。",
+    "accepted": false,
+    "repeatable": false,
+    "completed": false,
+    "type": "village",
+    "giver": "tori",
+    "statusOnAccept": "active",
+    "prerequisites": {
+      "flags": []
+    },
+    "objectives": [
+      {
+        "id": "submit_soil_for_field_upgrade",
+        "description": "向托莉提交 3 份泥土，完成田地第一次整土",
+        "type": "submitItems",
+        "targetId": "soil",
+        "requiredCount": 3
+      }
+    ],
+    "rewards": {
+      "facilities": {
+        "field": {
+          "levelDelta": 1
+        }
+      },
+      "flags": [
+        "field_upgrade_1_completed"
+      ]
+    },
+    "nextQuestIds": [],
+    "tags": [
+      "托莉",
+      "泥土",
+      "田地",
+      "設施升級",
+      "開墾區"
+    ]
+  }
+]

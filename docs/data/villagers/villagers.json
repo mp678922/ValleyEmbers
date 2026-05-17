@@ -1,0 +1,950 @@
+[
+  {
+    "id": "talkative_cat",
+    "name": "黑貓",
+    "role": "來自森林的助手",
+    "npcType": "special_forest_npc",
+    "ageGroup": "未知",
+    "personality": "沉默、警覺，像是聽得懂人話，卻從不以人的方式回應。",
+    "background": "只會在山谷森林偶然現身的黑貓，牠不說話，也不主動解釋自己為何靠近主角。牠的真身是巨大的黑豹，也是森林中暗中救助主角的善良野獸；但牠不會透露這件事。更深層的背景中，牠是納薇菈，承穢與豐饒之神，也是瑟菈彌的孿生姊姊。納薇菈曾因村人誤解而被背叛、封印；祀奉她的女神像被完全搗毀，這是她失去神力的主因。只因一名天真的神殿祭司女孩曾送給神明一隻黑貓布偶，納薇菈才得以藉由那個殘留依憑，以現在這副沉默黑貓的姿態勉強顯現，但她幾乎已經什麼都辦不到。納薇菈被封印時，祀奉女神並協助調和瘴氣的神殿祭司團被全數殺害；此後山谷自古存在的瘴氣失去調和，瑟菈彌也逐漸被瘴氣侵蝕而失去原有理智。如今已經沒有人知道黑貓就是當年的豐饒之神。主角初次出現在山谷村附近，也是牠先救助並引導到能被村莊發現的位置。這段設定與主線關聯很深，細節暫時保留。",
+    "appearance": {
+      "presenceSummary": "一隻黑貓蹲在不遠處的樹根上。牠沒有叫，只用一雙沉暗的眼睛看著你。"
+    },
+    "impressionInfos": [
+      {
+        "id": "black_cat_forest_default",
+        "weight": 3,
+        "conditions": {
+          "locationIds": [
+            "forest_edge"
+          ]
+        },
+        "text": "黑貓蹲在樹根上，尾尖慢慢掃過潮濕的落葉。牠沒有催你，也沒有退開，只像是在等你先理解牠的意思。"
+      },
+      {
+        "id": "black_cat_after_first_meeting",
+        "weight": 2,
+        "conditions": {
+          "requiredFlags": [
+            "black_cat_first_encounter_seen"
+          ]
+        },
+        "text": "牠看見你靠近時沒有躲，只把耳朵微微轉向林子深處。你很難說那是不是提醒，卻覺得牠比任何人都早聽見了遠處的動靜。"
+      }
+    ],
+    "likes": [
+      "安靜跟上牠的人",
+      "願意相信直覺的人",
+      "不強迫牠開口的人"
+    ],
+    "dislikes": [
+      "追問真身",
+      "粗暴破壞森林",
+      "把牠當普通貓"
+    ],
+    "need": "暫時不設定正式委託；主要功能是以沉默行動提供森林中的特殊幫助，並作為森林守護獸伏筆。玩家可見稱號可顯示為來自森林的助手。",
+    "questHooks": [
+      "森林中的無言幫助",
+      "森林守護獸伏筆",
+      "納薇菈伏筆",
+      "瑟菈彌伏筆",
+      "主線相關設定待定"
+    ],
+    "unlocks": [
+      "森林危險緩解",
+      "臨時藏身處",
+      "把物品帶回失物箱"
+    ],
+    "socialRules": {
+      "usesCoreVillagerAffection": false,
+      "canReceiveGifts": false,
+      "canUseNormalTrade": false,
+      "canUseNormalQuestMenu": false
+    },
+    "defaultLocations": {
+      "清晨": "forest_edge",
+      "上午": "forest_edge",
+      "中午": "forest_edge",
+      "下午": "forest_edge",
+      "傍晚": "forest_edge",
+      "夜晚": "forest_edge",
+      "深夜": "forest_edge"
+    },
+    "tags": [
+      "特殊NPC",
+      "森林限定",
+      "無言引導",
+      "黑貓",
+      "森林助手",
+      "森林守護獸",
+      "黑豹",
+      "納薇菈",
+      "瑟菈彌",
+      "孿生山谷之神",
+      "封印",
+      "瘴氣",
+      "失衡",
+      "主線待定"
+    ]
+  },
+  {
+    "id": "lizard_merchant",
+    "name": "蜥蜴羅索",
+    "role": "魔物商販",
+    "npcType": "special_merchant",
+    "ageGroup": "未知",
+    "personality": "謹慎、現實，喜歡在安全距離內做交易；不忌諱山谷的事，也不想評論山谷的事。",
+    "background": "蜥蜴羅索是長命種旅行商人，從很久很久以前就一直生活到現在。漫長人生中，他選擇在山谷這個濕度與溫度都正好的地方暫時休息；山谷的神話、詛咒、失蹤與衰亡對他來說都不是忌諱，反正他認為自己想走時隨時可以走。他不想多說什麼，也不想評論什麼，總之什麼都與他無關，只要能做點買賣就好。村莊對他的存在也毫不大驚小怪，偶爾有需要仍會跟他交易。夜晚他會出現在開墾區，白天則躲回開墾區的井底。玩家完成他的委託後，白天也可以從井底找到他。",
+    "impressionInfos": [
+      {
+        "id": "lizard_merchant_night_trade",
+        "weight": 3,
+        "conditions": {
+          "timeBlocks": [
+            "夜晚",
+            "深夜"
+          ],
+          "locationIds": [
+            "reclamation_area"
+          ]
+        },
+        "text": "蜥蜴羅索縮在光照不到的邊緣，指爪按著背包扣帶。牠的眼睛先看貨物，再看你，像每一句話都得先秤過重量。"
+      },
+      {
+        "id": "lizard_merchant_day_well",
+        "weight": 2,
+        "conditions": {
+          "requiredFlags": [
+            "lizard_merchant_day_access"
+          ],
+          "timeBlocks": [
+            "清晨",
+            "上午",
+            "中午",
+            "下午"
+          ]
+        },
+        "text": "井底的陰影讓蜥蜴羅索顯得放鬆些。牠仍舊把距離抓得很準，卻沒有像夜裡那樣隨時準備縮回黑暗。"
+      }
+    ],
+    "likes": [],
+    "dislikes": [
+      "白天被外人撞見",
+      "沒有價格的東西",
+      "硬闖井底"
+    ],
+    "need": "需要三個乾糧，作為開放井底藏身處的交換條件。",
+    "questHooks": [
+      "蜥蜴人的乾糧委託",
+      "井底商店解鎖"
+    ],
+    "unlocks": [
+      "白天從井底找到蜥蜴羅索",
+      "倉庫與背包物品換螢石"
+    ],
+    "tradeRules": {
+      "specialTrade": true,
+      "usesAffection": false,
+      "buyFromPlayerSources": [
+        "player.inventory",
+        "facilities.storage_box"
+      ],
+      "buyOnlySellableItems": true,
+      "sellCurrencyItemId": "fluorite",
+      "sellsCombatToolsExcept": [
+        "ammo",
+        "equipment"
+      ],
+      "daytimeAccess": {
+        "facilityId": "lizard_well",
+        "requiredFlag": "lizard_merchant_day_access",
+        "timeBlocks": [
+          "清晨",
+          "上午",
+          "中午",
+          "下午"
+        ]
+      },
+      "nightAccess": {
+        "locationId": "reclamation_area",
+        "timeBlocks": [
+          "夜晚",
+          "深夜"
+        ]
+      }
+    },
+    "carriedItems": [
+      {
+        "itemId": "trap",
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 4
+        },
+        "stock": {
+          "max": 3,
+          "dailyRestock": 1
+        }
+      },
+      {
+        "itemId": "torch",
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 4
+        },
+        "stock": {
+          "max": 5,
+          "dailyRestock": 2
+        }
+      },
+      {
+        "itemId": "capture_net",
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 4
+        },
+        "stock": {
+          "max": 2,
+          "dailyRestock": 1
+        }
+      }
+    ],
+    "defaultLocations": {
+      "清晨": null,
+      "上午": null,
+      "中午": null,
+      "下午": null,
+      "傍晚": null,
+      "夜晚": "reclamation_area",
+      "深夜": "reclamation_area"
+    },
+    "tags": [
+      "特殊NPC",
+      "商人",
+      "蜥蜴人",
+      "開墾區",
+      "夜晚",
+      "井底",
+      "螢石交易"
+    ]
+  },
+  {
+    "id": "aida",
+    "name": "艾妲",
+    "role": "領袖",
+    "ageGroup": "年輕女性",
+    "appearance": {
+      "presenceSummary": "她束著深栗長髮，村長外衣收得端正；琥珀色眼睛很穩，讓你也不自覺站直。",
+      "height": "中等偏高",
+      "build": "線條端正，肩背挺直，像是很少允許自己鬆懈",
+      "hair": "深栗色長髮，平時用舊布繩束在腦後，幾縷碎髮常落在臉側",
+      "eyes": "沉穩的琥珀色眼睛，看人時很直接，疲倦時眼尾會顯得更重",
+      "skinTone": "小麥色，臉頰和手背有長期在外奔走留下的日曬痕跡",
+      "clothing": "深綠與灰褐色的村長外衣，腰間掛著鑰匙、短刀和摺得很整齊的記事紙",
+      "distinctiveFeatures": "左手腕纏著母親留下的舊編繩；思考時會用拇指壓住那條繩結",
+      "silhouette": "站姿筆直，衣襬和束髮讓她在空廣場上像一面不願倒下的旗"
+    },
+    "impressionInfos": [
+      {
+        "id": "aida_square_duty",
+        "weight": 3,
+        "conditions": {
+          "locationIds": [
+            "village_square_hub"
+          ]
+        },
+        "text": "艾妲站在廣場最容易被人找到的位置，深栗長髮束得很緊。她的視線在你身上停了一瞬，又很快掃向通往宿舍、藥草棚和開墾區的路，確認每個人都還在做該做的事。"
+      },
+      {
+        "id": "aida_reclamation_patrol",
+        "weight": 3,
+        "conditions": {
+          "locationIds": [
+            "reclamation_area"
+          ]
+        },
+        "text": "艾妲站在開墾區邊上，鞋尖沾著還沒乾透的泥。她低頭看過田壟，又抬眼確認村牆旁的人手和工具，像是在估算今天能不能多保住幾排菜苗。"
+      },
+      {
+        "id": "aida_herb_shed_check",
+        "weight": 3,
+        "conditions": {
+          "locationIds": [
+            "herb_shed"
+          ]
+        },
+        "text": "艾妲在藥草棚前停下，沒有打擾米菈，只安靜看著晾架上的藥草與空瓶數量。她的手指壓在記事紙邊緣，像是在估算如果今天有人受傷，藥草還夠不夠用。"
+      },
+      {
+        "id": "aida_workshop_inventory",
+        "weight": 3,
+        "conditions": {
+          "locationIds": [
+            "workshop_storage"
+          ]
+        },
+        "text": "艾妲站在工坊倉庫裡，目光從木材、舊工具和牆邊的修補痕跡上一一掃過。她沒有催促誰，只把快用完的木料、釘子和繩索默默記下。"
+      },
+      {
+        "id": "aida_after_briefing",
+        "weight": 2,
+        "conditions": {
+          "requiredFlags": [
+            "aida_first_village_briefing_seen"
+          ]
+        },
+        "text": "她看見你時點了點頭，手指卻還壓在腕上的舊編繩。你想起她說過村子的現況，才發現那份沉穩其實一直繃得很緊。"
+      }
+    ],
+    "profileDescription": "你第一眼會注意到她總是站在最容易被人找到的位置。艾妲會先確認食物、藥草、工具和外出安排，再確認自己有沒有時間休息；她說話很穩，視線也穩，連每天該讓大家吃什麼都會先想好。可她其實意外地在意小事：飯菜鹹了一點、誰的鞋底磨薄了、看板上的字歪了，她都會記在心裡，只是不讓這些牽掛妨礙她做決定。",
+    "personality": "責任感強，說話穩重，習慣先把不安壓下去再處理別人的事；反差是她比外表更容易被日常小事牽動，也有一點笨拙的照顧慾。她不太向人求助，但會記住每一個真正幫上忙的人。",
+    "background": "前任村長是她的母親，也是遺跡調查隊的領導者；父親羅恩曾是村口、森林邊緣與外界路線的巡路人，但這層家族線索不應在早期直接明說。母親失蹤、父親亡故後，艾妲臨時接任村長。村內多數公共決策會在廣場討論，正式記錄則由她帶回宿舍整理；共同飲食與臨時做飯也多由她負責安排。",
+    "likes": [
+      "生菜"
+    ],
+    "dislikes": [
+      "逃避責任",
+      "空泛保證",
+      "擅自冒險"
+    ],
+    "need": "需要玩家協助建立穩定資源來源，並讓村民重新相信村莊能撐下去。",
+    "initialAffection": 0,
+    "questHooks": [
+      "修復工坊倉庫",
+      "制定村莊發展方針",
+      "整理母親留下的遺跡筆記"
+    ],
+    "unlocks": [
+      "主線村莊目標"
+    ],
+    "carriedItems": [
+      {
+        "itemId": "dry_ration",
+        "affectionMin": 0,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 3
+        },
+        "stock": {
+          "max": 4,
+          "dailyRestock": 2
+        }
+      },
+      {
+        "itemId": "wood",
+        "affectionMin": 2,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 5
+        },
+        "stock": {
+          "max": 3,
+          "dailyRestock": 1
+        }
+      }
+    ],
+    "defaultLocations": {
+      "清晨": "village_square_hub",
+      "上午": "reclamation_area",
+      "中午": "herb_shed",
+      "下午": "workshop_storage",
+      "傍晚": "village_square_hub",
+      "夜晚": "dormitory",
+      "深夜": "dormitory"
+    },
+    "tags": [
+      "村長",
+      "主線",
+      "村莊發展"
+    ]
+  },
+  {
+    "id": "mira",
+    "name": "米菈",
+    "role": "藥草師",
+    "ageGroup": "年輕女性",
+    "appearance": {
+      "presenceSummary": "她的淡棕髮收在頭巾下，圍裙帶著藥草味；淺綠眼神柔和，像先看見你的傷。",
+      "height": "中等",
+      "build": "纖細但不脆弱，手臂和指尖有長期處理藥草的穩定感",
+      "hair": "柔軟的淡棕色中長髮，常用白色頭巾或細繩收起，方便低頭工作",
+      "eyes": "淺綠色眼睛，靠近觀察傷口或藥草時會顯得格外專注",
+      "skinTone": "白皙偏暖，指腹常沾著淡淡草汁痕",
+      "clothing": "米白色襯衣外罩淡青色工作圍裙，腰側掛著小剪刀、布包和藥瓶",
+      "distinctiveFeatures": "身上總帶著苦藥與乾葉混在一起的氣味；說話前常會先確認你有沒有逞強",
+      "silhouette": "輪廓柔和，動作安靜，像藥草棚裡一盞不太亮卻可靠的燈"
+    },
+    "impressionInfos": [
+      {
+        "id": "mira_herb_shed",
+        "weight": 3,
+        "conditions": {
+          "locationIds": [
+            "herb_shed"
+          ]
+        },
+        "text": "米菈抬頭時，指尖還沾著剛碾開的草汁。她沒有先問你要什麼，視線卻已經從你的臉色落到手背，像傷口總會比話更早被她發現。"
+      },
+      {
+        "id": "mira_after_potion_lesson",
+        "weight": 2,
+        "conditions": {
+          "requiredFlags": [
+            "mira_first_potion_lesson_seen"
+          ]
+        },
+        "text": "她把小瓶罐往桌內側收了收，替你讓出一點位置。那股苦藥味仍舊很淡，卻讓你想起她教你處理傷勢時，語氣裡藏不住的擔心。"
+      }
+    ],
+    "profileDescription": "米菈靠近時，總會先看你的臉色，再看你的手和傷口。她關心人時不太說漂亮話，而是確認有沒有發熱、流血、感染或逞強；每一次替人包紮，她都像在搶時間，避免小傷拖成會倒下的大傷。可她面對藥草、病灶與瘴氣痕跡時，會露出近乎冷靜的研究眼神，因為知道原因才有機會處理結果。",
+    "personality": "溫和謹慎，重視準備與安全；反差是她談人命時很柔軟，談病理和藥效時卻能冷靜到近乎固執。她不喜歡把恐懼說出口，卻會用多備一卷繃帶、多問一句狀況的方式替人擋下風險。",
+    "background": "她的祖母曾研究過詛咒與出生異常的關聯，並跟著調查隊前往遺跡。米菈熟悉村外與森林裡的藥草，但必須照顧村中病患，無法頻繁離村冒險。",
+    "likes": [
+      "莓果"
+    ],
+    "dislikes": [
+      "浪費藥材",
+      "無準備的探險",
+      "逞強"
+    ],
+    "need": "需要穩定藥草來源，避免村民受傷後無法治療。",
+    "initialAffection": 0,
+    "questHooks": [
+      "採集月露草",
+      "修復藥草棚",
+      "尋找祖母留下的藥學記錄"
+    ],
+    "unlocks": [
+      "小治療藥",
+      "強效繃帶",
+      "外出前生命恢復"
+    ],
+    "interactionActions": [
+      {
+        "id": "mira_treatment",
+        "label": "請米菈協助治療",
+        "actionType": "recover",
+        "timeCostSeconds": 900,
+        "requirements": {
+          "item": {
+            "id": "moondew_herb",
+            "count": 1
+          }
+        },
+        "effects": {
+          "items": {
+            "moondew_herb": -1
+          },
+          "lifePercentOfMax": 0.7
+        },
+        "availability": {
+          "requiresPresentVillager": "mira"
+        }
+      }
+    ],
+    "carriedItems": [
+      {
+        "itemId": "moondew_herb",
+        "affectionMin": 0,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 2
+        },
+        "stock": {
+          "max": 5,
+          "dailyRestock": 3
+        }
+      },
+      {
+        "itemId": "small_healing_potion",
+        "affectionMin": 2,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 6
+        },
+        "stock": {
+          "max": 3,
+          "dailyRestock": 1
+        }
+      },
+      {
+        "itemId": "strong_bandage",
+        "affectionMin": 4,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 10
+        },
+        "stock": {
+          "max": 2,
+          "dailyRestock": 1
+        }
+      }
+    ],
+    "defaultLocations": {
+      "清晨": "herb_shed",
+      "上午": "herb_shed",
+      "中午": "village_square_hub",
+      "下午": "reclamation_area",
+      "傍晚": "herb_shed",
+      "夜晚": "dormitory",
+      "深夜": "dormitory"
+    },
+    "tags": [
+      "治療",
+      "藥草",
+      "開場"
+    ]
+  },
+  {
+    "id": "nuosi",
+    "name": "諾絲",
+    "role": "工匠",
+    "ageGroup": "年輕女性",
+    "appearance": {
+      "presenceSummary": "她一身粗布工作服，短紅髮有些凌亂；銅褐色眼睛銳利，像正挑出哪裡不對。",
+      "height": "偏高",
+      "build": "結實俐落，肩膀和手臂有搬木料與揮工具磨出來的力量",
+      "hair": "暗紅色短髮，剪得不太整齊，額前碎髮常被她不耐煩地往後撥",
+      "eyes": "銅褐色眼睛，盯著壞掉的東西時像能直接把裂縫看穿",
+      "skinTone": "健康的小麥色，手上有舊繭、細小刮傷和木屑留下的痕跡",
+      "clothing": "捲袖粗布上衣、深色工作褲與厚皮手套，腰帶上掛著量尺、釘袋和小錘",
+      "distinctiveFeatures": "右耳後常夾著一支木炭筆；生氣時會先敲敲手邊的木板，不一定真的罵人",
+      "silhouette": "步伐快，重心穩，像一把隨時能落下的斧頭"
+    },
+    "impressionInfos": [
+      {
+        "id": "nuosi_workshop",
+        "weight": 3,
+        "conditions": {
+          "locationIds": [
+            "workshop_storage"
+          ]
+        },
+        "text": "諾絲半蹲在一堆木料旁，紅髮被汗和木屑弄得更亂。她抬眼看你時，手裡的工具沒有放下，像是在判斷你帶來的是材料，還是新的麻煩。"
+      },
+      {
+        "id": "nuosi_after_workshop_meeting",
+        "weight": 2,
+        "conditions": {
+          "requiredFlags": [
+            "nuosi_first_workshop_meeting_seen"
+          ]
+        },
+        "text": "她耳後仍夾著那支木炭筆，嘴上像隨時能挑出你的錯，手邊卻已經替你把危險的工具挪遠了一點。"
+      }
+    ],
+    "profileDescription": "諾絲看起來總像剛和某塊不聽話的木板吵完架。她說話硬，動作也急，但你若真的把材料搬到她面前，她會先皺眉挑毛病，然後默默把最危險的活從你手上接過去。她嘴上說舊東西壞了就該拆，實際上最捨不得丟掉那些修了又修的工具。",
+    "personality": "直接、急躁、嘴硬心軟；反差是她表面最講效率，內心卻最容易對物件、工具和舊痕跡產生感情。她不擅長安慰人，卻很擅長用修好一扇門、補強一截欄杆來表達在意。",
+    "background": "她的父親是村中最好的工匠，曾為調查隊打造進入遺跡的工具。父親失蹤後，諾絲接手工坊，也順勢管理倉庫中的木材、礦石與修繕工具。",
+    "likes": [
+      "礦石"
+    ],
+    "dislikes": [
+      "拖延",
+      "偷懶",
+      "弄壞工具"
+    ],
+    "need": "需要木材、礦石與舊工具，才能維持村莊設施與外出裝備。",
+    "initialAffection": 0,
+      "questHooks": [
+        "搬兩份木材給工坊",
+        "修繕橋梁",
+        "升級工坊倉庫",
+        "找回父親帶去遺跡的工具箱"
+      ],
+    "unlocks": [
+      "新設施建造",
+      "探險工具"
+    ],
+    "carriedItems": [
+      {
+        "itemId": "cloth_strip",
+        "affectionMin": 0,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 1
+        },
+        "stock": {
+          "max": 5,
+          "dailyRestock": 2
+        }
+      },
+      {
+        "itemId": "rope",
+        "affectionMin": 4,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 12
+        },
+        "stock": {
+          "max": 1,
+          "dailyRestock": 1
+        }
+      }
+    ],
+    "defaultLocations": {
+      "清晨": "workshop_storage",
+      "上午": "workshop_storage",
+      "中午": "village_square_hub",
+      "下午": "workshop_storage",
+      "傍晚": "village_square_hub",
+      "夜晚": "dormitory",
+      "深夜": "dormitory"
+    },
+    "tags": [
+      "工坊",
+      "倉庫",
+      "建設",
+      "工具"
+    ]
+  },
+  {
+    "id": "sela",
+    "name": "賽拉",
+    "role": "獵戶巡守",
+    "ageGroup": "年輕女性",
+    "appearance": {
+      "presenceSummary": "她黑髮低束，獵弓貼在背後；灰藍眼睛先看你的手，再看出口，冷靜得讓人繃緊。",
+      "height": "高挑",
+      "build": "精瘦敏捷，肌肉不誇張但每個動作都省力而準確",
+      "hair": "黑色長髮束成低馬尾，外出時會用皮繩和羽飾固定，避免被樹枝勾住",
+      "eyes": "灰藍色眼睛，目光冷而遠，像總在同時聽著另一個方向的聲音",
+      "skinTone": "偏冷的小麥色，臉側和手臂有被枝葉劃過的淡痕",
+      "clothing": "深褐獵裝、短披肩與護臂，背著獵弓，箭袋上綁著用來辨認路線的細羽",
+      "distinctiveFeatures": "左眉上方有一道很淡的舊傷；警戒時手指會自然貼近弓弦",
+      "silhouette": "安靜、拉長、像林線邊緣的一道影子"
+    },
+    "impressionInfos": [
+      {
+        "id": "sela_reclamation_watch",
+        "weight": 3,
+        "conditions": {
+          "locationIds": [
+            "reclamation_area"
+          ]
+        },
+        "text": "賽拉站在能看見村外道路的位置，弓沒有拿在手上，手指卻離弓弦很近。她看你一眼，又看向森林邊緣，確認路口沒有新的獸跡或異常聲音。"
+      },
+      {
+        "id": "sela_graveyard_patrol",
+        "weight": 3,
+        "conditions": {
+          "locationIds": [
+            "graveyard"
+          ]
+        },
+        "text": "賽拉站在墓地坡邊，背後的弓被午後的光照出細窄輪廓。她沒有看墓碑太久，只沿著草叢和外側小路慢慢掃視，確認有沒有新腳印、壓倒的草或靠近村子的獸痕。"
+      },
+      {
+        "id": "sela_after_tool_lesson",
+        "weight": 2,
+        "conditions": {
+          "requiredFlags": [
+            "sela_first_combat_tool_lesson_seen"
+          ]
+        },
+        "text": "她的目光落在你帶的東西上，比落在你臉上久一些。你知道那不是挑剔，而是她已經習慣先確認一個人有沒有活著回來的準備。"
+      }
+    ],
+    "profileDescription": "賽拉不會急著靠近你。她站的位置總能看見出口，也能看見你的手；可當她真的開口提醒路線、風向、腳印或撤退點時，你會明白她不是冷淡，而是在先排除會害人回不來的風險。她很少相信沒有證據的好事，卻是村裡少數知道黑貓曾經救過人的人。",
+    "personality": "冷靜、警覺，不輕易相信別人；反差是她並非排斥未知，而是能把未知分成可暫時信任與必須遠離。她把信任看得很重，因為在村外，一次錯信就可能讓人回不來。",
+    "background": "她的姊姊曾是調查隊的護衛之一。調查隊失蹤後，賽拉接下巡視山谷森林的工作，知道哪些路線危險。她知道黑貓存在，也明白黑貓不是威脅；她曾在森林巡守或危急撤退時受過黑貓幫助，因此不會否定主角被黑貓引導或救助的說法。但這不代表她知道黑貓真身，她只把牠視為森林裡少數不能用普通敵我判斷處理的沉默存在。她對主角保持戒心，因為村莊無法承受收留錯人的代價。",
+    "likes": [
+      "獸角",
+      "骨"
+    ],
+    "dislikes": [
+      "擅自行動",
+      "隱瞞",
+      "靠近武器庫"
+    ],
+    "need": "需要玩家證明自己能遵守探險規矩，並協助確認村外危險是否正在逼近村莊。",
+    "initialAffection": 0,
+    "questHooks": [
+      "調查獸徑",
+      "取得安全路線情報",
+      "追查姊姊留下的箭羽標記"
+    ],
+    "unlocks": [
+      "村外地圖",
+      "危險預警",
+      "逃離選項"
+    ],
+    "interactionActions": [
+      {
+        "id": "knowledge",
+        "label": "尋求知識",
+        "actionType": "knowledge",
+        "timeCostSeconds": 0,
+        "hideCost": true,
+        "dynamicAction": "openKnowledge"
+      }
+    ],
+    "carriedItems": [
+      {
+        "itemId": "arrow",
+        "affectionMin": 0,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 2
+        },
+        "stock": {
+          "max": 12,
+          "dailyRestock": 6
+        }
+      },
+      {
+        "itemId": "trap",
+        "affectionMin": 2,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 7
+        },
+        "stock": {
+          "max": 3,
+          "dailyRestock": 1
+        }
+      },
+      {
+        "itemId": "bow",
+        "affectionMin": 4,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 24
+        },
+        "stock": {
+          "max": 1,
+          "dailyRestock": 0
+        }
+      }
+    ],
+    "defaultLocations": {
+      "清晨": "reclamation_area",
+      "上午": "reclamation_area",
+      "中午": "village_square_hub",
+      "下午": "graveyard",
+      "傍晚": "reclamation_area",
+      "夜晚": "reclamation_area",
+      "深夜": "dormitory"
+    },
+    "tags": [
+      "獵戶巡守",
+      "安全",
+      "村外探索"
+    ]
+  },
+  {
+    "id": "tori",
+    "name": "托莉",
+    "role": "開墾管理人",
+    "ageGroup": "年輕女性",
+    "appearance": {
+      "presenceSummary": "她蜂蜜色短髮微翹，圍裙口袋鼓鼓的；榛色眼睛亮得很快，像下一秒就要跑出去。",
+      "height": "偏矮",
+      "build": "輕快有活力，像隨時能從田埂另一頭跑回來",
+      "hair": "蜂蜜金短髮，髮尾微翹，常用顏色不成套的髮夾亂亂固定",
+      "eyes": "明亮的榛色眼睛，聽見新鮮事時會立刻發亮",
+      "skinTone": "帶著日曬紅潤的健康膚色，鼻尖常有一點泥土或草屑",
+      "clothing": "橘黃圍裙、短外套與方便跑動的靴子，口袋裡常塞著種子、小石頭或不知道哪裡撿來的東西",
+      "distinctiveFeatures": "笑起來很快，也很容易把心思寫在臉上；被責備時會先鼓起臉再偷偷反省",
+      "silhouette": "小而明亮，像廣場上突然滾進陽光裡的一顆果子"
+    },
+    "impressionInfos": [
+      {
+        "id": "tori_square_bright",
+        "weight": 3,
+        "conditions": {
+          "locationIds": [
+            "village_square_hub"
+          ]
+        },
+        "text": "托莉幾乎是小跑著靠近你，蜂蜜色短髮翹得很不安分。她的眼睛一下就亮起來，立刻想問你剛才去了哪裡、看見什麼、背包裡是不是多了沒見過的東西。"
+      },
+      {
+        "id": "tori_after_field_greeting",
+        "weight": 2,
+        "conditions": {
+          "requiredFlags": [
+            "tori_first_field_greeting_seen"
+          ]
+        },
+        "text": "她把圍裙口袋拍得鼓鼓作響，像裡頭又塞了什麼剛撿到的小東西。看見你時，她努力擺出很可靠的表情，卻還是藏不住那點想被認同的急切。"
+      }
+    ],
+    "profileDescription": "托莉靠近你的方式總是太快，問題也問得太快。她還不太會把好奇藏起來，總想證明自己能做更多；但你偶爾會在她停下來看向森林時，發現她其實很不甘心只能留在開墾區。她會把可怕的地方畫上小花，因為她想讓村子看起來還有一點能笑的地方。",
+    "personality": "活潑好奇，容易衝動；反差是她看起來最不懂絕望，卻最用力把絕望裝飾成還能笑的樣子。她渴望被當成能派上用場的人，因此常在勇敢和莽撞之間只差一步。",
+    "background": "她沒有親眼見過村中男孩出生，對詛咒只有模糊印象。她負責協助食物、開墾區雜務與村內工作，夢想成為探險者，常偷偷靠近開墾區邊緣想證明自己不只是被留下來的人。",
+    "likes": [
+      "蘋果"
+    ],
+    "dislikes": [
+      "被當成小孩",
+      "無聊工作",
+      "被排除在討論外"
+    ],
+    "need": "需要被認同，也需要學會風險判斷。",
+    "initialAffection": 0,
+    "questHooks": [
+      "找回走失的羊",
+      "阻止她擅自進入遺跡",
+      "教她判斷危險"
+    ],
+    "unlocks": [
+      "村民好感事件",
+      "食物產量提升"
+    ],
+    "carriedItems": [
+      {
+        "itemId": "berry",
+        "affectionMin": 0,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 1
+        },
+        "stock": {
+          "max": 6,
+          "dailyRestock": 4
+        }
+      },
+      {
+        "itemId": "lettuce",
+        "affectionMin": 0,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 2
+        },
+        "stock": {
+          "max": 3,
+          "dailyRestock": 3
+        }
+      },
+      {
+        "itemId": "apple",
+        "affectionMin": 2,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 2
+        },
+        "stock": {
+          "max": 3,
+          "dailyRestock": 1
+        }
+      }
+    ],
+    "defaultLocations": {
+      "清晨": "village_square_hub",
+      "上午": "village_square_hub",
+      "中午": "village_square_hub",
+      "下午": "reclamation_area",
+      "傍晚": "reclamation_area",
+      "夜晚": "dormitory",
+      "深夜": "dormitory"
+    },
+    "tags": [
+      "農務",
+      "食物",
+      "好感事件"
+    ]
+  },
+  {
+    "id": "elaine",
+    "name": "伊蓮",
+    "role": "兼職舍監的學者",
+    "ageGroup": "年輕女性",
+    "appearance": {
+      "presenceSummary": "她銀灰長髮垂在肩前，深藍披肩很安靜；紫灰眼睛帶著笑，像已聽見你沒說的話。",
+      "height": "中等偏高",
+      "build": "纖長安靜，動作慢而穩，像總比旁人多留了一點時間聽回音",
+      "hair": "銀灰色長髮，常鬆鬆編成一束垂在肩前，髮間插著舊木簪",
+      "eyes": "紫灰色眼睛，帶著似笑非笑的神情，像知道你還沒說出口的部分",
+      "skinTone": "白皙偏冷，常在燈下顯得比白天更淡",
+      "clothing": "深藍長裙、舊披肩與宿舍鑰匙串，袖口常夾著書籤、紙條或修補用的線",
+      "distinctiveFeatures": "說話時常把鑰匙串繞在指間；她笑得很輕，卻很少真的錯過任何細節",
+      "silhouette": "總坐在宿舍燈光旁，鑰匙串和舊紙張都在手邊，安靜卻讓人無法忽略"
+    },
+    "impressionInfos": [
+      {
+        "id": "elaine_dormitory",
+        "weight": 3,
+        "conditions": {
+          "locationIds": [
+            "dormitory"
+          ]
+        },
+        "text": "伊蓮坐在宿舍光線柔暗的地方，銀灰長髮垂在肩前。她指間繞著鑰匙串，看見你靠近後先看了看你的行囊，再等你開口。"
+      },
+      {
+        "id": "elaine_after_fluorite_intro",
+        "weight": 2,
+        "conditions": {
+          "requiredFlags": [
+            "elaine_first_fluorite_intro_seen"
+          ]
+        },
+        "text": "她看見你時輕輕笑了一下，紫灰色眼睛掃過你的行囊。她沒有立刻問你帶回什麼，只提醒你把能留下的東西收好，別讓宿舍和失物箱又多一筆混亂。"
+      }
+    ],
+    "profileDescription": "伊蓮看人時會先注意對方帶了什麼、少了什麼、晚上有沒有準時回來。她能把一句玩笑說得很含蓄，也能在眾人都吵鬧時記住誰少拿了一條毯子；她表面上像在閒聊，實際上一直在管理宿舍、點名和舊資料。她看似飄忽，實際上最清楚每個人夜裡有沒有回來。",
+    "personality": "神秘、幽默，擅長觀察人，也喜歡用寓言提醒別人；反差是她說話最像在繞遠路，做事卻最像精密的舍監。她很少直接逼問，但常用一句輕飄飄的話把人心裡的破口點出來。",
+    "background": "她負責管理村民共同居住的宿舍，安排床位、夜間點名、公共物資與舊資料保存。上一代故事師離村前把村莊起源、山谷之神、所謂活祭儀式、神殿祭司傳說、遺跡傳說、禁忌歌謠，以及歷代學者留下的智慧與懺悔交給她整理。她隱約知道山谷有些地方需要修補；這個修補不是償還罪孽，而是讓被封印的、被切斷的、被誤解的東西回復原位。",
+    "likes": [
+      "花朵",
+      "羽毛"
+    ],
+    "dislikes": [
+      "打斷故事",
+      "嘲笑傳說",
+      "把公共空間弄亂"
+    ],
+    "need": "需要玩家協助釐清歷代學者留下的修補線索，也需要協助維持宿舍秩序與村民夜間安全。",
+    "initialAffection": 0,
+    "questHooks": [
+      "整理宿舍",
+      "解讀遺跡符號",
+      "辨認禁忌歌謠"
+    ],
+    "unlocks": [
+      "遺跡主線",
+      "特殊結局線索",
+      "宿舍夜間事件"
+    ],
+    "interactionActions": [
+      {
+        "id": "knowledge",
+        "label": "尋求知識",
+        "actionType": "knowledge",
+        "timeCostSeconds": 0,
+        "hideCost": true,
+        "dynamicAction": "openKnowledge"
+      }
+    ],
+    "carriedItems": [
+      {
+        "itemId": "beast_horn",
+        "affectionMin": 2,
+        "price": {
+          "currencyItemId": "fluorite",
+          "amount": 9
+        },
+        "stock": {
+          "max": 2,
+          "dailyRestock": 1
+        }
+      }
+    ],
+    "defaultLocations": {
+      "清晨": "dormitory",
+      "上午": "dormitory",
+      "中午": "village_square_hub",
+      "下午": "dormitory",
+      "傍晚": "village_square_hub",
+      "夜晚": "dormitory",
+      "深夜": "dormitory"
+    },
+    "tags": [
+      "宿舍",
+      "遺跡",
+      "主線",
+      "傳說"
+    ]
+  }
+]

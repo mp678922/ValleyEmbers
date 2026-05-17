@@ -1,0 +1,220 @@
+[
+  {
+    "id": "small_healing_potion_recipe",
+    "name": "小治療藥配方",
+    "result": {
+      "itemId": "small_healing_potion",
+      "count": 1
+    },
+    "materials": [
+      {
+        "itemId": "moondew_herb",
+        "count": 1
+      },
+      {
+        "itemId": "empty_potion_bottle",
+        "count": 1
+      }
+    ],
+    "workstationFacilityId": "alchemy_table",
+    "timeCostSeconds": 600,
+    "learnedByDefault": false,
+    "tags": [
+      "配方",
+      "製作",
+      "製藥",
+      "治療"
+    ]
+  },
+  {
+    "id": "strong_bandage_recipe",
+    "name": "強效繃帶配方",
+    "result": {
+      "itemId": "strong_bandage",
+      "count": 1
+    },
+    "materials": [
+      {
+        "itemId": "moondew_herb",
+        "count": 2
+      },
+      {
+        "itemId": "cloth_strip",
+        "count": 1
+      }
+    ],
+    "workstationFacilityId": "alchemy_table",
+    "timeCostSeconds": 900,
+    "learnedByDefault": false,
+    "tags": [
+      "配方",
+      "製作",
+      "製藥",
+      "治療"
+    ]
+  },
+  {
+    "id": "sharp_stone_recipe",
+    "name": "銳利碎石配方",
+    "result": {
+      "itemId": "sharp_stone",
+      "count": 2
+    },
+    "materials": [
+      {
+        "itemId": "stone_ammo",
+        "count": 1
+      }
+    ],
+    "workstationFacilityId": "workbench",
+    "portableCrafting": true,
+    "timeCostSeconds": 300,
+    "learnedByDefault": false,
+    "tags": [
+      "配方",
+      "製作",
+      "材料",
+      "工坊"
+    ]
+  },
+  {
+    "id": "trap_recipe",
+    "name": "陷阱配方",
+    "result": {
+      "itemId": "trap",
+      "count": 1
+    },
+    "materials": [
+      {
+        "itemId": "wood",
+        "count": 1
+      },
+      {
+        "itemId": "rope",
+        "count": 1
+      }
+    ],
+    "workstationFacilityId": "workbench",
+    "timeCostSeconds": 900,
+    "learnedByDefault": false,
+    "tags": [
+      "配方",
+      "製作",
+      "戰鬥工具",
+      "工坊"
+    ]
+  },
+  {
+    "id": "torch_recipe",
+    "name": "火把配方",
+    "result": {
+      "itemId": "torch",
+      "count": 1
+    },
+    "materials": [
+      {
+        "itemId": "wood",
+        "count": 1
+      },
+      {
+        "itemId": "resin",
+        "count": 1
+      }
+    ],
+    "workstationFacilityId": "workbench",
+    "timeCostSeconds": 600,
+    "learnedByDefault": false,
+    "tags": [
+      "配方",
+      "製作",
+      "戰鬥工具",
+      "工坊"
+    ]
+  },
+  {
+    "id": "capture_net_recipe",
+    "name": "補網配方",
+    "result": {
+      "itemId": "capture_net",
+      "count": 1
+    },
+    "materials": [
+      {
+        "itemId": "rope",
+        "count": 1
+      },
+      {
+        "itemId": "cloth_strip",
+        "count": 1
+      }
+    ],
+    "workstationFacilityId": "workbench",
+    "timeCostSeconds": 900,
+    "learnedByDefault": false,
+    "tags": [
+      "配方",
+      "製作",
+      "戰鬥工具",
+      "工坊"
+    ]
+  },
+  {
+    "id": "arrow_recipe",
+    "name": "箭矢配方",
+    "result": {
+      "itemId": "arrow",
+      "count": 3
+    },
+    "materials": [
+      {
+        "itemId": "wood",
+        "count": 1
+      },
+      {
+        "itemId": "feather",
+        "count": 1
+      },
+      {
+        "itemId": "sharp_stone",
+        "count": 1
+      }
+    ],
+    "workstationFacilityId": "workbench",
+    "portableCrafting": true,
+    "timeCostSeconds": 1200,
+    "learnedByDefault": false,
+    "tags": [
+      "配方",
+      "製作",
+      "彈藥",
+      "工坊"
+    ]
+  },
+  {
+    "id": "smoke_bomb_recipe",
+    "name": "煙霧彈配方",
+    "result": {
+      "itemId": "smoke_bomb",
+      "count": 1
+    },
+    "materials": [
+      {
+        "itemId": "dry_moss",
+        "count": 1
+      },
+      {
+        "itemId": "cloth_strip",
+        "count": 1
+      }
+    ],
+    "workstationFacilityId": "workbench",
+    "timeCostSeconds": 600,
+    "learnedByDefault": false,
+    "tags": [
+      "配方",
+      "製作",
+      "戰鬥工具",
+      "工坊"
+    ]
+  }
+]

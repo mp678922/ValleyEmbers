@@ -1,0 +1,51 @@
+{
+  "forageRules": {
+    "maxUsesPerPosition": 1,
+    "resetTrigger": "moveToAnotherExplorationPosition",
+    "depletedMessage": "附近已經沒有物品。",
+    "itemCountWeights": [
+      { "count": 0, "weight": 20 },
+      { "count": 1, "weight": 50 },
+      { "count": 2, "weight": 30 }
+    ],
+    "selectionRule": "先依 itemCountWeights 決定本次找到 0/1/2 個物品，再從目前區域的候選池中依權重抽出不重複物品。"
+  },
+  "regionLootPools": [
+    {
+      "region": "山谷森林外圍",
+      "candidateItems": [
+        { "itemId": "wood", "weight": 6 },
+        { "itemId": "resin", "weight": 5 },
+        { "itemId": "dry_moss", "weight": 4 },
+        { "itemId": "stone_ammo", "weight": 5 },
+        { "itemId": "sharp_stone", "weight": 3 },
+        { "itemId": "cloth_strip", "weight": 1 },
+        { "itemId": "moondew_herb", "weight": 1 }
+      ]
+    },
+    {
+      "region": "山谷森林中層",
+      "candidateItems": [
+        { "itemId": "wood", "weight": 5 },
+        { "itemId": "resin", "weight": 3 },
+        { "itemId": "dry_moss", "weight": 4 },
+        { "itemId": "stone_ammo", "weight": 4 },
+        { "itemId": "sharp_stone", "weight": 4 },
+        { "itemId": "cloth_strip", "weight": 2 },
+        { "itemId": "moondew_herb", "weight": 5 }
+      ]
+    },
+    {
+      "region": "山谷森林深處",
+      "candidateItems": [
+        { "itemId": "wood", "weight": 3 },
+        { "itemId": "resin", "weight": 2 },
+        { "itemId": "dry_moss", "weight": 5 },
+        { "itemId": "stone_ammo", "weight": 3 },
+        { "itemId": "sharp_stone", "weight": 5 },
+        { "itemId": "cloth_strip", "weight": 2 },
+        { "itemId": "moondew_herb", "weight": 4 }
+      ]
+    }
+  ]
+}

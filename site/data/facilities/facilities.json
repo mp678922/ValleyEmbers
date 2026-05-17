@@ -1,0 +1,962 @@
+[
+  {
+    "id": "alchemy_table",
+    "name": "製藥台",
+    "category": "facility",
+    "facilityType": "crafting",
+    "interactionMode": "craftView",
+    "description": "木桌上擺著研缽、藥草束和幾只常用的小瓶罐，桌面還留著磨藥時擦不掉的痕跡。只要靠近些，就能聞到一股乾苦的草藥味。",
+    "locationIds": [
+      "herb_shed"
+    ],
+    "baseActions": [
+      "craft"
+    ],
+    "crafting": {
+      "canCraftItems": true,
+      "recipeSource": "docs/data/recipes/recipes.json",
+      "matchField": "workstationFacilityId",
+      "stationLabel": "製藥"
+    },
+    "tags": [
+      "設施",
+      "藥草棚",
+      "製作",
+      "製藥"
+    ]
+  },
+  {
+    "id": "workbench",
+    "name": "工作台",
+    "category": "facility",
+    "facilityType": "crafting",
+    "interactionMode": "craftView",
+    "description": "這張工作台被磨得發亮，桌角還卡著細小木屑。刀具、鉗子和繩結都被隨手放在伸手可及的位置，看得出有人天天在這裡趕工。",
+    "locationIds": [
+      "workshop_storage"
+    ],
+    "baseActions": [
+      "craft"
+    ],
+    "crafting": {
+      "canCraftItems": true,
+      "recipeSource": "docs/data/recipes/recipes.json",
+      "matchField": "workstationFacilityId",
+      "stationLabel": "工坊製作"
+    },
+    "tags": [
+      "設施",
+      "工坊倉庫",
+      "製作",
+      "工具",
+      "工作台"
+    ]
+  },
+  {
+    "id": "scrap_pile",
+    "name": "廢料堆",
+    "category": "facility",
+    "facilityType": "small_storage",
+    "description": "工坊角落堆著拆下來的布條、斷繩和不能再用的舊零件。大多數東西已經派不上用場，但仔細翻找，偶爾還能挑出能綁束或修補的材料。",
+    "locationIds": [
+      "workshop_storage"
+    ],
+    "baseActions": [
+      "withdraw"
+    ],
+    "smallStorage": {
+      "canDeposit": false,
+      "canWithdraw": true,
+      "maxTotalItemCount": 3,
+      "restockRule": {
+        "type": "manualRandom",
+        "resetTime": "06:00",
+        "onlyRestockWhenTotalBelow": 3
+      }
+    },
+    "obtainAction": {
+      "label": "取回材料",
+      "contentsLabel": "已發現",
+      "emptyMessage": "廢料堆裡暫時沒有已翻出的材料。",
+      "successMessage": "你從廢料堆裡取回了能用的材料。"
+    },
+    "randomGatherAction": {
+      "label": "翻找廢料",
+      "timeCostSeconds": 120,
+      "maxDailyUses": 3,
+      "alreadyUsedMessage": "今天已經翻找過三次。",
+      "emptyResultMessage": "你在廢料裡翻了一陣，這次沒找到能用的東西。",
+      "clearTemporaryItemsOnReset": true,
+      "results": [
+        {
+          "itemId": "rope",
+          "count": 1,
+          "weight": 1
+        },
+        {
+          "itemId": "cloth_strip",
+          "count": 1,
+          "weight": 2
+        },
+        {
+          "itemId": null,
+          "count": 0,
+          "weight": 1
+        }
+      ]
+    },
+    "tags": [
+      "設施",
+      "工坊倉庫",
+      "採集",
+      "繩索",
+      "布條",
+      "每日"
+    ]
+  },
+  {
+    "id": "protagonist_bed",
+    "name": "你的床",
+    "category": "facility",
+    "facilityType": "information",
+    "interactionMode": "timeSelectView",
+    "description": "這是村裡替你騰出的床位。鋪蓋雖然簡單，至少足夠讓你躺下喘口氣，把繃緊的身子慢慢放鬆。若真想休息，可以在這裡安穩睡上幾個小時。",
+    "locationIds": [
+      "dormitory"
+    ],
+    "baseActions": [
+      "sleep"
+    ],
+    "recovery": {
+      "timeCostSeconds": 21600,
+      "effects": {
+        "stamina": "full"
+      }
+    },
+    "tags": [
+      "設施",
+      "宿舍",
+      "睡眠",
+      "恢復"
+    ]
+  },
+  {
+    "id": "dormitory_old_chest",
+    "name": "舊箱子",
+    "category": "facility",
+    "facilityType": "small_storage",
+    "description": "床邊靠著一只磨損的舊木箱，箱蓋邊緣有被反覆掀開的痕跡。裡頭放著幾件還能派上用場的舊物。",
+    "locationIds": [
+      "dormitory"
+    ],
+    "baseActions": [
+      "withdraw"
+    ],
+    "smallStorage": {
+      "canDeposit": false,
+      "canWithdraw": true,
+      "maxTotalItemCount": 3,
+      "initialItems": [
+        {
+          "itemId": "sling",
+          "count": 1
+        },
+        {
+          "itemId": "stone_ammo",
+          "count": 2
+        }
+      ],
+      "oneTimeClaimFlag": "dormitory_old_chest_claimed",
+      "withdrawAllAtOnce": true,
+      "overflowToDroppedItems": true
+    },
+    "obtainAction": {
+      "label": "取出",
+      "contentsLabel": "箱內",
+      "emptyMessage": "舊箱子裡已經沒有能帶走的東西。",
+      "successMessage": "你從舊箱子裡取出了東西。"
+    },
+    "tags": [
+      "設施",
+      "宿舍",
+      "寶箱",
+      "一次性",
+      "遠程"
+    ]
+  },
+  {
+    "id": "berry_bush",
+    "name": "莓果叢",
+    "category": "facility",
+    "facilityType": "small_storage",
+    "description": "低矮的枝條上掛著熟透的莓果，顏色在葉片間特別顯眼。只要蹲下身，就能伸手摘到。",
+    "locationIds": [
+      "reclamation_area"
+    ],
+    "baseActions": [
+      "withdraw"
+    ],
+    "smallStorage": {
+      "canDeposit": false,
+      "canWithdraw": true,
+      "maxTotalItemCount": 3,
+      "restockRule": {
+        "type": "dailyFixed",
+        "resetTime": "06:00",
+        "onlyRestockWhenTotalBelow": 3,
+        "items": {
+          "berry": 3
+        }
+      }
+    },
+    "obtainAction": {
+      "label": "採莓果",
+      "contentsLabel": "可採",
+      "emptyMessage": "莓果叢目前沒有成熟的莓果。",
+      "successMessage": "已採下莓果。"
+    },
+    "tags": [
+      "設施",
+      "採集",
+      "食物",
+      "探索臨時資源點",
+      "田地",
+      "每日"
+    ]
+  },
+  {
+    "id": "graveyard_old_chest",
+    "name": "舊箱子",
+    "category": "facility",
+    "facilityType": "small_storage",
+    "description": "一只褪色的舊木箱半靠在石碑旁，箱蓋被雨水泡得有些變形，裡頭卻還壓著幾包用油布包好的東西。",
+    "locationIds": [
+      "graveyard"
+    ],
+    "baseActions": [
+      "withdraw"
+    ],
+    "smallStorage": {
+      "canDeposit": false,
+      "canWithdraw": true,
+      "maxTotalItemCount": 3,
+      "initialItems": [
+        {
+          "itemId": "smoke_bomb",
+          "count": 3
+        }
+      ],
+      "oneTimeClaimFlag": "graveyard_old_chest_claimed",
+      "withdrawAllAtOnce": true,
+      "overflowToDroppedItems": true
+    },
+    "obtainAction": {
+      "label": "取出",
+      "contentsLabel": "箱內",
+      "emptyMessage": "舊箱子裡已經沒有能帶走的東西。",
+      "successMessage": "你從舊箱子裡取出了東西。"
+    },
+    "tags": [
+      "設施",
+      "墓地",
+      "寶箱",
+      "一次性",
+      "煙霧彈"
+    ]
+  },
+  {
+    "id": "old_tombstone_ron",
+    "name": "老舊的墓碑",
+    "category": "facility",
+    "facilityType": "information",
+    "description": "這塊墓碑的邊角已經磨圓，刻痕也被雨水沖得很淺。你靠近時，最先看見的是羅恩的名字，旁邊只簡單刻著他曾在村口、森林邊緣與外界路線之間巡路。\n\n碑面沒有寫明他死於哪一晚，只留下「他把人送回村裡」這樣一句短短的話。最後一行字被反覆摸過，筆畫仍穩得像有人逼自己不要顫抖：願你走過的路，仍把回家的方向留給後來的人。\n\n這種把死亡原因壓到最短、卻把職責寫清楚的字句，讓你想起艾妲。",
+    "locationIds": [
+      "graveyard"
+    ],
+    "baseActions": [],
+    "tags": [
+      "設施",
+      "墓地",
+      "墓碑",
+      "上一代",
+      "羅恩",
+      "銘文"
+    ]
+  },
+  {
+    "id": "weathered_tombstone_glenn",
+    "name": "風化的墓碑",
+    "category": "facility",
+    "facilityType": "information",
+    "description": "墓碑表面被風磨得發白，字跡仍能辨認。碑前的雜草修得不算漂亮，邊緣卻被人努力壓平，像整理的人每次都很急，又每次都沒有真的忘記。\n\n你在碑上讀到葛倫的名字。那些淺刻的字沒有稱他多偉大，只說他曾守著開墾區與水渠，教人看田埂、水路和工具留下的痕跡。\n\n最下面的字比前面活潑一點，像寫的人把眼淚藏進了故作明亮的語氣裡：你把水帶進田裡，把路留在土上；我們還照著那些記號走。這樣的句子，很像托莉會努力留下來的告別。",
+    "locationIds": [
+      "graveyard"
+    ],
+    "baseActions": [],
+    "tags": [
+      "設施",
+      "墓地",
+      "墓碑",
+      "上一代",
+      "葛倫",
+      "銘文"
+    ]
+  },
+  {
+    "id": "mossy_tombstone_efra",
+    "name": "生苔的墓碑",
+    "category": "facility",
+    "facilityType": "small_storage",
+    "description": "青苔沿著碑面慢慢爬開，沒有完全遮住字，倒像替那些字蓋上一層潮濕的安靜。碑旁放著一小束乾草，顏色已經淡了，仍被擺得很仔細。\n\n你從苔痕之間辨出艾芙拉的名字。她曾是藥草棚的舊醫者，碑上沒有寫成完整的死亡，只留下外出採藥後沒能回來的痕跡，和那些被村裡找回的採藥工具。\n\n末尾的字很輕，像怕驚動傷口：願你在沒能回來的路上，也遇見能止痛的草。你很難不想到米菈，她平常說話也是這樣，把最難受的事壓到很低，仍想替人留一點能止痛的東西。",
+    "locationIds": [
+      "graveyard"
+    ],
+    "baseActions": [
+      "withdraw"
+    ],
+    "smallStorage": {
+      "canDeposit": false,
+      "canWithdraw": true,
+      "maxTotalItemCount": 1,
+      "restockRule": {
+        "type": "dailyFixed",
+        "resetTime": "06:00",
+        "onlyRestockWhenTotalBelow": 1,
+        "items": {
+          "dry_moss": 1
+        }
+      }
+    },
+    "obtainAction": {
+      "label": "挖取乾苔",
+      "contentsLabel": "碑上可取",
+      "emptyMessage": "墓碑上的乾苔今天已經取過了。",
+      "successMessage": "你從生苔的墓碑邊取下一塊乾苔。"
+    },
+    "tags": [
+      "設施",
+      "墓地",
+      "墓碑",
+      "上一代",
+      "艾芙拉",
+      "銘文",
+      "乾苔",
+      "每日"
+    ]
+  },
+  {
+    "id": "new_tombstone_marlene",
+    "name": "嶄新的墓碑",
+    "category": "facility",
+    "facilityType": "information",
+    "description": "這塊墓碑比旁邊幾座都新，石面還沒有被雨水磨鈍。碑前沒有太多裝飾，只放著一條洗得很乾淨的舊布帶，像是有人怕它沾上灰，又怕裝飾得太熱鬧會打擾她休息。\n\n你讀到瑪蓮的名字時，立刻想起宿舍夜裡的點名和留門。碑上的字說她曾是共同宿舍的上一任舍監，也是村裡最後一位還能把日常交接下去的上一代成員。\n\n最後一句寫著：你替我們點過名，也替我們留過門；現在換我們把燈守到天亮。字句把她做過的事寫得很清楚，也讓你想到伊蓮現在守著宿舍的樣子。",
+    "locationIds": [
+      "graveyard"
+    ],
+    "baseActions": [],
+    "tags": [
+      "設施",
+      "墓地",
+      "墓碑",
+      "上一代",
+      "瑪蓮",
+      "銘文",
+      "最後一位上一代"
+    ]
+  },
+  {
+    "id": "crow_nest",
+    "name": "鴉巢",
+    "category": "facility",
+    "facilityType": "small_storage",
+    "description": "枯枝和碎草卡在石碑後方，堆成一個不太整齊的鴉巢。靠近時能看見幾根黑羽，也可能找到還沒被啄破的禽蛋。",
+    "locationIds": [
+      "graveyard"
+    ],
+    "baseActions": [
+      "withdraw"
+    ],
+    "smallStorage": {
+      "canDeposit": false,
+      "canWithdraw": true,
+      "maxTotalItemCount": 1,
+      "restockRule": {
+        "type": "dailyRandom",
+        "resetTime": "06:00",
+        "onlyRestockWhenTotalBelow": 1,
+        "drawCount": 1,
+        "count": 1,
+        "candidateItemIds": [
+          "bird_egg",
+          "feather"
+        ]
+      }
+    },
+    "obtainAction": {
+      "label": "翻找鴉巢",
+      "contentsLabel": "可找",
+      "emptyMessage": "鴉巢裡暫時沒有能拿走的東西。",
+      "successMessage": "你從鴉巢裡翻出了東西。"
+    },
+    "tags": [
+      "設施",
+      "墓地",
+      "採集",
+      "禽蛋",
+      "羽毛",
+      "每日"
+    ]
+  },
+  {
+    "id": "ore_vein",
+    "name": "礦脈",
+    "category": "facility",
+    "facilityType": "small_storage",
+    "description": "樹根與濕土之間露出一截深色礦脈，石面粗硬，指節敲上去會傳回沉悶的冷響。",
+    "locationIds": [
+      "forest_hidden_cave"
+    ],
+    "baseActions": [
+      "withdraw"
+    ],
+    "smallStorage": {
+      "canDeposit": false,
+      "canWithdraw": true,
+      "maxTotalItemCount": 1,
+      "restockRule": {
+        "type": "dailyFixed",
+        "resetTime": "06:00",
+        "onlyRestockWhenTotalBelow": 1,
+        "items": {
+          "ore_piece": 1
+        }
+      }
+    },
+    "obtainAction": {
+      "label": "敲下礦石",
+      "contentsLabel": "可採",
+      "emptyMessage": "礦脈今天已經敲不下能用的礦石。",
+      "successMessage": "你從礦脈上敲下了礦石。"
+    },
+    "tags": [
+      "設施",
+      "隱藏的洞穴",
+      "採集",
+      "礦石",
+      "建設材料"
+    ]
+  },
+  {
+    "id": "moondew_herb_patch",
+    "name": "月露草叢",
+    "category": "facility",
+    "facilityType": "small_storage",
+    "description": "這叢月露草躲在陰濕角落裡，葉片上總像沾著一層未散的水氣。靠近時，會聞到一點微涼的草味。",
+    "locationIds": [],
+    "baseActions": [
+      "withdraw"
+    ],
+    "smallStorage": {
+      "canDeposit": false,
+      "canWithdraw": true,
+      "maxTotalItemCount": 3,
+      "restockRule": {
+        "type": "dailyFixed",
+        "resetTime": "06:00",
+        "onlyRestockWhenTotalBelow": 3,
+        "items": {
+          "moondew_herb": 3
+        }
+      }
+    },
+    "obtainAction": {
+      "label": "採月露草",
+      "contentsLabel": "可採",
+      "emptyMessage": "月露草叢目前沒有成熟的月露草。",
+      "successMessage": "已採下月露草。"
+    },
+    "tags": [
+      "設施",
+      "採集",
+      "藥草",
+      "森林",
+      "每日",
+      "月露草"
+    ]
+  },
+  {
+    "id": "apple_tree",
+    "name": "蘋果樹",
+    "category": "facility",
+    "facilityType": "small_storage",
+    "description": "老樹枝幹扭曲粗厚，葉片在風裡輕輕摩擦。靠近樹蔭時，仍能聞到一點淡淡的果香。",
+    "locationIds": [
+      "village_square_hub"
+    ],
+    "baseActions": [
+      "withdraw"
+    ],
+    "smallStorage": {
+      "canDeposit": false,
+      "canWithdraw": true,
+      "maxTotalItemCount": 1,
+      "restockRule": {
+        "type": "dailyFixed",
+        "resetTime": "06:00",
+        "onlyRestockWhenTotalBelow": 1,
+        "items": {
+          "apple": 1
+        }
+      }
+    },
+    "obtainAction": {
+      "label": "摘取蘋果",
+      "contentsLabel": "可摘",
+      "emptyMessage": "蘋果樹目前沒有成熟的蘋果。",
+      "successMessage": "已摘下蘋果。"
+    },
+    "tags": [
+      "設施",
+      "採集",
+      "食物",
+      "村莊廣場",
+      "每日"
+    ]
+  },
+  {
+    "id": "supply_box",
+    "name": "補給箱",
+    "category": "facility",
+    "facilityType": "small_storage",
+    "description": "木箱就放在廣場邊，掀開時總能看見有人留下的備用品。裡頭的東西不一定多，但看得出村裡的人確實會把能分出的東西留在這裡。",
+    "locationIds": [
+      "village_square_hub"
+    ],
+    "baseActions": [
+      "withdraw"
+    ],
+    "smallStorage": {
+      "canDeposit": false,
+      "canWithdraw": true,
+      "maxTotalItemCount": 6,
+      "restockRule": {
+        "type": "dailyRandom",
+        "resetTime": "06:00",
+        "onlyRestockWhenTotalBelow": 6,
+        "drawCount": 2,
+        "count": 1,
+        "candidateItemIds": [
+          "trap",
+          "torch",
+          "capture_net"
+        ]
+      }
+    },
+    "obtainAction": {
+      "label": "取出補給",
+      "contentsLabel": "補給",
+      "emptyMessage": "補給箱目前沒有可取出的補給。",
+      "successMessage": "已取出補給。"
+    },
+    "tags": [
+      "設施",
+      "補給",
+      "村莊廣場",
+      "戰鬥工具",
+      "每日"
+    ]
+  },
+  {
+    "id": "medical_supply_box",
+    "name": "醫藥補給箱",
+    "category": "facility",
+    "facilityType": "small_storage",
+    "description": "箱子不大，卻被整理得很乾淨。裡頭放的多半是米菈順手備下的藥材，像是怕誰一轉身就急著用上。",
+    "locationIds": [
+      "herb_shed"
+    ],
+    "baseActions": [
+      "withdraw"
+    ],
+    "smallStorage": {
+      "canDeposit": false,
+      "canWithdraw": true,
+      "maxTotalItemCount": 3,
+      "restockRule": {
+        "type": "dailyFixed",
+        "resetTime": "06:00",
+        "onlyRestockWhenTotalBelow": 3,
+        "items": {
+          "moondew_herb": 1
+        }
+      }
+    },
+    "obtainAction": {
+      "label": "取出月露草",
+      "contentsLabel": "補給",
+      "emptyMessage": "醫藥補給箱目前沒有可取出的月露草。",
+      "successMessage": "已取出月露草。"
+    },
+    "tags": [
+      "設施",
+      "藥草棚",
+      "補給",
+      "月露草",
+      "每日"
+    ]
+  },
+  {
+    "id": "field",
+    "name": "田地",
+    "category": "facility",
+    "facilityType": "upgradeable",
+    "description": "這片地才剛被翻整過不久，泥土還鬆，踩上去會微微下陷。雖然看起來還不算成氣候，但已經能讓人想像再過些日子會種出什麼。",
+    "locationIds": [],
+    "baseActions": [],
+    "functionality": {
+      "directEffects": "none",
+      "levelDeterminesOtherFeatures": true
+    },
+    "upgrade": {
+      "source": "questRewards",
+      "initialLevel": 1,
+      "minLevel": 1,
+      "maxLevel": 5
+    },
+    "tags": [
+      "設施",
+      "探索臨時資源點",
+      "田地",
+      "可升級",
+      "農務"
+    ]
+  },
+  {
+    "id": "weed_patch",
+    "name": "雜草叢",
+    "category": "facility",
+    "facilityType": "small_storage",
+    "description": "雜草亂七八糟地擠在角落，裡頭像是什麼都可能藏著，也可能什麼都沒有。要不伸手翻翻看，根本猜不出底下壓著什麼。",
+    "locationIds": [
+      "reclamation_area"
+    ],
+    "baseActions": [
+      "withdraw"
+    ],
+    "smallStorage": {
+      "canDeposit": false,
+      "canWithdraw": true,
+      "maxTotalItemCount": 1,
+      "restockRule": {
+        "type": "manualRandom",
+        "resetTime": "06:00",
+        "onlyRestockWhenTotalBelow": 1
+      }
+    },
+    "obtainAction": {
+      "label": "取回",
+      "contentsLabel": "可尋找",
+      "emptyMessage": "雜草叢目前沒有已發現的東西。",
+      "successMessage": "已取回"
+    },
+    "randomGatherAction": {
+      "label": "尋找物品",
+      "timeCostSeconds": 60,
+      "clearTemporaryItemsOnReset": true,
+      "alreadyUsedMessage": "今天已經找過了。",
+      "emptyResultMessage": "沒有找到可用的東西。",
+      "results": [
+        {
+          "itemId": "moondew_herb",
+          "count": 1
+        },
+        {
+          "itemId": "flower",
+          "count": 1
+        },
+        {
+          "itemId": null,
+          "count": 0
+        }
+      ]
+    },
+    "tags": [
+      "設施",
+      "尋找物品",
+      "開墾區",
+      "每日",
+      "隨機"
+    ]
+  },
+  {
+    "id": "soil_pile",
+    "name": "土堆",
+    "category": "facility",
+    "facilityType": "infinite_source",
+    "description": "這堆土還是鬆的，鏟子一插就能挖開。鞋底踩上去時，泥土會輕輕陷下去。",
+    "locationIds": [
+      "forest_hidden_cave"
+    ],
+    "baseActions": [
+      "collect"
+    ],
+    "infiniteSource": {
+      "itemId": "soil",
+      "count": 1,
+      "timeCostSeconds": 1800,
+      "label": "取得泥土",
+      "successMessage": "取得泥土"
+    },
+    "tags": [
+      "設施",
+      "隱藏的洞穴",
+      "探索臨時資源點",
+      "採集",
+      "泥土",
+      "無限取得"
+    ]
+  },
+  {
+    "id": "wood_pile",
+    "name": "木材堆",
+    "category": "facility",
+    "facilityType": "infinite_source",
+    "description": "木料被一捆一捆堆在牆邊，有些還帶著剛劈開的粗糙斷面。只要肯花力氣整理，就能從裡頭挑出還能用的部分。",
+    "locationIds": [
+      "workshop_storage"
+    ],
+    "baseActions": [
+      "collect"
+    ],
+    "infiniteSource": {
+      "itemId": "wood",
+      "count": 1,
+      "timeCostSeconds": 1800,
+      "staminaCost": 1,
+      "label": "劈材",
+      "successMessage": "取得木材"
+    },
+    "tags": [
+      "設施",
+      "工坊倉庫",
+      "採集",
+      "木材",
+      "無限取得"
+    ]
+  },
+  {
+    "id": "stone_chip_pile",
+    "name": "碎石堆",
+    "category": "facility",
+    "facilityType": "small_storage",
+    "description": "碎石和礫塊胡亂堆著，表面看起來沒什麼特別，像是誰隨手清到一旁的廢料。可真要翻找起來，裡頭偶爾也會壓著些能用的東西。",
+    "locationIds": [
+      "village_square_hub",
+      "reclamation_area"
+    ],
+    "baseActions": [
+      "withdraw"
+    ],
+    "smallStorage": {
+      "canDeposit": false,
+      "canWithdraw": true,
+      "maxTotalItemCount": 3,
+      "restockRule": {
+        "type": "manualRandom",
+        "resetTime": "06:00",
+        "onlyRestockWhenTotalBelow": 3
+      }
+    },
+    "obtainAction": {
+      "label": "取回",
+      "contentsLabel": "可尋找",
+      "emptyMessage": "碎石堆目前沒有已發現的東西。",
+      "successMessage": "已取回"
+    },
+    "randomGatherAction": {
+      "label": "翻找碎石",
+      "timeCostSeconds": 60,
+      "clearTemporaryItemsOnReset": true,
+      "alreadyUsedMessage": "今天已經找過了。",
+      "emptyResultMessage": "沒有找到可用的東西。",
+      "results": [
+        {
+          "itemId": "stone_ammo",
+          "count": 1
+        },
+        {
+          "itemId": "fluorite",
+          "count": 1
+        },
+        {
+          "itemId": "fluorite",
+          "count": 2
+        },
+        {
+          "itemId": "fluorite",
+          "count": 3
+        },
+        {
+          "itemId": "sharp_stone",
+          "count": 1
+        }
+      ]
+    },
+    "tags": [
+      "設施",
+      "尋找物品",
+      "村莊廣場",
+      "開墾區",
+      "每日",
+      "隨機",
+      "石堆"
+    ]
+  },
+  {
+    "id": "storage_box",
+    "name": "倉庫箱",
+    "category": "facility",
+    "facilityType": "container",
+    "interactionMode": "storageView",
+    "description": "這口木箱比一般收納箱結實得多，箱角也特別加固過。看起來是村裡專門拿來集中保管材料和補給的地方。",
+    "locationIds": [
+      "workshop_storage"
+    ],
+    "baseActions": [
+      "deposit",
+      "withdraw",
+      "exchange"
+    ],
+    "storage": {
+      "initialCapacityWeight": 20,
+      "capacityIncreasePerLevel": 10,
+      "maxLevel": 5
+    },
+    "upgrade": {
+      "source": "questRewards",
+      "initialLevel": 1,
+      "minLevel": 1,
+      "maxLevel": 5
+    },
+    "tags": [
+      "設施",
+      "收納",
+      "交換",
+      "建設材料"
+    ]
+  },
+  {
+    "id": "lost_and_found_box",
+    "name": "失物箱",
+    "category": "facility",
+    "facilityType": "container",
+    "interactionMode": "storageView",
+    "description": "宿舍角落放著一只標了記號的木箱，裡頭收著沒被人領走、但又不該就這樣遺失的重要物件。",
+    "locationIds": [
+      "dormitory"
+    ],
+    "baseActions": [
+      "withdraw"
+    ],
+    "storage": {
+      "initialCapacityWeight": 9999,
+      "canDeposit": false
+    },
+    "tags": [
+      "設施",
+      "宿舍",
+      "失物",
+      "取回"
+    ]
+  },
+  {
+    "id": "discarded_items",
+    "name": "遺落的道具",
+    "category": "facility",
+    "facilityType": "container",
+    "interactionMode": "storageView",
+    "description": "你先前丟下的東西還堆在原地，像是被暫時遺忘了一樣。只要還沒散失，就能再拿回來；也能暫時把背包裡的東西放在這裡，但誰也不能保證它會一直留著。",
+    "locationIds": [],
+    "baseActions": [
+      "withdraw",
+      "deposit"
+    ],
+    "storage": {
+      "initialCapacityWeight": 9999
+    },
+    "tags": [
+      "設施",
+      "丟棄",
+      "地面物品"
+    ]
+  },
+  {
+    "id": "notice_board",
+    "name": "看板",
+    "category": "facility",
+    "facilityType": "information",
+    "description": "木板上釘滿了新舊不一的紙條，角落還壓著幾張被風捲起的便條。只要停下來看一眼，就能知道村裡最近在忙些什麼。",
+    "locationIds": [
+      "village_square_hub"
+    ],
+    "baseActions": [],
+    "dailyMessages": {
+      "source": "random",
+      "description": "上頭常會留下幾句匆忙寫下的提醒、抱怨，或誰也說不清是寫給誰看的碎話。",
+      "triggerType": "facilityInteract",
+      "dailyFlag": "notice_board_message_read_today",
+      "eventPool": [
+        "notice_board_tori_sela_seed_argument",
+        "notice_board_mira_nuosi_sleep_argument",
+        "notice_board_aida_elaine_blanket_argument",
+        "notice_board_sela_nuosi_arrow_argument",
+        "notice_board_tori_mira_berry_argument"
+      ],
+      "selectionRule": "每天第一次互動時，從未看過且未被 blockedFlags 鎖住的 eventPool 中隨機抽一個；成功播放後寫入 dailyFlag，當天不再觸發看板留言事件。",
+      "reviewRule": "已經看過的 eventPool 留言會在看板設施頁提供回顧入口；回顧只重播文字，不重新套用效果、每日旗標或獎勵。"
+    },
+    "tags": [
+      "設施",
+      "公告",
+      "委託",
+      "情報",
+      "每日留言"
+    ]
+  },
+  {
+    "id": "lizard_well",
+    "name": "井",
+    "category": "facility",
+    "facilityType": "special_access",
+    "description": "井口老舊得有些陰沉，往下看時，只能見到底下一層模糊的黑。若不是知道裡頭另有去處，多半只會把它當成一口快被遺忘的舊井。",
+    "locationIds": [
+      "reclamation_area"
+    ],
+    "baseActions": [
+      "enterAfterQuest"
+    ],
+    "access": {
+      "npcId": "lizard_merchant",
+      "label": "進入井底入口",
+      "timeCostSeconds": 60,
+      "requiredFlag": "lizard_merchant_day_access",
+      "unlockedByQuestId": "lizard_merchant_dry_ration_request",
+      "daytimeAccess": true,
+      "timeBlocks": [
+        "清晨",
+        "上午",
+        "中午",
+        "下午"
+      ]
+    },
+    "tags": [
+      "設施",
+      "開墾區",
+      "井",
+      "蜥蜴羅索",
+      "藏身處",
+      "白天入口",
+      "委託解鎖"
+    ]
+  }
+]

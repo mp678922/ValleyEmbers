@@ -1,0 +1,1325 @@
+[
+  {
+    "id": "opening_valley_call",
+    "title": "深谷的耳語",
+    "repeatable": false,
+    "pages": [
+      {
+        "id": "call_1",
+        "text": "你想不起自己是誰，也不想回頭去想。\n\n過去的事像被雨泡爛的紙，邊角還在，字卻不值得辨認。你只知道自己不願再把手伸進那堆模糊的東西裡。"
+      },
+      {
+        "id": "call_2",
+        "text": "眼前的事才重要。\n\n為什麼重要，你也說不上來。胸口只有一個沉下去的確信，像有人把手按在你的肋骨裡，逼你往更深的地方看。"
+      },
+      {
+        "id": "call_3",
+        "text": "那道耳語從山谷底部傳來。\n\n它不像人在說話，更像石頭、霧氣和遠處的水聲一起拼出的呼喚。你扶著濕冷的岩壁，一步一步攀下那道深得看不見盡頭的裂口。"
+      },
+      {
+        "id": "attack_1",
+        "text": "快到谷底時，樹影忽然從斜坡間炸開。\n\n你只看見一雙發亮的眼睛，接著是獸爪撕開空氣的聲音。疼痛比恐懼更快抵達，你向後摔落，耳語、山壁和野獸的低吼全都被黑暗吞沒。",
+        "choices": [
+          {
+            "id": "wake",
+            "label": "試著掙扎",
+            "targetEventId": "opening_village_wake",
+            "transition": "fade"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "opening_village_wake",
+    "title": "陌生人的名字",
+    "repeatable": false,
+    "pages": [
+      {
+        "id": "wake_1",
+        "text": "你再次有意識時，鼻尖先聞到藥草、木灰和被曬過的布料味。\n\n有人靠得很近。又不只一個人。你還沒完全睜開眼睛，就聽見細碎的聲音在床邊交換。"
+      },
+      {
+        "id": "wake_2",
+        "text": "「他醒了嗎？」有個聲音壓得很低，卻還是藏不住緊張。\n\n「不要圍太近。」另一個女孩說。她的手背貼上你的額頭，帶著藥草和清水的味道。「他還在發熱。」\n\n「他身上的衣料不像山谷裡的東西。」第三個聲音靠得稍遠，語氣像在記下一段罕見的故事。「也不像調查隊留下的舊衣。」"
+      },
+      {
+        "id": "wake_3",
+        "text": "站在門邊的女孩開口，聲音冷靜得像在判斷天色。「傷口是獸爪。但把他丟在村外的不是那隻東西。」\n\n蹲在床腳的女孩皺著眉，手指撥開你破掉的背帶。「傷成這樣，背包還勒在傷口旁邊。外面的人都這麼不會保命嗎？」\n\n剛才那個緊張的聲音小聲嘀咕：「他都還沒醒清楚，你們講得好像他已經欠我們一堆解釋了。」"
+      },
+      {
+        "id": "wake_4",
+        "text": "屋內短暫安靜下來。\n\n「都先退一點。」最後靠近床邊的女孩說。她的聲音一落下，其他人的聲音便真的往後退了一點。「我是艾妲。你聽得見我說話嗎？」\n\n她看著你，沒有急著追問你從哪裡來，也沒有替你編出一個能讓大家安心的理由。\n\n「如果可以，先告訴我們，你叫什麼名字？」",
+        "effects": {
+          "flags": [
+            "opening_woke_in_village_seen"
+          ]
+        },
+        "choices": [
+          {
+            "id": "name",
+            "label": "回答艾妲",
+            "targetSceneId": "nameProtagonist"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "opening_recovery_intro",
+    "title": "養傷的日子",
+    "repeatable": false,
+    "pages": [
+      {
+        "id": "recovery_1",
+        "text": "接下來幾天，你大多只能躺在共同宿舍裡。\n\n身上的傷一層一層退痛，山谷底部的耳語卻沒有跟著淡去。它偶爾會在半夢半醒間擦過你的耳邊，可每次睜眼，你看見的都是山谷村的屋梁、藥碗和有人放在床邊的水。"
+      },
+      {
+        "id": "recovery_2",
+        "text": "你是靠一段段日常，才慢慢把她們分清楚。\n\n那位聲音穩定的女孩叫艾妲。她總是先確認村裡的事再確認你的狀況，像是只要她停下來，整座村子就會失去順序。\n\n替你換藥的女孩叫米菈。她話不多，手卻比她的語氣溫柔。"
+      },
+      {
+        "id": "recovery_3",
+        "text": "賽拉常在門口停步，先看武器，再看你身上的傷，像是在判斷你會不會下一刻就往外跑。\n\n諾絲偶爾送來修好的扣帶或木片，嘴上嫌麻煩，東西卻都能用。\n\n托莉常把剛摘回來的菜抱到宿舍給你看，像是那些葉子能證明今天又被她們撐過去了。伊蓮則會在夜裡點燈，替你念村裡留下的舊記錄。"
+      },
+      {
+        "id": "recovery_4",
+        "text": "你也慢慢看清山谷村的模樣。\n\n這裡不是熱鬧的避難所，而是一座被森林、遺跡和沉默困住的小村。上一代的人離開後沒有回來，留下的工作全壓在這幾個女孩身上。田地要顧，藥草要曬，工具要修，夜裡還要有人聽著森林的動靜。"
+      },
+      {
+        "id": "recovery_5",
+        "text": "能下床的那天，艾妲把你的舊衣和重新縫好的背帶放到床邊。\n\n「{playerName}，你還欠我們一段完整的解釋。」她看著你，語氣仍然很穩。「但在那之前，先活得像個能幫上忙的人。」\n\n你看向屋外的光。既然被她們救了，就該找點事情做，至少先把這份恩情還上一部分。",
+        "effects": {
+          "flags": [
+            "opening_recovery_intro_seen"
+          ]
+        },
+        "resultMessage": "你的身體已能勉強行動，山谷村的生活正式開始。"
+      }
+    ]
+  },
+  {
+    "id": "notice_board_tori_sela_seed_argument",
+    "title": "看板上的危險標記",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "facilityInteract",
+        "facilityId": "notice_board"
+      }
+    ],
+    "conditions": {
+      "blockedDailyFlags": [
+        "notice_board_message_read_today"
+      ],
+      "blockedFlags": [
+        "notice_board_tori_sela_seed_argument_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "message_1",
+        "text": "看板上貼著一張賽拉畫的巡邏簡圖，幾個危險地點旁都標了很深的叉。\n\n其中一個叉旁邊，被人偷偷畫了一朵小花。花瓣還畫得很圓。"
+      },
+      {
+        "id": "message_2",
+        "text": "花旁邊有托莉的字。\n\n托莉寫著：這個地方很可怕，所以我畫一朵花，大家看了心情會比較不緊張。\n\n下方立刻多了一行筆畫乾淨的回覆。\n\n賽拉寫著：可怕的地方不需要變可愛。需要被避開。"
+      },
+      {
+        "id": "message_3",
+        "text": "最下面又擠著兩行字。\n\n托莉寫：那我可以畫一個看起來很兇的花嗎？\n\n賽拉回：不可以。\n\n托莉最後用更小的字補：可是你剛剛看了兩次。\n\n賽拉沒有再回，只在那朵花旁邊補了一個更大的叉。",
+        "effects": {
+          "dailyFlags": [
+            "notice_board_message_read_today"
+          ],
+          "flags": [
+            "notice_board_tori_sela_seed_argument_seen"
+          ]
+        },
+        "resultMessage": "你看完了托莉和賽拉留在看板上的爭執。"
+      }
+    ]
+  },
+  {
+    "id": "notice_board_mira_nuosi_sleep_argument",
+    "title": "看板上的熬夜警告",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "facilityInteract",
+        "facilityId": "notice_board"
+      }
+    ],
+    "conditions": {
+      "blockedDailyFlags": [
+        "notice_board_message_read_today"
+      ],
+      "blockedFlags": [
+        "notice_board_mira_nuosi_sleep_argument_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "message_1",
+        "text": "一張藥草棚用的紙條被釘在正中央，字跡柔和，內容卻很明確。\n\n米菈寫著：諾絲，今晚不准再睡在工坊桌上。你醒來時臉上有木屑，這不是正常睡眠。"
+      },
+      {
+        "id": "message_2",
+        "text": "下面用木炭回了一句。\n\n諾絲寫著：我沒有睡在桌上，我只是修到一半暫時停止活動。\n\n米菈回：停止活動超過三小時，通常就叫睡著。"
+      },
+      {
+        "id": "message_3",
+        "text": "最下面又擠進一行字。\n\n諾絲寫著：那我今天睡椅子，可以嗎？\n\n米菈回：床。\n\n諾絲最後留下兩個字：好煩。\n\n旁邊還被米菈補了一個小小的：謝謝。",
+        "effects": {
+          "dailyFlags": [
+            "notice_board_message_read_today"
+          ],
+          "flags": [
+            "notice_board_mira_nuosi_sleep_argument_seen"
+          ]
+        },
+        "resultMessage": "你看完了米菈和諾絲留在看板上的拌嘴。"
+      }
+    ]
+  },
+  {
+    "id": "notice_board_aida_elaine_blanket_argument",
+    "title": "看板上的毯子規矩",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "facilityInteract",
+        "facilityId": "notice_board"
+      }
+    ],
+    "conditions": {
+      "blockedDailyFlags": [
+        "notice_board_message_read_today"
+      ],
+      "blockedFlags": [
+        "notice_board_aida_elaine_blanket_argument_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "message_1",
+        "text": "看板上有張字跡端正的公告，紙角被壓得很平。\n\n艾妲寫著：宿舍備用毯不可以拿去墊菜籃。毯子是給人蓋的，不是給菜蓋的。"
+      },
+      {
+        "id": "message_2",
+        "text": "旁邊被人添上一句，字跡像是在笑。\n\n伊蓮寫著：可是托莉說那些菜晚上也會冷。\n\n艾妲回：菜不會感冒。"
+      },
+      {
+        "id": "message_3",
+        "text": "最底下還有一行更小的字。\n\n伊蓮寫著：我已經把毯子拿回來了。菜籃看起來很失落。\n\n艾妲最後寫：請不要替菜籃描述心情。",
+        "effects": {
+          "dailyFlags": [
+            "notice_board_message_read_today"
+          ],
+          "flags": [
+            "notice_board_aida_elaine_blanket_argument_seen"
+          ]
+        },
+        "resultMessage": "你看完了艾妲和伊蓮關於宿舍毯子的留言。"
+      }
+    ]
+  },
+  {
+    "id": "notice_board_sela_nuosi_arrow_argument",
+    "title": "看板上的箭矢備註",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "facilityInteract",
+        "facilityId": "notice_board"
+      }
+    ],
+    "conditions": {
+      "blockedDailyFlags": [
+        "notice_board_message_read_today"
+      ],
+      "blockedFlags": [
+        "notice_board_sela_nuosi_arrow_argument_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "message_1",
+        "text": "有張薄紙被箭羽壓在看板邊緣，紙上畫著一支歪歪的箭。\n\n賽拉寫著：諾絲，這支箭飛出去會拐彎。"
+      },
+      {
+        "id": "message_2",
+        "text": "諾絲在旁邊回了一段，字跡硬得像敲上去的。\n\n諾絲寫著：拐彎也是飛。材料不夠時，不要要求它像新削的木樁一樣直。\n\n賽拉回：我不要求它像木樁。我要求它像箭。"
+      },
+      {
+        "id": "message_3",
+        "text": "最後兩行寫得很近。\n\n諾絲寫著：那就多帶羽毛。\n\n賽拉回：可以。\n\n諾絲又補：不要把整隻鳥掛在我門口。\n\n賽拉最後回：那次是托莉的主意。",
+        "effects": {
+          "dailyFlags": [
+            "notice_board_message_read_today"
+          ],
+          "flags": [
+            "notice_board_sela_nuosi_arrow_argument_seen"
+          ]
+        },
+        "resultMessage": "你看完了賽拉和諾絲關於箭矢的留言。"
+      }
+    ]
+  },
+  {
+    "id": "notice_board_tori_mira_berry_argument",
+    "title": "看板上的莓果警告",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "facilityInteract",
+        "facilityId": "notice_board"
+      }
+    ],
+    "conditions": {
+      "blockedDailyFlags": [
+        "notice_board_message_read_today"
+      ],
+      "blockedFlags": [
+        "notice_board_tori_mira_berry_argument_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "message_1",
+        "text": "看板低處貼著一張有點歪的紙，像是寫的人一邊蹲著一邊急忙貼上去。\n\n托莉寫著：今天的莓果很酸。不是普通的酸，是咬下去以後，臉會自己縮起來，舌頭像被小刺蝟跑過去，連耳朵都覺得冷的那種酸。"
+      },
+      {
+        "id": "message_2",
+        "text": "米菈在下面回得很快，墨水還暈開一點。\n\n米菈寫著：妳為什麼不早點公布？\n\n托莉又補了一句：妳吃了？"
+      },
+      {
+        "id": "message_3",
+        "text": "最下面擠著幾行越寫越小的字。\n\n米菈回：對。\n\n托莉寫：那妳現在臉有縮起來嗎？\n\n米菈回：有。不要問。",
+        "effects": {
+          "dailyFlags": [
+            "notice_board_message_read_today"
+          ],
+          "flags": [
+            "notice_board_tori_mira_berry_argument_seen"
+          ]
+        },
+        "resultMessage": "你看完了托莉和米菈關於莓果的留言。"
+      }
+    ]
+  },
+  {
+    "id": "tori_first_field_greeting",
+    "title": "托莉的招呼",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "villagerInteract",
+        "villagerId": "tori"
+      }
+    ],
+    "conditions": {
+      "blockedFlags": [
+        "tori_first_field_greeting_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "greeting_1",
+        "text": "托莉一看到你靠近，先是把手裡沾著泥的草繩往身後藏了藏，接著又像覺得這樣太明顯，乾脆把手攤開給你看。"
+      },
+      {
+        "id": "greeting_2",
+        "text": "「我主要是在照看田地啦。」她有點不好意思地笑了笑，視線很快又飄向開墾區的方向。「田地越像樣，我能分給村裡人的菜就越多。現在還只是剛開始，所以不能保證每天都很多。」"
+      },
+      {
+        "id": "greeting_3",
+        "text": "托莉像是怕你沒聽懂，又補了一句：「如果你早上到中午前看到我，我有多的生菜就會塞給你。能給多少，要看田地被整理到什麼程度。」",
+        "effects": {
+          "flags": [
+            "tori_first_field_greeting_seen"
+          ]
+        },
+        "resultMessage": "托莉告訴你，她會把田地多出的生菜分給村裡的人。"
+      }
+    ]
+  },
+  {
+    "id": "tori_daily_lettuce_gift",
+    "title": "托莉分來的生菜",
+    "repeatable": true,
+    "triggers": [
+      {
+        "type": "villagerInteract",
+        "villagerId": "tori"
+      }
+    ],
+    "conditions": {
+      "timeBlocks": [
+        "清晨",
+        "上午",
+        "中午"
+      ],
+      "requiredFlags": [
+        "tori_first_field_greeting_seen"
+      ],
+      "blockedDailyFlags": [
+        "tori_daily_lettuce_gift_received"
+      ],
+      "facilityLevelMins": {
+        "field": 1
+      }
+    },
+    "pages": [
+      {
+        "id": "gift_1",
+        "text": "托莉看見你時，像是忽然想起什麼，從身旁的小籃子裡翻出幾片整理好的生菜。葉片還帶著水氣，看得出是剛從田邊收起來不久。"
+      },
+      {
+        "id": "gift_2",
+        "text": "「今天田裡多出來的部分。」她把生菜遞給你，語氣故作平常。「你拿著吧。要是田地再整理得好一點，以後能分出來的也會更多。」",
+        "rewardItemsByFacilityLevel": [
+          {
+            "itemId": "lettuce",
+            "facilityId": "field",
+            "multiplier": 1
+          }
+        ],
+        "effects": {
+          "dailyFlags": [
+            "tori_daily_lettuce_gift_received"
+          ]
+        },
+        "resultMessage": "托莉把今天多出的生菜分給你。"
+      }
+    ]
+  },
+  {
+    "id": "nuosi_first_workshop_meeting",
+    "title": "諾絲的工坊規矩",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "villagerInteract",
+        "villagerId": "nuosi"
+      }
+    ],
+    "conditions": {
+      "blockedFlags": [
+        "nuosi_first_workshop_meeting_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "meeting_1",
+        "text": "諾絲沒有因為你靠近就停下手。她把一截木料壓在桌邊，用刀背敲掉翹起的碎角，直到那聲音停下來，才偏過頭看你。"
+      },
+      {
+        "id": "meeting_2",
+        "text": "「先說好，工坊裡的東西不是看到就能拿，會做也不代表能亂做。」她的視線從你的手、背包和武器上掃過，像是在估算你到底能把多少麻煩帶回來。"
+      },
+      {
+        "id": "meeting_3",
+        "text": "她從一旁抽出兩張被壓平的草紙，推到你面前。「如果你真要往外跑，就先學會把石頭弄得能用，還有怎麼補箭。這兩個不難，難的是不要等到用完才想起來。」",
+        "rewardRecipeIds": [
+          "sharp_stone_recipe",
+          "arrow_recipe"
+        ],
+        "effects": {
+          "flags": [
+            "nuosi_first_workshop_meeting_seen"
+          ]
+        },
+        "resultMessage": "諾絲把銳利碎石與箭矢的做法交代給你。"
+      }
+    ]
+  },
+  {
+    "id": "aida_first_village_briefing",
+    "title": "艾妲的交代",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "villagerInteract",
+        "villagerId": "aida"
+      }
+    ],
+    "conditions": {
+      "blockedFlags": [
+        "aida_first_village_briefing_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "briefing_1",
+        "text": "艾妲沒有立刻切進正題。她先把手上的記錄紙壓平，確認田地、工坊和藥草棚的缺口都寫在同一頁上，才抬眼重新看向你。"
+      },
+      {
+        "id": "briefing_2",
+        "text": "「{playerName}，你醒來之後，應該也看出來了。」她的聲音很穩，卻沒有半點多餘的安慰。「山谷村還撐著，但只是勉強撐著。人手不夠，能外出的人更少；田地缺人翻土，工坊缺材料，藥草棚也常常沒有足夠藥草。」"
+      },
+      {
+        "id": "briefing_3",
+        "text": "她把指尖點在記錄紙上，依序點過材料、外出和人手三行。「我們缺能帶回材料的人，缺能在外面自保的人，也缺能讓大家安心把事情交出去的人。你不是村裡的人，這點現在反而讓你更能往外走。」"
+      },
+      {
+        "id": "briefing_4",
+        "text": "艾妲看了你一會兒，最後還是把放在桌邊的長槍推向你。「先拿去。這本來就是村裡留下來的東西，現在放在你手上比壓在倉角有用。這不代表我已經完全信任你，只代表我需要你能活著回來。」",
+        "rewardItems": {
+          "soldier_spear": 1
+        },
+        "effects": {
+          "flags": [
+            "aida_first_village_briefing_seen"
+          ]
+        },
+        "resultMessage": "艾妲把士兵長槍交給了你。"
+      }
+    ]
+  },
+  {
+    "id": "mira_first_potion_lesson",
+    "title": "米菈的藥草提醒",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "villagerInteract",
+        "villagerId": "mira"
+      }
+    ],
+    "conditions": {
+      "blockedFlags": [
+        "mira_first_potion_lesson_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "lesson_1",
+        "text": "米菈把曬到一半的月露草收進掌心，先確認葉片沒有被壓傷，才抬頭看向你。她的視線停在你身上幾處舊傷，像是已經猜到你之後還會把自己弄成什麼樣子。"
+      },
+      {
+        "id": "lesson_2",
+        "text": "「{playerName}，你要往外跑，我攔不住。」她把一張寫著藥草比例的紙推到你面前，語氣淡淡的，卻沒有收回手。「至少先記住這個。月露草加空瓶，能做成小型治療藥。別等到站不穩了才想起來。」"
+      },
+      {
+        "id": "lesson_3",
+        "text": "米菈又把幾片月露草攤開，讓你看清楚葉脈和能用的部分。\n\n「如果你傷得太重，自己不要亂處理。」她看著你，聲音放輕了一點。「帶一份月露草來找我，我可以替你包紮、上藥。藥草不夠時，我也沒辦法憑空把傷口合起來，所以別空著手逞強。」",
+        "rewardRecipeIds": [
+          "small_healing_potion_recipe"
+        ],
+        "effects": {
+          "flags": [
+            "mira_first_potion_lesson_seen"
+          ]
+        },
+        "resultMessage": "米菈教你小型治療藥的做法，也告訴你可以帶月露草請她協助治療。"
+      }
+    ]
+  },
+  {
+    "id": "elaine_first_fluorite_intro",
+    "title": "伊蓮的村內通貨說明",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "villagerInteract",
+        "villagerId": "elaine"
+      }
+    ],
+    "conditions": {
+      "blockedFlags": [
+        "elaine_first_fluorite_intro_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "intro_1",
+        "text": "伊蓮把桌上的點名紙收成一疊，指尖在最上方壓了壓，才從抽屜裡拿出幾枚透著微光的小石子。它們碰在一起時，發出很輕的清脆聲。"
+      },
+      {
+        "id": "intro_2",
+        "text": "「這是螢石，{playerName}。」她把那十枚小石子推到你面前。「村裡買東西、請人讓出手邊多的材料，通常都用這個。你剛醒來，背包裡沒有能拿來交易的東西，先拿著吧。」",
+        "rewardItems": {
+          "fluorite": 10
+        },
+        "effects": {
+          "flags": [
+            "elaine_first_fluorite_intro_seen"
+          ]
+        },
+        "resultMessage": "伊蓮給了你 10 個螢石，並告訴你螢石能在村裡用來交換物品。"
+      }
+    ]
+  },
+  {
+    "id": "elaine_first_knowledge_myth",
+    "title": "伊蓮講述的山谷舊神話",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "knowledgeOpen",
+        "villagerId": "elaine"
+      }
+    ],
+    "conditions": {
+      "blockedFlags": [
+        "elaine_first_knowledge_myth_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "myth_1",
+        "text": "你說想問山谷的事時，伊蓮沒有立刻回答。\n\n她先把桌上的舊紙收齊，又把宿舍鑰匙串壓在紙角，像怕那些薄薄的字被風吹散。她看著你，眼裡的笑意淡了些。"
+      },
+      {
+        "id": "myth_2",
+        "text": "「如果照村裡流傳的版本說，山谷之神曾經很仁慈。」伊蓮慢慢開口。「祂讓水源不枯，讓田地結果，也讓山谷在外面的戰亂和飢荒裡安靜地活下來。」\n\n「可是那份恩惠不是白給的。舊故事說，村裡必須定期把人送進神殿，作為活祭。只要儀式不斷，山谷就會繼續被神看顧。」"
+      },
+      {
+        "id": "myth_3",
+        "text": "她指尖停在一張發黃的紙邊，沒有把它推給你。\n\n「後來，儀式斷了。山谷之神發怒，森林變得危險，瘴氣開始在低處積起來，黑色的影子會在夜裡靠近村子。這就是大家最常聽見的說法。」\n\n「現在的困境也確實像在替那個故事作證。上一代一個接一個不在了，巡路縮短，藥草不夠，田地和工具都只能勉強維持。山谷村剩下的人太少，少到每個人倒下，都像少了一根撐住房子的梁。」"
+      },
+      {
+        "id": "myth_4",
+        "text": "伊蓮沉默了一會兒，聲音壓得更低。\n\n「可是我不相信這個版本完整。」她說。「不是因為它殘酷，而是因為它太整齊了。每一段都像有人替後來的人排好責任：神給恩惠，人欠代價，儀式斷掉，所以大家受罰。」\n\n「可我在舊資料裡看見過不合拍的地方。某些頁面提到的不是祭品，而是神殿裡長久留下的人；某些句子把『獻上』寫得像職責，不像死亡。也有幾處名字被刮掉，像有人不只想藏住錯誤，還想藏住曾經負責修正錯誤的人。」"
+      },
+      {
+        "id": "myth_5",
+        "text": "她抬起眼看你，語氣很輕，卻沒有逃開那份冷意。\n\n「所以我懷疑，活祭這個說法可能不是最初的真相。山谷的問題也未必是神單純降下懲罰。可是，{playerName}，懷疑不能當飯吃，也不能把瘴氣從門縫裡趕出去。」\n\n「就算我們找到真正的說法，山谷村也可能已經太晚了。人太少，記得方法的人太少，能撐到下一個答案的人也太少。」她把鑰匙串慢慢收回掌心。「我會把我知道的告訴你。但你最好先明白：知識有時候只是讓人更清楚自己正在失去什麼。」",
+        "effects": {
+          "flags": [
+            "elaine_first_knowledge_myth_seen"
+          ]
+        },
+        "resultMessage": "伊蓮告訴你山谷舊神話的流傳版本，也說出她對這個版本的懷疑。"
+      }
+    ]
+  },
+  {
+    "id": "sela_first_combat_tool_lesson",
+    "title": "賽拉的外出規矩",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "villagerInteract",
+        "villagerId": "sela"
+      }
+    ],
+    "conditions": {
+      "blockedFlags": [
+        "sela_first_combat_tool_lesson_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "lesson_1",
+        "text": "賽拉先看你的背包，再看你腰間能不能立刻拿到武器。她沒有急著問你想去哪裡，只像是在確認你知不知道自己離村後會遇上什麼。"
+      },
+      {
+        "id": "lesson_2",
+        "text": "「往森林走，不是帶一把武器就叫準備好。」她把幾張折得很薄的草紙放到你面前。「陷阱、火把、補網，這三樣先記住。你不一定每次都用得上，但用得上的時候，少一樣都可能回不來。」\n\n她的指節在最後一張紙上停得很重。「還有，天黑以後不要把白天的經驗當護身符。夜裡的森林會多出不該被當成野獸的東西。你如果沒有能逼退黑暗的準備，就不要逞強。」",
+        "rewardRecipeIds": [
+          "trap_recipe",
+          "torch_recipe",
+          "capture_net_recipe"
+        ],
+        "effects": {
+          "flags": [
+            "sela_first_combat_tool_lesson_seen"
+          ]
+        },
+        "resultMessage": "賽拉教你陷阱、火把與補網的做法。"
+      }
+    ]
+  },
+  {
+    "id": "sela_first_forest_edge_warning",
+    "title": "賽拉攔在村口",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "moveToLocation",
+        "from": "village_square_hub",
+        "to": "forest_edge"
+      }
+    ],
+    "conditions": {
+      "blockedFlags": [
+        "sela_first_forest_edge_warning_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "warning_1",
+        "text": "你剛要離開廣場，賽拉便從旁邊的陰影裡走出來。她沒有擋得很用力，只是站在你必須經過的位置，視線落在你的背包、武器和還不太熟練的腳步上。"
+      },
+      {
+        "id": "warning_2",
+        "text": "「{playerName}，森林外圍不是村子的邊角。」她說。\n\n賽拉的語氣不高，卻讓人很難當作普通提醒。「走出去之後，路會變得很像，聲音也會騙人。你現在看到的是樹，進去後看到的可能只剩下一堆能讓你摔倒、流血、迷路的東西。」\n\n她看了一眼天色，聲音又沉了一點。「如果拖到夜裡，危險不只是變多，是會變得不講道理。那時候別相信你白天學會的距離感。」"
+      },
+      {
+        "id": "warning_choice",
+        "text": "她停了一下，讓開半步，卻沒有真的把路空出來。\n\n「如果只是想證明自己能走出去，現在折返還不丟臉。要是你仍然要去，就記住一件事：能回來，比走得遠重要。」",
+        "choices": [
+          {
+            "id": "go_anyway",
+            "label": "仍然前往森林外圍",
+            "targetSceneId": "forest_edge",
+            "timeCostSeconds": 600,
+            "progressLabel": "正在離開村莊，前往森林外圍...",
+            "effects": {
+              "flags": [
+                "sela_first_forest_edge_warning_seen"
+              ]
+            },
+            "resultMessage": "你記下賽拉的警告，仍然往森林外圍走去。"
+          },
+          {
+            "id": "turn_back",
+            "label": "先折返回村莊廣場",
+            "targetSceneId": "village_square_hub",
+            "effects": {
+              "flags": [
+                "sela_first_forest_edge_warning_seen"
+              ]
+            },
+            "resultMessage": "你暫時折返回廣場，賽拉沒有多說，只點了一下頭。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mira_low_health_warning",
+    "title": "米菈的提醒",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "villagerInteract",
+        "villagerId": "mira"
+      }
+    ],
+    "conditions": {
+      "playerLifeAtMost": 7,
+      "villagerAffectionMins": {
+        "mira": 0
+      },
+      "blockedFlags": [
+        "mira_low_health_warning_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "warning_1",
+        "text": "米菈一看見你的臉色，就先把手邊的藥草放了下來。她皺著眉打量你片刻，語氣比平常更硬了一點。"
+      },
+      {
+        "id": "warning_2",
+        "text": "「你要是還想再往外跑，至少先讓我知道你是不是已經快撐不住了。」她伸手把繃帶往你這邊推了推，像是在給你最後一次自己開口的機會。",
+        "choices": [
+          {
+            "id": "accept_warning",
+            "label": "點頭承認自己狀況不好",
+            "targetEventId": "mira_low_health_warning_accept"
+          },
+          {
+            "id": "brush_off_warning",
+            "label": "先說自己還撐得住",
+            "targetEventId": "mira_low_health_warning_brush_off"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mira_low_health_warning_accept",
+    "title": "承認傷勢",
+    "repeatable": false,
+    "pages": [
+      {
+        "id": "accept_1",
+        "text": "你沒有再硬撐，老實把現在的情況說了出來。米菈的表情總算鬆了一點，但還是伸手在桌上點了點，示意你下次別等到這個樣子才回來。",
+        "effects": {
+          "villagerAffection": {
+            "mira": 1
+          },
+          "flags": [
+            "mira_low_health_warning_seen"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "mira_low_health_warning_brush_off",
+    "title": "嘴硬帶過",
+    "repeatable": false,
+    "pages": [
+      {
+        "id": "brush_off_1",
+        "text": "你先把話含糊帶過去。米菈沒有當場拆穿，只是盯著你看了幾秒，像是在等你哪一天真的吃到教訓再回頭想起她剛才的語氣。",
+        "effects": {
+          "flags": [
+            "mira_low_health_warning_seen"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "aida_trust_village_change",
+    "title": "艾妲的信任",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "villagerInteractionLeave",
+        "villagerId": "aida"
+      }
+    ],
+    "conditions": {
+      "villagerAffectionMins": {
+        "aida": 5
+      },
+      "blockedFlags": [
+        "aida_trust_village_change_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "trust_1",
+        "text": "你正準備離開時，艾妲忽然叫住你。她沒有再交代新的工作，而是直接看著你，把剛才對你做出的判斷說出口。"
+      },
+      {
+        "id": "trust_2",
+        "text": "「最近我安排事情時，會把你也算進去。」她說。「你會帶材料回來，會回報外面的情況，也會把答應的事做完。這讓村裡的工作不再全靠我們幾個硬撐。」\n\n她停了一下，視線沒有躲開你。「所以，接下來我會把更多事交給你。不是因為沒別人能做，而是因為你已經讓我覺得可以交給你。」",
+        "effects": {
+          "flags": [
+            "aida_trust_village_change_seen"
+          ]
+        },
+        "resultMessage": "你和艾妲談過村莊最近的變化。"
+      }
+    ]
+  },
+  {
+    "id": "mira_trust_village_change",
+    "title": "米菈的信任",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "villagerInteractionLeave",
+        "villagerId": "mira"
+      }
+    ],
+    "conditions": {
+      "villagerAffectionMins": {
+        "mira": 5
+      },
+      "blockedFlags": [
+        "mira_trust_village_change_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "trust_1",
+        "text": "你轉身前，米菈叫住你。她先看你的臉色，又看向你的手臂和背包，確認你今天沒有把傷勢藏起來。"
+      },
+      {
+        "id": "trust_2",
+        "text": "「嗯。你最近回來時，會把傷口、路況和帶回來的東西一起說清楚。」米菈說。「這讓我能先準備藥草和繃帶，不用等到有人倒下才猜發生了什麼。」\n\n她的語氣沒有變得柔軟太多，卻比平常多停了一拍。「村子還是危險，但你讓我們少慌幾次。你做的事有用，{playerName}。所以……也別把自己的傷拖到最後才說。」",
+        "effects": {
+          "flags": [
+            "mira_trust_village_change_seen"
+          ]
+        },
+        "resultMessage": "你和米菈談過村莊最近的變化。"
+      }
+    ]
+  },
+  {
+    "id": "nuosi_trust_village_change",
+    "title": "諾絲的信任",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "villagerInteractionLeave",
+        "villagerId": "nuosi"
+      }
+    ],
+    "conditions": {
+      "villagerAffectionMins": {
+        "nuosi": 5
+      },
+      "blockedFlags": [
+        "nuosi_trust_village_change_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "trust_1",
+        "text": "諾絲原本像是已經沒話要說，卻在你要走時又偏過頭。她皺著眉看你，像是不太甘願承認自己最近少罵了你幾次。"
+      },
+      {
+        "id": "trust_2",
+        "text": "「嘖。你帶回來的材料，最近能用的比例變高了。」她語氣還是硬的。「木頭、石頭、布條，只要能用，我就能把壞掉的東西補起來。這對村子很重要。」\n\n她把話說完後，又像嫌自己說得太直接，立刻補了一句。「我不是在誇你太多。喂，下次帶東西回來，也照這個標準。別又把背包弄得亂七八糟。」",
+        "effects": {
+          "flags": [
+            "nuosi_trust_village_change_seen"
+          ]
+        },
+        "resultMessage": "你和諾絲談過村莊最近的變化。"
+      }
+    ]
+  },
+  {
+    "id": "sela_trust_village_change",
+    "title": "賽拉的信任",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "villagerInteractionLeave",
+        "villagerId": "sela"
+      }
+    ],
+    "conditions": {
+      "villagerAffectionMins": {
+        "sela": 5
+      },
+      "blockedFlags": [
+        "sela_trust_village_change_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "trust_1",
+        "text": "賽拉在你離開前叫住你，聲音不高，卻很清楚。她沒有立刻說教，只是確認你有沒有把剛才提到的路況說完整。"
+      },
+      {
+        "id": "trust_2",
+        "text": "「你最近回來時，不只說帶回了什麼，也會說哪裡不能走、哪種聲音不對。」她說。「這些情報能讓下一次外出少走錯路，也能讓我先提醒其他人避開危險。」\n\n她稍微停頓，像是不習慣把肯定說出口。「……我不會說外面安全，也不會因為你撐過幾次就放鬆。但你現在會記路、會回報，也知道回來比逞強重要。這點我信得過。」",
+        "effects": {
+          "flags": [
+            "sela_trust_village_change_seen"
+          ]
+        },
+        "resultMessage": "你和賽拉談過村莊最近的變化。"
+      }
+    ]
+  },
+  {
+    "id": "tori_trust_village_change",
+    "title": "托莉的信任",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "villagerInteractionLeave",
+        "villagerId": "tori"
+      }
+    ],
+    "conditions": {
+      "villagerAffectionMins": {
+        "tori": 5
+      },
+      "blockedFlags": [
+        "tori_trust_village_change_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "trust_1",
+        "text": "托莉看見你要走，急忙補了一句。她有點不好意思，但還是把話說了出來，像是怕你沒注意到最近的變化。"
+      },
+      {
+        "id": "trust_2",
+        "text": "「那個……你來之前，我也會每天做那些該做的事。」托莉聲音比平常輕一點。「可是那時候常常覺得，田地還是會缺人，食物還是會不夠，大家只是在撐下一天。」\n\n她抬頭看你，笑得有點不好意思。「最近不太一樣。你會把東西帶回來，也會聽我說田地和食物的事。村子沒有一下子變好，可是我比較知道明天要先顧哪一塊田、先留哪一份食物。嗯，這樣就很好了。」",
+        "effects": {
+          "flags": [
+            "tori_trust_village_change_seen"
+          ]
+        },
+        "resultMessage": "你和托莉談過村莊最近的變化。"
+      }
+    ]
+  },
+  {
+    "id": "elaine_trust_village_change",
+    "title": "伊蓮的信任",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "villagerInteractionLeave",
+        "villagerId": "elaine"
+      }
+    ],
+    "conditions": {
+      "villagerAffectionMins": {
+        "elaine": 5
+      },
+      "blockedFlags": [
+        "elaine_trust_village_change_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "trust_1",
+        "text": "伊蓮在你離開前輕輕喚了你的名字。她沒有用玩笑把話繞開，而是把語氣放得很穩，像是要讓你確實聽懂。"
+      },
+      {
+        "id": "trust_2",
+        "text": "「以前我們談隔天要做什麼，多半是在確認哪裡又少了什麼。」伊蓮說。「最近不太一樣。你帶回來的材料、消息和幫忙，讓我們能安排修工具、補藥草、整理田地，而不是只刪掉做不到的事。」\n\n她看向你，眼裡帶著很淡的笑意。「嗯，{playerName}，你讓山谷村多了幾件真的能安排下去的事。這不是漂亮話，是我真的看見了。」",
+        "effects": {
+          "flags": [
+            "elaine_trust_village_change_seen"
+          ]
+        },
+        "resultMessage": "你和伊蓮談過村莊最近的變化。"
+      }
+    ]
+  },
+  {
+    "id": "black_cat_first_encounter",
+    "title": "樹根上的黑貓",
+    "repeatable": false,
+    "conditions": {
+      "blockedFlags": [
+        "black_cat_first_encounter_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "notice_1",
+        "text": "你在樹根旁停下腳步。\n\n一隻黑貓蹲在低矮的陰影裡，毛色黑得幾乎要和林間暗處混在一起。牠沒有弓背，也沒有露出牙，只是安靜地看著你。"
+      },
+      {
+        "id": "notice_2",
+        "text": "你本該先警戒，可牠的姿態不像要撲上來。牠慢慢眨了一下眼，又把尾巴往旁邊一甩，像是在提醒你看向某個方向。\n\n這也許只是你擅自理解。可在這片森林裡，能被理解成善意的東西並不多。"
+      },
+      {
+        "id": "notice_3",
+        "text": "黑貓往灌木間走了兩步，又回頭看你。\n\n牠沒有攔住你的路，也沒有露出攻擊姿態。牠停在能讓你跟上的距離，尾巴朝旁邊甩了一下，像是在示意那邊有路。",
+        "effects": {
+          "flags": [
+            "black_cat_first_encounter_seen"
+          ]
+        },
+        "resultMessage": "你第一次見到森林裡的黑貓。牠沒有攻擊你，只用動作示意你看向旁邊的路。"
+      }
+    ]
+  },
+  {
+    "id": "black_cat_first_delivery_notice",
+    "title": "送回村裡的東西",
+    "repeatable": false,
+    "triggers": [
+      {
+        "type": "sceneEnter",
+        "sceneId": "village_square_hub"
+      }
+    ],
+    "conditions": {
+      "requiredFlags": [
+        "black_cat_first_delivery_pending"
+      ],
+      "blockedFlags": [
+        "black_cat_first_delivery_notice_seen"
+      ]
+    },
+    "pages": [
+      {
+        "id": "notice_1",
+        "text": "你剛回到廣場，艾妲便從一旁走近。\n\n她沒有先問你在森林裡遇見了什麼，只把視線落在你空了一些的背包上，像是早就注意到哪裡不太對。"
+      },
+      {
+        "id": "notice_2",
+        "text": "「有人在村口附近發現了你的東西。」艾妲說。\n\n「看起來不像是被亂丟的，倒像是被誰刻意放在那裡。我先替你收進宿舍的失物箱了。之後如果少了什麼，就去那邊確認。」"
+      },
+      {
+        "id": "notice_3",
+        "text": "艾妲說完便去處理廣場上的事，沒有繼續追問那些東西是怎麼回到村口的。\n\n你想起黑貓離開時帶走的背包重量，終於明白：交給牠帶走的物品，最後會出現在宿舍的失物箱裡。",
+        "effects": {
+          "flags": [
+            "black_cat_first_delivery_notice_seen"
+          ]
+        },
+        "resultMessage": "你明白了黑貓送回的物品會出現在失物箱。"
+      }
+    ]
+  },
+  {
+    "id": "exploration_defeat_return",
+    "title": "黑影送回的清晨",
+    "repeatable": true,
+    "pages": [
+      {
+        "id": "collapse_1",
+        "text": "你的腳步在林間徹底亂掉。疼痛、喘息和枝葉刮過皮膚的聲音混在一起，最後只剩一片壓下來的黑。就在意識斷掉前，你像是看見某個巨大的黑影越過灌木，無聲地落在你身旁。"
+      },
+      {
+        "id": "return_1",
+        "transition": "fade",
+        "finishTransition": "fade",
+        "text": "你像是醒過幾次，又像只是從更深的黑裡浮上來一點。耳邊有枝葉被壓開的聲音，有濕冷的風擦過臉側，身體卻沉得無法動彈。\n\n某種很大的生物靠近你。你感覺到溫熱的呼吸、粗硬的毛，以及一股把你從泥地上托起來的力道。你分不清自己是被背著、叼著，還是被拖過林間，只知道黑暗一路晃動，遠處像有村子的燈火在霧裡慢慢靠近。\n\n再往後，你只記得木門被推開的聲音，還有誰急促喊了你的名字。等意識再度沉下去時，身下已經不再是森林的泥地。",
+        "effects": {
+          "explorationDefeat": {
+            "itemLossRate": 0.33,
+            "advanceToNextDayReset": true,
+            "lifeAfterReturn": 3,
+            "staminaAfterReturn": "max",
+            "randomCaregiver": {
+              "saveTo": "events.lastExplorationDefeatCaregiverId",
+              "candidates": [
+                {
+                  "villagerId": "aida",
+                  "eventId": "exploration_defeat_care_aida"
+                },
+                {
+                  "villagerId": "mira",
+                  "eventId": "exploration_defeat_care_mira"
+                },
+                {
+                  "villagerId": "nuosi",
+                  "eventId": "exploration_defeat_care_nuosi"
+                },
+                {
+                  "villagerId": "sela",
+                  "eventId": "exploration_defeat_care_sela"
+                },
+                {
+                  "villagerId": "tori",
+                  "eventId": "exploration_defeat_care_tori"
+                },
+                {
+                  "villagerId": "elaine",
+                  "eventId": "exploration_defeat_care_elaine"
+                }
+              ]
+            }
+          }
+        },
+        "resultMessage": "你被送回宿舍，時間來到隔天清晨；生命恢復到 3，體力恢復到最大值，探索中可遺失的物品可能散失。"
+      }
+    ]
+  },
+  {
+    "id": "exploration_defeat_care_aida",
+    "title": "艾妲守在床邊",
+    "repeatable": true,
+    "pages": [
+      {
+        "id": "care_1",
+        "text": "你再次睜眼時，艾妲坐在床邊，手裡還捏著沒寫完的記錄。她看見你醒來，先把水杯推近，沒有立刻追問森林裡發生了什麼。\n\n「{playerName}，先別急著解釋。」她的聲音壓得很穩。「你現在要做的事只有一件，就是把呼吸穩住。」"
+      },
+      {
+        "id": "care_2",
+        "text": "她把你散在床邊的物品重新收好，確認能留下的都還在，才低聲說：「我知道你不是故意倒下。但下次出門前，先讓我知道你打算走到哪裡。」\n\n艾妲停了一下，像是把責備嚥回去，只留下更疲倦也更真實的關切。「村子現在不能少人，也不能少你。」"
+      }
+    ]
+  },
+  {
+    "id": "exploration_defeat_care_mira",
+    "title": "米菈的夜間照護",
+    "repeatable": true,
+    "pages": [
+      {
+        "id": "care_1",
+        "text": "米菈守在床邊，繃帶和藥草已經攤開。你一動，她立刻按住你的肩，力道不重，卻沒有讓你起身的餘地。\n\n「{playerName}，醒了就好。」她先確認你的眼神能聚焦，才低聲說：「別急著動。你現在連逞強都逞得很難看。」"
+      },
+      {
+        "id": "care_2",
+        "text": "她替你換掉滲血的繃帶，指尖很穩，眉頭卻一直沒有放鬆。\n\n「下次回來之前，最好別讓我只能靠脈搏猜你還撐不撐得住。」米菈把藥碗塞到你手邊，語氣柔和得幾乎像責備。「喝完。苦也要喝。」"
+      }
+    ]
+  },
+  {
+    "id": "exploration_defeat_care_nuosi",
+    "title": "諾絲修好的背帶",
+    "repeatable": true,
+    "pages": [
+      {
+        "id": "care_1",
+        "text": "諾絲靠在床尾，手裡攥著一條重新打好的背帶。她看見你醒來，先皺眉看你的包，再看你的臉，像是兩邊都不太滿意。\n\n「你的包綁得太爛。」她把背帶丟到你身邊。「人都快倒了，東西還掛得一邊高一邊低。」"
+      },
+      {
+        "id": "care_2",
+        "text": "你還沒來得及回答，她已經把散開的扣環重新扣好，動作粗魯，卻避開了你身上的傷。\n\n「{playerName}，先活下來。」諾絲別開視線，聲音比平常低一點。「之後我教你怎麼背東西，至少別讓一個破背包也跟著把你拖垮。」"
+      }
+    ]
+  },
+  {
+    "id": "exploration_defeat_care_sela",
+    "title": "賽拉守著門口",
+    "repeatable": true,
+    "pages": [
+      {
+        "id": "care_1",
+        "text": "賽拉站在門邊，背對著燈火，視線先掃過你的傷，再看向窗外。她沒有問你痛不痛，也沒有說你太亂來。\n\n「你被送回來的痕跡不正常。」她的聲音很冷靜。「門口沒有人的腳印，只有很大的爪痕。」"
+      },
+      {
+        "id": "care_2",
+        "text": "她把一杯水放到你能碰到的位置，動作很快，放完就退開一步。\n\n「{playerName}，等你能站起來，我要聽完整路線。」賽拉停了一下，語氣比剛才更低。「尤其是你有沒有在天色暗下來後還留在林子裡。夜晚的森林會出現白天沒有的黑影，不能照白天的距離和聲音判斷。」\n\n她最後才補了一句：「現在不用。現在你先把眼睛閉上，別再給米菈添麻煩。」"
+      }
+    ]
+  },
+  {
+    "id": "exploration_defeat_care_tori",
+    "title": "托莉抓著毯角",
+    "repeatable": true,
+    "pages": [
+      {
+        "id": "care_1",
+        "text": "托莉坐在床沿，雙手緊緊抓著毯角。她看見你睜眼，像是終於鬆了一口氣，卻又立刻把聲音壓低。\n\n「{playerName}，你不要突然不動啊。」她說得很小聲，像怕吵到你，又怕你聽不見。「大家都很忙，但不是忙到可以少一個人。」"
+      },
+      {
+        "id": "care_2",
+        "text": "她把水杯推過來，推到一半才想起來你可能拿不穩，又慌忙伸手扶住。\n\n「我沒有哭。」托莉用力吸了吸鼻子。「只是宿舍灰塵太多。等你好一點，我要叫伊蓮把這句也寫進規矩裡，說不可以把人嚇成這樣。」"
+      }
+    ]
+  },
+  {
+    "id": "exploration_defeat_care_elaine",
+    "title": "伊蓮點亮燈芯",
+    "repeatable": true,
+    "pages": [
+      {
+        "id": "care_1",
+        "text": "伊蓮把宿舍的燈芯撥亮了一點，像是在確認你是不是已經從某個故事裡回來。她坐在不遠處，手邊放著水、乾布和一本沒有翻開的舊書。\n\n「你被送到門口時，沒有人敲門。」她輕聲說：「門自己響了一下，像是有什麼很大的東西不太懂禮貌。」"
+      },
+      {
+        "id": "care_2",
+        "text": "她替你把毯子拉高，笑意很淡，眼神卻沒有平常那麼玩笑。\n\n「先睡吧，{playerName}。」伊蓮說。「等你醒來，如果還記得夢裡的爪痕、呼吸聲，或那位不留名字的搬運工，我會很樂意聽。故事通常不會自己走到宿舍門口，除非它很擔心你。」"
+      }
+    ]
+  },
+  {
+    "id": "dormitory_weaving_aida_counts_threads",
+    "title": "宿舍紡織",
+    "repeatable": true,
+    "pages": [
+      {
+        "id": "weaving_1",
+        "text": "長桌上的舊線被艾妲分成幾小束，她一邊清點，一邊把最亂的那股推到你手邊。\n\n「先別硬拉，這種線越急越容易報廢。」她抬眼看了你一下，語氣還是乾脆，卻沒有平常那麼趕人。「你從這裡挑，慢一點也沒關係。」\n\n你把纏在一起的細股一點點撥開，只在她示意時抬頭確認。艾妲看你照著做，指尖敲桌的節奏漸漸放慢，像是把原本備著的提醒收回去了一半。"
+      },
+      {
+        "id": "weaving_2",
+        "text": "托莉湊過來，小聲說你們兩個看起來像在審問一團線；伊蓮忍著笑，問艾妲是不是終於肯承認你幫得上忙。\n\n「我只承認今晚少浪費了一束材料。」艾妲回答得很快，卻沒把那股線收走，反而又把下一段遞給你。\n\n你接過來時，她目光在你手上停了一瞬，像是確認你真的坐得住，也真的願意把這種細碎工作陪她們做到最後。",
+        "timeCostSeconds": 1800,
+        "randomRewardItems": [
+          { "itemId": "rope", "count": 1 },
+          { "itemId": "cloth_strip", "count": 1 }
+        ],
+        "resultMessage": "完成紡織工作。",
+        "continueLabel": "收好線束"
+      }
+    ]
+  },
+  {
+    "id": "dormitory_weaving_tori_competes_with_knot",
+    "title": "宿舍紡織",
+    "repeatable": true,
+    "pages": [
+      {
+        "id": "weaving_1",
+        "text": "托莉把一團打得亂七八糟的線抱上桌，神情認真得像抓到了逃犯。\n\n「我跟你說，這個結絕對不是我弄的。」她先替自己辯白，接著又把那團麻煩悄悄推到你面前。「但如果你能拆開，我可以勉強讓你當今晚的幫手第一名。」\n\n你低頭捻住最外側那股線，順著鬆動的位置慢慢帶開。托莉原本還想插手，看到你只是抬眼示意她先別動，便乖乖把手縮回去，只剩嘴巴還在碎念那團線脾氣很差。"
+      },
+      {
+        "id": "weaving_2",
+        "text": "等死結終於鬆開，她立刻靠過來，眼裡亮得像是剛在田裡看見新芽。\n\n「真的開了。」她壓著聲音，又怕吵醒別人似的笑起來。「好吧，今晚先讓你贏它一次。下次我一定比你快。」\n\n你把理順的線遞回去，順手替她按住快滑落的線軸。托莉怔了一下，隨即把下巴抬高一點，像是努力把被幫上忙的高興藏成一場還沒結束的比賽。",
+        "timeCostSeconds": 1800,
+        "randomRewardItems": [
+          { "itemId": "rope", "count": 1 },
+          { "itemId": "cloth_strip", "count": 1 }
+        ],
+        "resultMessage": "完成紡織工作。",
+        "continueLabel": "收好線束"
+      }
+    ]
+  },
+  {
+    "id": "dormitory_weaving_mira_quiet_band",
+    "title": "宿舍紡織",
+    "repeatable": true,
+    "pages": [
+      {
+        "id": "weaving_1",
+        "text": "米菈把幾段細布攤在燈旁，挑出最柔軟的那捲放到你面前。\n\n「這些要留給繃帶。」她聲音很輕，像怕驚動誰的傷口。「邊如果翹起來，包上去會磨得更疼。」\n\n你照她的意思，用指腹慢慢把布邊壓平。她看著你的動作，原本微蹙的眉頭鬆開一點，然後把剪刀挪遠，像是終於不必擔心你會逞強逞到手忙腳亂。"
+      },
+      {
+        "id": "weaving_2",
+        "text": "隔了一會兒，她把溫過的水杯推到你手邊，推到一半又停住，確認你這次接得很穩，才輕聲補了一句：「今天手沒有抖得那麼厲害了。」\n\n你抬眼看她，沒有說話，只把杯口略略碰了一下當作回應。米菈垂下視線，像是怕自己的關心太明顯，卻還是把下一段布又放近了一些。\n\n「這樣很好。」她說得很小聲，幾乎像說給布條聽的。「如果你肯一直這樣慢慢來，大家夜裡就能少擔心一點。」",
+        "timeCostSeconds": 1800,
+        "randomRewardItems": [
+          { "itemId": "rope", "count": 1 },
+          { "itemId": "cloth_strip", "count": 1 }
+        ],
+        "resultMessage": "完成紡織工作。",
+        "continueLabel": "收好線束"
+      }
+    ]
+  },
+  {
+    "id": "dormitory_weaving_nuosi_tough_rope",
+    "title": "宿舍紡織",
+    "repeatable": true,
+    "pages": [
+      {
+        "id": "weaving_1",
+        "text": "諾絲把幾股粗線放到你面前，動作俐落得像丟下一項測驗。\n\n「別拿對付野獸的力氣來對付繩子。」她用指節敲了敲桌面，示意你看她手上的轉法。「這種東西要順著它的勁，手腕太硬，做出來的繩股一下就散。」\n\n你照著她的節奏把線慢慢轉緊，沒有辯解，也沒有逞快。諾絲盯了一陣，先是想挑毛病，最後卻只是不太情願地把你手裡那段拿起來拉了拉。"
+      },
+      {
+        "id": "weaving_2",
+        "text": "「……至少沒白教。」她哼了一聲，把那段繩子放回桌上，嘴硬得像不肯把話說完整。\n\n伊蓮在旁邊托著下巴，笑她這句話翻成正常人聽得懂的大概就是做得不錯；托莉立刻模仿諾絲那個嫌棄的語氣，差點把人逗得翻白眼。\n\n你把下一股線接過去，照剛才的手勢再做一次。諾絲沒再糾正，只在你快把角度轉偏時伸手把線撥回來，那一下很短，卻已經比她剛開始的口氣溫和不少。",
+        "timeCostSeconds": 1800,
+        "randomRewardItems": [
+          { "itemId": "rope", "count": 1 },
+          { "itemId": "cloth_strip", "count": 1 }
+        ],
+        "resultMessage": "完成紡織工作。",
+        "continueLabel": "收好線束"
+      }
+    ]
+  },
+  {
+    "id": "dormitory_weaving_elaine_story_thread",
+    "title": "宿舍紡織",
+    "repeatable": true,
+    "pages": [
+      {
+        "id": "weaving_1",
+        "text": "伊蓮把舊布一片片攤平，動作像在翻閱一冊沒有寫字的書。\n\n「以前有人說，線會纏在一起，是因為它們不想太早分開。」她笑得很輕，手上卻沒停。「不過照我看，也可能只是托莉收東西時心裡有風。」\n\n托莉立刻壓低聲音抗議，艾妲頭也不抬地提醒她安靜。你把散亂的布條疊齊，抬眼看了伊蓮一下；她像讀懂那個眼神，順手把較完整的那段推到你手邊。"
+      },
+      {
+        "id": "weaving_2",
+        "text": "「你看，這樣就好多了。」伊蓮望著你重新理順的布邊，語氣裡帶著那種總像看得比別人更多的溫和。「舊布最麻煩的地方，是皺痕會記得自己被折過。不能硬壓，只能一點一點把它放回該在的位置。」\n\n你指尖微微一頓，最後只是把那段布折好，放到她整理完的一疊上。伊蓮望著你的動作，沒有追問，只把那疊布收進寫著日期的小籃裡。\n\n「嗯，我知道了。」她低聲說，像是真的從你的沉默裡聽見了什麼。",
+        "timeCostSeconds": 1800,
+        "randomRewardItems": [
+          { "itemId": "rope", "count": 1 },
+          { "itemId": "cloth_strip", "count": 1 }
+        ],
+        "resultMessage": "完成紡織工作。",
+        "continueLabel": "收好線束"
+      }
+    ]
+  },
+  {
+    "id": "dormitory_weaving_shared_late_table",
+    "title": "宿舍紡織",
+    "repeatable": true,
+    "pages": [
+      {
+        "id": "weaving_1",
+        "text": "夜裡的宿舍被燈火壓得很靜，只剩線束滑過木桌、布條輕擦指節的細碎聲音。\n\n艾妲分派材料，米菈挑出能留作繃帶的細布，諾絲檢查繩股有沒有鬆掉，托莉一面忙一面偷看別人做得是不是比自己快，伊蓮則不時拋出一句話，讓大家的倦意不至於整團沉下去。\n\n你沒有插進她們的談笑，只在誰伸手時遞上線、扶住線軸，或者在有人把東西碰歪前先替她按住桌角那一端。"
+      },
+      {
+        "id": "weaving_2",
+        "text": "不知過了多久，托莉忽然小聲說今晚好像沒那麼像在熬夜；米菈把剪好的布放整齊，輕輕應了一聲。諾絲沒抬頭，只說少一雙亂伸的手，事情本來就會快一點，結果反而先惹得伊蓮笑出聲。\n\n艾妲看了你一眼，像是在確認你有沒有因為這句話不自在。你只是把手邊最後一股線收整，安靜地推到桌中央。\n\n那一瞬間，誰也沒有特地把你拉進話裡，可桌邊替彼此留的位置、伸手時自然會遞來的下一樣東西，已經讓這份沉默看起來不像外人，而更像某種慢慢被默認的同席。",
+        "timeCostSeconds": 1800,
+        "randomRewardItems": [
+          { "itemId": "rope", "count": 1 },
+          { "itemId": "cloth_strip", "count": 1 }
+        ],
+        "resultMessage": "完成紡織工作。",
+        "continueLabel": "收好線束"
+      }
+    ]
+  }
+]

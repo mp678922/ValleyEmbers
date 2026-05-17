@@ -1,0 +1,211 @@
+{
+  "baseCommandSets": {
+    "standardLocation": [
+      "useItem",
+      "wait"
+    ],
+    "dialogueMenu": [
+      "chat",
+      "gift",
+      "trade",
+      "quest",
+      "leave"
+    ],
+    "exploration": [
+      "exploreDeeper",
+      "exploreDeeperSlow",
+      "retreat",
+      "retreatSlow",
+      "forage",
+      "wait",
+      "useItem",
+      "shoutAttractEnemy"
+    ]
+  },
+  "commands": {
+    "useItem": {
+      "label": "道具",
+      "actionType": "useItem",
+      "usableIn": [
+        "villageLocation",
+        "exploration"
+      ],
+      "defaultTimeCostSeconds": 0
+    },
+    "wait": {
+      "label": "等待/休息一段時間",
+      "actionType": "wait",
+      "usableIn": [
+        "villageLocation",
+        "exploration"
+      ],
+      "defaultTimeCostSeconds": 0,
+      "timeInput": {
+        "control": "slider",
+        "minSeconds": 60,
+        "maxSeconds": 3600,
+        "stepSeconds": 60,
+        "requiresConfirmation": true
+      },
+      "waitEffects": {
+        "restValuePerMinute": 1,
+        "restValueThreshold": 30,
+        "staminaPerThreshold": 1,
+        "life": 0
+      },
+      "explorationEffects": {
+        "restValuePerMinute": 1,
+        "restValueThreshold": 30,
+        "staminaPerThreshold": 1,
+        "life": 0
+      },
+      "risk": {
+        "usableInExploration": true,
+        "canIncreaseEncounterRisk": true
+      }
+    },
+    "move": {
+      "label": "移動",
+      "actionType": "move",
+      "usableIn": [
+        "villageLocation"
+      ],
+      "defaultTimeCostSeconds": 180
+    },
+    "recover": {
+      "label": "恢復",
+      "actionType": "recover",
+      "usableIn": [
+        "villageLocation"
+      ],
+      "defaultTimeCostSeconds": 900
+    },
+    "exploreDeeper": {
+      "label": "向深處移動",
+      "actionType": "exploreDeeper",
+      "usableIn": [
+        "exploration"
+      ],
+      "defaultTimeCostSeconds": 600,
+      "effects": {
+        "explorationProgress": "increase"
+      },
+      "risk": {
+        "canTriggerEncounter": true,
+        "canTriggerExplorationEvent": true
+      }
+    },
+    "exploreDeeperSlow": {
+      "label": "向深處緩慢移動",
+      "actionType": "exploreDeeper",
+      "usableIn": [
+        "exploration"
+      ],
+      "defaultTimeCostSeconds": 600,
+      "effects": {
+        "explorationProgress": "increase",
+        "fixedProgressDelta": 1
+      },
+      "risk": {
+        "canTriggerEncounter": true,
+        "canTriggerExplorationEvent": true
+      }
+    },
+    "forage": {
+      "label": "搜尋",
+      "actionType": "forage",
+      "usableIn": [
+        "exploration"
+      ],
+      "defaultTimeCostSeconds": 1200,
+      "effects": {
+        "items": "regionLoot",
+        "lootSource": "docs/data/exploration/forage-loot.json"
+      },
+      "availability": {
+        "maxUsesPerPosition": 1,
+        "depletedMessage": "附近已經沒有物品。"
+      },
+      "risk": {
+        "canTriggerEncounter": true,
+        "encounterChance": "low"
+      }
+    },
+    "shoutAttractEnemy": {
+      "label": "大喊",
+      "actionType": "shoutAttractEnemy",
+      "usableIn": [
+        "exploration"
+      ],
+      "defaultTimeCostSeconds": 60,
+      "effects": {
+        "dangerRateDelta": 20,
+        "encounter": "checkAfterDangerIncrease"
+      }
+    },
+    "retreat": {
+      "label": "向村莊移動",
+      "actionType": "retreat",
+      "usableIn": [
+        "exploration"
+      ],
+      "defaultTimeCostSeconds": 600,
+      "effects": {
+        "explorationProgress": "decrease"
+      }
+    },
+    "retreatSlow": {
+      "label": "向村莊緩慢移動",
+      "actionType": "retreat",
+      "usableIn": [
+        "exploration"
+      ],
+      "defaultTimeCostSeconds": 600,
+      "effects": {
+        "explorationProgress": "decrease",
+        "fixedProgressDelta": 1
+      }
+    },
+    "chat": {
+      "label": "交談",
+      "actionType": "chat",
+      "usableIn": [
+        "dialogue"
+      ],
+      "defaultTimeCostSeconds": 300
+    },
+    "gift": {
+      "label": "送禮",
+      "actionType": "gift",
+      "usableIn": [
+        "dialogue"
+      ],
+      "defaultTimeCostSeconds": 180
+    },
+    "trade": {
+      "label": "交易",
+      "actionType": "trade",
+      "usableIn": [
+        "dialogue",
+        "specialMerchant"
+      ],
+      "defaultTimeCostSeconds": 0
+    },
+    "quest": {
+      "label": "委託",
+      "actionType": "quest",
+      "usableIn": [
+        "dialogue"
+      ],
+      "defaultTimeCostSeconds": 300
+    },
+    "leave": {
+      "label": "返回",
+      "actionType": "leave",
+      "usableIn": [
+        "dialogue"
+      ],
+      "defaultTimeCostSeconds": 0
+    }
+  }
+}

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ValleyEmbers Editor</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">ValleyEmbers Editor</p>
+          <h1 id="app-title">資料編輯器</h1>
+          <p id="app-subtitle" class="subtitle">先看全體，再編單筆。固定 schema、容錯讀取、局部合併儲存。</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="entity-tabs" role="tablist" aria-label="資料表">
+            <button id="entity-facilities" type="button" class="entity-tab">設施</button>
+            <button id="entity-items" type="button" class="entity-tab">道具</button>
+          </div>
+          <button id="reload-button" type="button">重新載入</button>
+          <button id="add-button" type="button">新增資料</button>
+          <button id="save-button" type="button" class="primary">儲存變更</button>
+        </div>
+      </header>
+
+      <section class="rule-strip" id="rule-strip"></section>
+
+      <section class="workspace">
+        <section class="overview-panel">
+          <div class="panel-header">
+            <div>
+              <h2>縱覽表</h2>
+              <p id="list-summary"></p>
+            </div>
+            <div class="overview-tools">
+              <label class="filter-box">
+                <span>搜尋</span>
+                <input id="filter-input" type="text" placeholder="名稱、ID、類型">
+              </label>
+            </div>
+          </div>
+
+          <div class="message-banner" id="message-banner" hidden></div>
+
+          <div class="overview-table-wrap">
+            <table class="overview-table">
+              <thead id="overview-head"></thead>
+              <tbody id="overview-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="editor-modal" class="modal-shell" hidden>
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <section class="editor-modal">
+          <div class="panel-header">
+            <div>
+              <h2 id="editor-title">未選擇道具</h2>
+              <p id="editor-subtitle"></p>
+            </div>
+            <div class="modal-actions">
+              <button id="delete-button" type="button" class="danger" disabled>刪除資料</button>
+              <button id="close-editor-button" type="button">關閉</button>
+            </div>
+          </div>
+
+          <div class="editor-grid">
+            <section class="form-panel">
+              <div id="field-form" class="field-form"></div>
+            </section>
+
+            <aside class="meta-panel">
+              <section class="meta-card">
+                <h3>缺失欄位</h3>
+                <div id="missing-fields" class="pill-list empty-text">無</div>
+              </section>
+
+              <section class="meta-card">
+                <h3>型別警告</h3>
+                <div id="field-issues" class="warning-list empty-text">無</div>
+              </section>
+
+              <section class="meta-card">
+                <h3>未知屬性</h3>
+                <div id="unknown-fields" class="unknown-list empty-text">無</div>
+              </section>
+
+              <section class="meta-card">
+                <h3>儲存結果</h3>
+                <pre id="save-result" class="result-box">尚未儲存。</pre>
+              </section>
+            </aside>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <template id="field-template">
+      <label class="field-row">
+        <span class="field-label"></span>
+        <span class="field-help"></span>
+        <div class="field-input-wrap"></div>
+      </label>
+    </template>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

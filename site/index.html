@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ValleyEmbers</title>
+    <link rel="stylesheet" href="./styles.css?v=interface-ui@2026-05-17.01">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="scene-panel" data-ui-section="主介面" aria-live="polite">
+        <div class="scene-timebar" id="scene-timebar" aria-label="日期與時間">
+          <span id="time-day"></span>
+          <span id="time-display"></span>
+        </div>
+        <div class="scene-kicker" id="scene-location" data-ui-section="導覽" aria-label="導覽"></div>
+        <div class="adventure-status adventure-status-heading" id="adventure-status" hidden></div>
+        <div class="scene-subtitle" id="scene-subtitle" hidden></div>
+        <h1 id="scene-title" data-ui-section="標題">載入中</h1>
+        <div class="scene-main" id="scene-main">
+          <div id="scene-description" data-ui-section="主文字區塊"></div>
+          <div class="facility-status" id="facility-status" data-ui-section="設施狀態區塊" hidden></div>
+          <div class="action-progress" id="action-progress" hidden>
+            <div class="action-progress-label" id="action-progress-label"></div>
+            <div class="action-progress-track">
+              <div class="action-progress-bar"></div>
+            </div>
+          </div>
+          <div class="action-result" id="action-result" data-ui-section="狀態變化區塊" hidden aria-live="polite"></div>
+          <div class="choice-list" id="choice-list" data-ui-section="指令區塊"></div>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <section class="status-panel">
+          <button class="inventory-toggle panel-toggle" id="status-toggle" type="button" aria-expanded="true" aria-controls="status-body">
+            <span>狀態</span>
+            <span class="inventory-toggle-icon" aria-hidden="true">[收合]</span>
+          </button>
+          <div id="status-body">
+            <dl class="stats">
+              <div>
+                <dt>生命</dt>
+                <dd class="stat-gauge stat-gauge-life" id="life-gauge" role="meter" aria-label="生命" aria-valuemin="0">
+                  <span class="stat-gauge-header">
+                    <span class="stat-gauge-value" id="life-display"></span>
+                  </span>
+                  <span class="stat-gauge-track" aria-hidden="true">
+                    <span class="stat-gauge-fill" id="life-gauge-fill"></span>
+                  </span>
+                </dd>
+              </div>
+              <div>
+                <dt>體力</dt>
+                <dd class="stat-gauge stat-gauge-stamina" id="stamina-gauge" role="meter" aria-label="體力" aria-valuemin="0">
+                  <span class="stat-gauge-header">
+                    <span class="stat-gauge-value" id="stamina-display"></span>
+                  </span>
+                  <span class="stat-gauge-track" aria-hidden="true">
+                    <span class="stat-gauge-fill" id="stamina-gauge-fill"></span>
+                  </span>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
+        <section class="status-panel skill-panel">
+          <button class="inventory-toggle panel-toggle" id="skill-toggle" type="button" aria-expanded="false" aria-controls="skill-body">
+            <span>技能</span>
+            <span class="inventory-toggle-icon" aria-hidden="true">[展開]</span>
+          </button>
+          <div id="skill-body" hidden>
+            <div class="skill-list" id="skill-list"></div>
+          </div>
+        </section>
+
+        <section class="status-panel quest-panel" hidden>
+          <button class="inventory-toggle panel-toggle" id="quest-toggle" type="button" aria-expanded="false" aria-controls="quest-body">
+            <span>委託</span>
+            <span class="inventory-toggle-icon" aria-hidden="true">[展開]</span>
+          </button>
+          <div id="quest-body" hidden>
+            <div class="quest-list" id="quest-list"></div>
+          </div>
+        </section>
+
+        <section class="status-panel inventory-panel">
+          <button class="inventory-toggle" id="inventory-toggle" type="button" aria-expanded="true" aria-controls="inventory-list">
+            <span class="inventory-toggle-main">
+              <span>背包</span>
+              <span class="inventory-weight" id="inventory-weight"></span>
+            </span>
+            <span class="inventory-toggle-icon" aria-hidden="true">[收合]</span>
+          </button>
+          <div id="inventory-body">
+            <button class="inventory-action-button" id="open-recipe-book-button" type="button">查看已知配方</button>
+            <div class="inventory-list" id="inventory-list"></div>
+          </div>
+        </section>
+
+        <section class="status-panel system-panel">
+          <button class="inventory-toggle system-toggle" id="system-toggle" type="button" aria-expanded="true" aria-controls="system-body">
+            <span>系統</span>
+            <span class="inventory-toggle-icon" aria-hidden="true">[收合]</span>
+          </button>
+          <div class="system-body" id="system-body">
+            <div class="system-group">
+              <h2>存檔</h2>
+              <div class="save-actions">
+                <button id="save-game-button" type="button">存檔</button>
+                <button id="export-save-button" type="button">匯出記錄檔</button>
+                <label class="file-button">
+                  匯入記錄檔
+                  <input id="import-save-input" type="file" accept="application/json,.json">
+                </label>
+                <button id="new-game-button" type="button">重新開始</button>
+              </div>
+              <p class="save-note" id="save-note">目前尚未存檔。</p>
+            </div>
+
+            <div class="system-group">
+              <h2>工具</h2>
+              <button id="open-debug-button" type="button">打開 Debug 工具</button>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <div class="scene-transition" id="scene-transition" hidden aria-hidden="true">
+      <div class="scene-transition-text" id="scene-transition-text"></div>
+    </div>
+
+    <div class="modal-overlay" id="item-modal" hidden>
+      <article class="item-modal" role="dialog" aria-modal="true" aria-labelledby="item-modal-title">
+        <div class="item-modal-heading">
+          <div>
+            <div class="item-modal-kicker" id="item-modal-kicker"></div>
+            <h2 id="item-modal-title">道具</h2>
+          </div>
+        </div>
+        <div class="item-modal-content">
+          <p class="item-modal-description" id="item-modal-description"></p>
+          <dl class="item-modal-stats" id="item-modal-stats"></dl>
+        </div>
+        <div class="item-modal-actions">
+          <button id="item-modal-close" type="button">關閉</button>
+        </div>
+      </article>
+    </div>
+
+    <div class="modal-overlay" id="recipe-modal" hidden>
+      <article class="item-modal recipe-modal" role="dialog" aria-modal="true" aria-labelledby="recipe-modal-title">
+        <div class="item-modal-heading">
+          <div>
+            <div class="item-modal-kicker">背包</div>
+            <h2 id="recipe-modal-title">查看已知配方</h2>
+          </div>
+        </div>
+        <div class="item-modal-content">
+          <p class="item-modal-description" id="recipe-modal-description"></p>
+          <div class="recipe-list" id="recipe-list"></div>
+        </div>
+        <div class="item-modal-actions">
+          <button id="recipe-modal-close" type="button">關閉</button>
+        </div>
+      </article>
+    </div>
+
+    <div class="modal-overlay" id="debug-modal" hidden>
+      <article class="item-modal debug-modal" role="dialog" aria-modal="true" aria-labelledby="debug-modal-title">
+        <div class="item-modal-heading">
+          <div>
+            <div class="item-modal-kicker">本機除錯工具</div>
+            <h2 id="debug-modal-title">Debug</h2>
+          </div>
+        </div>
+        <div class="item-modal-content">
+          <div class="debug-carry-status" id="debug-carry-status"></div>
+
+          <div class="debug-group">
+            <h3>Debug 模式</h3>
+            <label class="debug-toggle-row" for="debug-mode-toggle">
+              <span>打開 Debug 模式</span>
+              <input id="debug-mode-toggle" type="checkbox">
+            </label>
+            <p class="debug-note" id="debug-mode-summary"></p>
+          </div>
+
+          <div class="debug-group">
+            <h3>新增未持有道具</h3>
+            <label class="debug-label" for="debug-item-select">道具</label>
+            <select id="debug-item-select"></select>
+            <div class="debug-inline debug-inline-single">
+              <input id="debug-item-count" type="number" min="1" step="1" value="1">
+              <button id="debug-add-item-button" type="button">新增</button>
+            </div>
+            <p class="debug-note" id="debug-item-summary"></p>
+          </div>
+
+          <div class="debug-group">
+            <h3>配方道具</h3>
+            <label class="debug-label" for="debug-recipe-select">配方</label>
+            <select id="debug-recipe-select"></select>
+            <p class="debug-note" id="debug-recipe-summary"></p>
+            <div class="debug-recipe-list" id="debug-recipe-list"></div>
+          </div>
+
+          <div class="debug-group">
+            <h3>已持有道具</h3>
+            <div class="debug-owned-list" id="debug-owned-list"></div>
+          </div>
+
+          <div class="debug-group">
+            <h3>生命與體力</h3>
+            <div class="debug-stat-grid">
+              <label class="debug-label" for="debug-life-input">生命</label>
+              <div class="debug-inline debug-inline-single">
+                <input id="debug-life-input" type="number" min="0" step="1">
+                <button id="debug-apply-life-button" type="button">套用</button>
+              </div>
+              <label class="debug-label" for="debug-stamina-input">體力</label>
+              <div class="debug-inline debug-inline-single">
+                <input id="debug-stamina-input" type="number" min="0" step="1">
+                <button id="debug-apply-stamina-button" type="button">套用</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="debug-group">
+            <h3>旗標</h3>
+            <div class="debug-flag-list" id="debug-flag-list"></div>
+          </div>
+        </div>
+        <div class="item-modal-actions">
+          <button id="debug-modal-close" type="button">關閉</button>
+        </div>
+      </article>
+    </div>
+
+    <script type="module" src="./app.js?v=browser-prototype@2026-05-17.01"></script>
+  </body>
+</html>

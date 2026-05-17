@@ -1,0 +1,1144 @@
+[
+  {
+    "id": "fluorite",
+    "name": "螢石",
+    "category": "currency",
+    "description": "指尖大小的微光石，冰涼堅硬，在村裡幾乎什麼都能拿它來換。",
+    "stackable": true,
+    "maxStack": 999,
+    "weight": 0.1,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "村莊交換",
+      "探索收穫",
+      "委託獎勵"
+    ],
+    "relatedVillagers": [
+      "aida",
+      "mira",
+      "nuosi",
+      "sela",
+      "tori",
+      "elaine"
+    ],
+    "tags": [
+      "貨幣",
+      "交換",
+      "山谷村"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": false,
+      "amount": null
+    },
+    "canGift": false
+  },
+  {
+    "id": "berry",
+    "name": "莓果",
+    "category": "consumable",
+    "description": "酸甜的小果實，指腹一壓就會滲汁，摘下後直接塞進嘴裡最省事。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.2,
+    "effects": {
+      "stamina": 1
+    },
+    "timeCostSeconds": 60,
+    "source": [
+      "田地莓果叢"
+    ],
+    "relatedVillagers": [
+      "tori"
+    ],
+    "tags": [
+      "食物",
+      "恢復",
+      "水果",
+      "每日採集"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 1
+    },
+    "canGift": true
+  },
+  {
+    "id": "apple",
+    "name": "蘋果",
+    "category": "consumable",
+    "description": "帶著淡淡香氣的紅蘋果，咬下去時會發出清脆聲。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.4,
+    "effects": {
+      "stamina": 1
+    },
+    "timeCostSeconds": 60,
+    "source": [
+      "村莊廣場蘋果樹"
+    ],
+    "relatedVillagers": [
+      "tori"
+    ],
+    "tags": [
+      "食物",
+      "恢復",
+      "水果",
+      "每日採集"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 1
+    },
+    "canGift": true
+  },
+  {
+    "id": "lettuce",
+    "name": "生菜",
+    "category": "consumable",
+    "description": "葉片脆嫩的生菜，還帶著剛從田裡摘下來的清新水氣。簡單吃下去，就能讓身體輕快一些。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.2,
+    "effects": {
+      "stamina": 2
+    },
+    "timeCostSeconds": 60,
+    "source": [
+      "托莉每日贈送",
+      "田地"
+    ],
+    "relatedVillagers": [
+      "tori"
+    ],
+    "tags": [
+      "食物",
+      "恢復",
+      "蔬菜",
+      "田地"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 1
+    },
+    "canGift": true
+  },
+  {
+    "id": "bird_egg",
+    "name": "禽蛋",
+    "category": "consumable",
+    "description": "小小一枚禽蛋，殼上帶著細碎斑點。雖然不算豐盛，吃下去仍能補上一點力氣。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.2,
+    "effects": {
+      "stamina": 2
+    },
+    "timeCostSeconds": 60,
+    "source": [
+      "墓地鴉巢"
+    ],
+    "relatedVillagers": [
+      "sela",
+      "tori"
+    ],
+    "tags": [
+      "食物",
+      "恢復",
+      "禽蛋",
+      "每日採集"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 1
+    },
+    "canGift": true
+  },
+  {
+    "id": "dry_ration",
+    "name": "乾糧",
+    "category": "consumable",
+    "description": "壓得結實的乾糧，味道談不上好，勝在餓的時候能立刻墊胃。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 1,
+    "effects": {
+      "stamina": 3
+    },
+    "timeCostSeconds": 60,
+    "source": [
+      "艾妲交易"
+    ],
+    "relatedVillagers": [
+      "tori"
+    ],
+    "tags": [
+      "食物",
+      "恢復",
+      "探險補給"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 2
+    },
+    "canGift": false
+  },
+  {
+    "id": "small_healing_potion",
+    "name": "小治療藥",
+    "category": "consumable",
+    "description": "米菈調出的淡色藥液，入口發苦，卻能把細小傷口慢慢壓住。",
+    "stackable": true,
+    "maxStack": 20,
+    "weight": 1,
+    "effects": {
+      "life": 3
+    },
+    "useReturnsItems": [
+      {
+        "itemId": "empty_potion_bottle",
+        "count": 1
+      }
+    ],
+    "timeCostSeconds": 90,
+    "source": [
+      "藥草棚",
+      "米菈好感解鎖"
+    ],
+    "relatedVillagers": [
+      "mira"
+    ],
+    "tags": [
+      "藥品",
+      "恢復",
+      "生命"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 4
+    },
+    "canGift": false
+  },
+  {
+    "id": "strong_bandage",
+    "name": "強效繃帶",
+    "category": "consumable",
+    "description": "厚實的繃帶浸透藥液，纏上後沉甸甸的，卻能穩住較重的傷。",
+    "stackable": true,
+    "maxStack": 10,
+    "weight": 0.8,
+    "effects": {
+      "life": 5
+    },
+    "timeCostSeconds": 180,
+    "source": [
+      "藥草棚升級",
+      "米菈交易"
+    ],
+    "relatedVillagers": [
+      "mira"
+    ],
+    "tags": [
+      "藥品",
+      "恢復",
+      "生命"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 4
+    },
+    "canGift": true
+  },
+  {
+    "id": "empty_potion_bottle",
+    "name": "空藥水瓶",
+    "category": "material",
+    "description": "小玻璃瓶用過後還殘著淡淡藥味，洗淨後還能再裝新的藥液。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.2,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "使用小治療藥",
+      "藥草棚"
+    ],
+    "relatedVillagers": [
+      "mira"
+    ],
+    "tags": [
+      "瓶子",
+      "材料",
+      "製藥"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "explorationFailureLossTarget": "lost_and_found_box",
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 1
+    },
+    "canGift": false
+  },
+  {
+    "id": "moondew_herb",
+    "name": "月露草",
+    "category": "material",
+    "description": "葉片帶著濕冷氣息的藥草，只在陰濕處長得最好。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.2,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "山谷森林採集",
+      "月露草叢",
+      "醫藥補給箱",
+      "開墾區雜草叢"
+    ],
+    "relatedVillagers": [
+      "mira"
+    ],
+    "tags": [
+      "藥草",
+      "材料",
+      "森林"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 2
+    },
+    "canGift": false
+  },
+  {
+    "id": "flower",
+    "name": "花朵",
+    "category": "consumable",
+    "description": "不起眼的小花，顏色倒是鮮亮，隨手摘來也算一點心意。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.1,
+    "effects": {
+      "stamina": 1
+    },
+    "timeCostSeconds": 60,
+    "source": [
+      "開墾區雜草叢"
+    ],
+    "relatedVillagers": [
+      "tori"
+    ],
+    "tags": [
+      "食物",
+      "恢復",
+      "禮物",
+      "每日隨機"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 1
+    },
+    "canGift": true
+  },
+  {
+    "id": "soil",
+    "name": "泥土",
+    "category": "resource",
+    "description": "鬆散的泥土抓在手裡還帶著潮氣，是最不起眼也最常用的材料。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 1,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "森林探索中的土堆"
+    ],
+    "relatedVillagers": [
+      "tori"
+    ],
+    "tags": [
+      "泥土",
+      "材料",
+      "森林",
+      "農務"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 1
+    },
+    "canGift": false
+  },
+  {
+    "id": "wood",
+    "name": "木材",
+    "category": "resource",
+    "description": "削去外皮後的木料，帶著乾燥木香，村裡很多東西都少不了它。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 1,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "山谷森林",
+      "工坊倉庫木材堆"
+    ],
+    "relatedVillagers": [
+      "nuosi",
+      "aida"
+    ],
+    "tags": [
+      "木材",
+      "建設",
+      "建設材料"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 3
+    },
+    "canGift": false
+  },
+  {
+    "id": "ore_piece",
+    "name": "礦石",
+    "category": "resource",
+    "description": "沉甸甸的礦石碎塊，邊角粗硬，握久了掌心都會發涼。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 2,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "森林外圍隱藏洞穴礦脈",
+      "廢棄礦道"
+    ],
+    "relatedVillagers": [
+      "nuosi"
+    ],
+    "tags": [
+      "礦石",
+      "建設",
+      "工具"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 4
+    },
+    "canGift": true
+  },
+  {
+    "id": "resin",
+    "name": "樹脂",
+    "category": "material",
+    "description": "黏稠的樹脂一沾手就拉絲，帶著淡淡木氣和火氣。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.3,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "山谷森林",
+      "工坊材料"
+    ],
+    "relatedVillagers": [
+      "nuosi",
+      "sela"
+    ],
+    "tags": [
+      "樹脂",
+      "材料",
+      "可燃物",
+      "製作"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 2
+    },
+    "canGift": false
+  },
+  {
+    "id": "cloth_strip",
+    "name": "布條",
+    "category": "material",
+    "description": "撕成長條的布料，手感粗糙，正適合拿來綁束或包裹東西。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.2,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "村莊布料",
+      "回收舊衣物"
+    ],
+    "relatedVillagers": [
+      "mira",
+      "elaine",
+      "nuosi"
+    ],
+    "tags": [
+      "布",
+      "材料",
+      "製作"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 1
+    },
+    "canGift": false
+  },
+  {
+    "id": "dry_moss",
+    "name": "乾苔",
+    "category": "material",
+    "description": "曬乾後變得鬆脆的苔蘚，一點火就容易悶出濃煙。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.1,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "山谷森林",
+      "潮濕林地採集"
+    ],
+    "relatedVillagers": [
+      "mira",
+      "sela"
+    ],
+    "tags": [
+      "苔蘚",
+      "材料",
+      "可燃物",
+      "製作"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 1
+    },
+    "canGift": false
+  },
+  {
+    "id": "old_toolbox",
+    "name": "舊工具箱",
+    "category": "quest_item",
+    "description": "磨損嚴重的工具箱，鉸鏈發澀。裡頭還卡著幾支舊鑿子、彎掉的釘子和磨短的鉛筆，像是前人修東西時匆忙收起來的工具。",
+    "stackable": false,
+    "maxStack": 1,
+    "weight": 3.5,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "遺跡外圍",
+      "諾絲角色委託"
+    ],
+    "relatedVillagers": [
+      "nuosi"
+    ],
+    "tags": [
+      "委託道具",
+      "工坊倉庫",
+      "遺跡"
+    ],
+    "canDisappearOnExplorationFailure": false,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": false,
+      "amount": null
+    },
+    "canGift": false
+  },
+  {
+    "id": "sword",
+    "name": "老舊的劍",
+    "category": "equipment",
+    "description": "劍身舊得發暗，握柄卻還算順手；你醒來時它原本就待在身邊，真到近身時至少比徒手可靠。",
+    "stackable": false,
+    "maxStack": 1,
+    "weight": 2,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "主角原本攜帶"
+    ],
+    "relatedVillagers": [
+      "nuosi",
+      "sela"
+    ],
+    "tags": [
+      "武器",
+      "近戰",
+      "戰鬥工具",
+      "探險裝備"
+    ],
+    "canDisappearOnExplorationFailure": false,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": false,
+      "amount": null
+    },
+    "canGift": false
+  },
+  {
+    "id": "bow",
+    "name": "獵弓",
+    "category": "equipment",
+    "description": "拉滿時會發出細微木響的獵弓，只要手夠穩，能在敵人靠近前先壓住牠。",
+    "stackable": false,
+    "maxStack": 1,
+    "weight": 2,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "工坊倉庫",
+      "賽拉訓練"
+    ],
+    "relatedVillagers": [
+      "sela",
+      "nuosi"
+    ],
+    "tags": [
+      "武器",
+      "遠程",
+      "戰鬥工具",
+      "探險裝備"
+    ],
+    "canDisappearOnExplorationFailure": false,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": false,
+      "amount": null
+    },
+    "canGift": false
+  },
+  {
+    "id": "trap",
+    "name": "陷阱",
+    "category": "consumable",
+    "description": "簡陋但實用的陷阱。把它埋在獸類前腳會踩下的位置，就能絆住衝撞的力道，替你爭取近身前的一瞬空檔。",
+    "stackable": true,
+    "maxStack": 20,
+    "weight": 1.5,
+    "effects": {},
+    "timeCostSeconds": 120,
+    "source": [
+      "工坊倉庫",
+      "工坊製作",
+      "補給箱"
+    ],
+    "relatedVillagers": [
+      "sela",
+      "nuosi"
+    ],
+    "tags": [
+      "陷阱",
+      "戰鬥工具",
+      "消耗品",
+      "探險裝備"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 4
+    },
+    "canGift": false
+  },
+  {
+    "id": "torch",
+    "name": "火把",
+    "category": "consumable",
+    "description": "纏著樹脂的火把點燃後火光旺盛，拿在手裡時連膽子都會跟著大一點。",
+    "stackable": true,
+    "maxStack": 20,
+    "weight": 1.5,
+    "effects": {},
+    "timeCostSeconds": 60,
+    "source": [
+      "工坊製作",
+      "補給箱"
+    ],
+    "relatedVillagers": [
+      "sela",
+      "nuosi"
+    ],
+    "tags": [
+      "照明",
+      "火",
+      "戰鬥工具",
+      "消耗品",
+      "探險裝備"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 4
+    },
+    "canGift": false
+  },
+  {
+    "id": "rope",
+    "name": "繩索",
+    "category": "tool",
+    "description": "磨得有些粗的繩索，捆東西、垂下去、把自己拉回來時都用得上。",
+    "stackable": false,
+    "maxStack": 1,
+    "weight": 2,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "工坊倉庫",
+      "諾絲交易"
+    ],
+    "relatedVillagers": [
+      "nuosi",
+      "sela"
+    ],
+    "tags": [
+      "工具",
+      "探索",
+      "探險裝備"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 6
+    },
+    "canGift": false
+  },
+  {
+    "id": "soldier_spear",
+    "name": "士兵長槍",
+    "category": "equipment",
+    "description": "比尋常木槍更沉的長槍，槍身留下長年使用過的磨痕，前推時有種能把對方硬生生頂住的感覺。",
+    "stackable": false,
+    "maxStack": 1,
+    "weight": 2,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "以前村人的遺物",
+      "舊武器庫"
+    ],
+    "relatedVillagers": [
+      "sela",
+      "nuosi"
+    ],
+    "tags": [
+      "武器",
+      "近戰",
+      "戰鬥工具",
+      "村人遺物",
+      "探險裝備"
+    ],
+    "canDisappearOnExplorationFailure": false,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": false,
+      "amount": null
+    },
+    "canGift": false
+  },
+  {
+    "id": "sling",
+    "name": "投石索",
+    "category": "equipment",
+    "description": "投石索看著簡單，真要打準，全靠手腕和眼力。",
+    "stackable": false,
+    "maxStack": 1,
+    "weight": 1,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "宿舍舊箱子"
+    ],
+    "relatedVillagers": [
+      "tori",
+      "sela"
+    ],
+    "tags": [
+      "武器",
+      "遠程",
+      "探險裝備"
+    ],
+    "canDisappearOnExplorationFailure": false,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": false,
+      "amount": null
+    },
+    "canGift": false
+  },
+  {
+    "id": "arrow",
+    "name": "箭矢",
+    "category": "consumable",
+    "description": "削直的箭桿尾端綁著羽毛，裝上弓時才真正派得上用場。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.25,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "工坊倉庫",
+      "賽拉補給"
+    ],
+    "relatedVillagers": [
+      "sela",
+      "nuosi"
+    ],
+    "tags": [
+      "彈藥",
+      "獵弓",
+      "消耗品"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 1
+    },
+    "canGift": false
+  },
+  {
+    "id": "stone_ammo",
+    "name": "石頭",
+    "category": "consumable",
+    "description": "順手能握住的小石頭，拿來投射或敲裂都還算實用。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.5,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "山谷森林",
+      "開墾區"
+    ],
+    "relatedVillagers": [
+      "sela",
+      "tori"
+    ],
+    "tags": [
+      "彈藥",
+      "投石索",
+      "消耗品"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 1
+    },
+    "canGift": false
+  },
+  {
+    "id": "sharp_stone",
+    "name": "銳利碎石",
+    "category": "material",
+    "description": "邊緣鋒利得能割手的碎石，臨時拿來嵌箭或劃開東西都夠狠。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.2,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "搜尋",
+      "石頭加工"
+    ],
+    "relatedVillagers": [
+      "sela",
+      "nuosi",
+      "tori"
+    ],
+    "tags": [
+      "石片",
+      "材料",
+      "製作"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 1
+    },
+    "canGift": false
+  },
+  {
+    "id": "capture_net",
+    "name": "補網",
+    "category": "consumable",
+    "description": "補過又補的網子展開後不算漂亮，但纏住東西時一樣有用。",
+    "stackable": true,
+    "maxStack": 20,
+    "weight": 1.5,
+    "effects": {},
+    "timeCostSeconds": 120,
+    "source": [
+      "工坊倉庫",
+      "工坊製作",
+      "補給箱"
+    ],
+    "relatedVillagers": [
+      "sela",
+      "nuosi"
+    ],
+    "tags": [
+      "戰鬥工具",
+      "消耗品",
+      "捕捉",
+      "探險裝備"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 4
+    },
+    "canGift": false
+  },
+  {
+    "id": "smoke_bomb",
+    "name": "煙霧彈",
+    "category": "consumable",
+    "description": "用布和乾苔裹成的煙包，一丟出去就能把視野攪成一團灰白。",
+    "stackable": true,
+    "maxStack": 20,
+    "weight": 0.5,
+    "effects": {},
+    "timeCostSeconds": 60,
+    "source": [
+      "製藥台製作"
+    ],
+    "relatedVillagers": [
+      "mira",
+      "sela"
+    ],
+    "tags": [
+      "戰鬥工具",
+      "消耗品",
+      "煙",
+      "脫身",
+      "探險裝備"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 5
+    },
+    "canGift": false
+  },
+  {
+    "id": "cracked_bone",
+    "name": "碎骨",
+    "category": "material",
+    "description": "碎裂的骨片還殘著野氣，拿去換點東西總比丟著好。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.3,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "森林敵人"
+    ],
+    "relatedVillagers": [
+      "nuosi",
+      "sela"
+    ],
+    "tags": [
+      "骨",
+      "材料",
+      "戰利品"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 1
+    },
+    "canGift": true
+  },
+  {
+    "id": "beast_bone",
+    "name": "獸骨",
+    "category": "material",
+    "description": "比一般碎骨更完整的獸骨，摸起來結實，多少還有些用途。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.5,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "森林敵人"
+    ],
+    "relatedVillagers": [
+      "nuosi",
+      "sela"
+    ],
+    "tags": [
+      "骨",
+      "材料",
+      "戰利品"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 2
+    },
+    "canGift": true
+  },
+  {
+    "id": "hard_beast_bone",
+    "name": "硬獸骨",
+    "category": "material",
+    "description": "硬得發沉的獸骨，敲在桌上都會發出乾脆聲，留著總有用處。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.8,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "森林敵人"
+    ],
+    "relatedVillagers": [
+      "nuosi",
+      "sela"
+    ],
+    "tags": [
+      "骨",
+      "材料",
+      "戰利品"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 4
+    },
+    "canGift": true
+  },
+  {
+    "id": "feather",
+    "name": "羽毛",
+    "category": "material",
+    "description": "羽毛末端還沾著些野氣，輕得幾乎感覺不到重量。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.1,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "鳥類敵人"
+    ],
+    "relatedVillagers": [
+      "sela",
+      "tori"
+    ],
+    "tags": [
+      "羽毛",
+      "材料",
+      "戰利品"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 2
+    },
+    "canGift": true
+  },
+  {
+    "id": "beast_fang",
+    "name": "獸牙",
+    "category": "material",
+    "description": "磨得發亮的尖牙，看一眼就知道咬上來時不會好受。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 0.2,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "尖牙敵人"
+    ],
+    "relatedVillagers": [
+      "sela",
+      "nuosi"
+    ],
+    "tags": [
+      "牙",
+      "材料",
+      "戰利品"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 5
+    },
+    "canGift": false
+  },
+  {
+    "id": "beast_horn",
+    "name": "獸角",
+    "category": "material",
+    "description": "彎曲的獸角堅硬沉實，不管拿來做什麼，都自帶一股兇性。",
+    "stackable": true,
+    "maxStack": 99,
+    "weight": 1.2,
+    "effects": {},
+    "timeCostSeconds": 0,
+    "source": [
+      "有角敵人"
+    ],
+    "relatedVillagers": [
+      "sela",
+      "nuosi",
+      "elaine"
+    ],
+    "tags": [
+      "角",
+      "材料",
+      "戰利品"
+    ],
+    "canDisappearOnExplorationFailure": true,
+    "price": {
+      "currencyItemId": "fluorite",
+      "sellable": true,
+      "amount": 6
+    },
+    "canGift": true
+  }
+]

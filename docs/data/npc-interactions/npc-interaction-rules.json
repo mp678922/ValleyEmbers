@@ -1,0 +1,89 @@
+[
+  {
+    "npcType": "core_villager",
+    "appliesTo": [
+      "aida",
+      "mira",
+      "nuosi",
+      "sela",
+      "tori",
+      "elaine"
+    ],
+    "interactionMode": "menuView",
+    "interactions": {
+      "chat": true,
+      "specialInfo": false,
+      "trade": true,
+      "quest": true,
+      "gift": true,
+      "affection": true
+    },
+    "notes": "六名核心村民使用普通好感、送禮、交易、委託與台詞池規則；交談造成的好感增加每人每日最多 +1，送禮每人每日最多一次。"
+  },
+  {
+    "npcType": "special_forest_npc",
+    "appliesTo": [
+      "talkative_cat"
+    ],
+    "interactionMode": "menuView",
+    "interactions": {
+      "chat": false,
+      "specialInfo": true,
+      "trade": false,
+      "quest": false,
+      "gift": false,
+      "affection": false
+    },
+    "dialogueConditionOverrides": {
+      "ignoreAffectionMin": true
+    },
+    "specialActions": [
+      {
+        "id": "black_cat_distract",
+        "commandId": "specialInfo",
+        "label": "請牠幫忙引開敵人注意",
+        "actionType": "specialInfo",
+        "dynamicAction": "blackCatDistract",
+        "timeCostSeconds": 60,
+        "progressLabel": "黑貓正鑽進灌木..."
+      },
+      {
+        "id": "black_cat_find_shelter",
+        "commandId": "specialInfo",
+        "label": "請牠幫忙尋找臨時藏身處",
+        "actionType": "specialInfo",
+        "dynamicAction": "blackCatFindShelter",
+        "timeCostSeconds": 1800,
+        "progressLabel": "跟著黑貓尋找藏身處..."
+      },
+      {
+        "id": "black_cat_carry_items",
+        "commandId": "specialInfo",
+        "label": "請牠幫忙把東西帶回村子",
+        "actionType": "specialInfo",
+        "dynamicAction": "blackCatCarryItems",
+        "timeCostSeconds": 0
+      }
+    ],
+    "notes": "黑貓不使用普通好感、交談、送禮、交易與委託菜單；牠只在探索區以特殊行動回應主角。引開敵人注意消耗 1 分鐘；尋找臨時藏身處消耗 30 分鐘；把東西帶回村子的入口不耗時，只有確認整理才消耗 1 分鐘。所有黑貓特殊行動都必須在主文字區塊留下情境回饋。台詞條件中的 affectionMin 一律忽略。"
+  },
+  {
+    "npcType": "special_merchant",
+    "appliesTo": [
+      "lizard_merchant"
+    ],
+    "interactionMode": "menuView",
+    "interactions": {
+      "chat": true,
+      "specialInfo": false,
+      "trade": true,
+      "quest": true,
+      "gift": false,
+      "affection": false
+    },
+    "dialogueConditionOverrides": {
+      "ignoreAffectionMin": true
+    },
+    "notes": "蜥蜴羅索使用特殊交易與特殊委託，不使用普通好感與送禮；台詞條件中的 affectionMin 一律忽略。"
+  }
+]
