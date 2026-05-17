@@ -512,41 +512,6 @@ h2 {
   pointer-events: none;
 }
 
-.quest-info-list {
-  display: grid;
-  gap: 8px;
-}
-
-.quest-info-item {
-  max-width: 720px;
-  padding: 12px 14px;
-  display: grid;
-  gap: 5px;
-  border: 1px solid #d4ded8;
-  border-radius: 10px;
-  background: #f7faf8;
-  color: #26372f;
-}
-
-.quest-info-title {
-  font-weight: 700;
-}
-
-.quest-info-progress {
-  color: #55665d;
-  font-size: 0.92rem;
-  line-height: 1.55;
-}
-
-.quest-info-empty-note {
-  padding: 12px 14px;
-  border: 1px dashed #c7d1cb;
-  border-radius: 8px;
-  background: #f8fbf9;
-  color: #607268;
-  font-size: 0.92rem;
-}
-
 .trade-row-list {
   display: grid;
   gap: 10px;
@@ -944,11 +909,6 @@ h2 {
   align-items: center;
 }
 
-.icon-button {
-  width: 42px;
-  min-height: 42px;
-}
-
 .inventory-toggle {
   width: 100%;
   min-height: 34px;
@@ -1013,8 +973,6 @@ h2 {
 }
 
 .stats div,
-.resource-grid div,
-.trust-list div,
 .inventory-list div {
   display: flex;
   justify-content: space-between;
@@ -1079,8 +1037,6 @@ dd {
   font-weight: 700;
 }
 
-.resource-grid,
-.trust-list,
 .inventory-list,
 .skill-list,
 .quest-list {
@@ -1356,6 +1312,30 @@ dd {
   font-size: 0.95rem;
 }
 
+.system-version-group {
+  gap: 8px;
+}
+
+.system-version-list {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 10px;
+  color: #607268;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.system-version-list dt {
+  color: #52685d;
+}
+
+.system-version-list dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-family: Consolas, "Courier New", monospace;
+}
+
 .system-group > button,
 .system-group .save-actions button,
 .system-group .file-button {
@@ -1372,7 +1352,6 @@ dd {
   background: #f5faf7;
 }
 
-.debug-panel,
 .debug-modal .item-modal-content {
   display: grid;
   gap: 20px;
@@ -1465,8 +1444,6 @@ body.modal-open {
   gap: 8px;
 }
 
-.debug-panel input,
-.debug-panel select,
 .debug-modal input,
 .debug-modal select {
   width: 100%;

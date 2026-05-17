@@ -119,8 +119,7 @@
       ],
       "defaultTimeCostSeconds": 1200,
       "effects": {
-        "items": "regionLoot",
-        "lootSource": "docs/data/exploration/forage-loot.json"
+        "items": "regionLoot"
       },
       "availability": {
         "maxUsesPerPosition": 1,

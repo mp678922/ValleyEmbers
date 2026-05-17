@@ -297,16 +297,6 @@
     "notes": "玩家取完墓地舊箱子內容後取得，用來記錄一次性寶箱已領取。"
   },
   {
-    "flagId": "forbidden_books_truth_revealed",
-    "description": "禁忌之書相關真相已被揭露。",
-    "sourceType": "quest",
-    "sourceId": "forbidden_books_first_truth.rewards",
-    "unlocks": [
-      "禁忌之書後續主線"
-    ],
-    "notes": "完成第一段禁忌之書真相委託後取得，用來推進主線狀態。"
-  },
-  {
     "flagId": "mira_low_health_warning_seen",
     "description": "米菈已經因主角傷勢出聲提醒過一次。",
     "sourceType": "event",
@@ -355,16 +345,6 @@
       "倉庫箱等級提升到 2"
     ],
     "notes": "向諾絲提交五份木材後取得，委託獎勵同時讓 storage_box level +1。"
-  },
-  {
-    "flagId": "field_upgrade_1_completed",
-    "description": "已完成田地第一次整土。",
-    "sourceType": "quest",
-    "sourceId": "tori_field_upgrade_1.rewards",
-    "unlocks": [
-      "田地等級提升到 2"
-    ],
-    "notes": "向托莉提交三份泥土後取得，委託獎勵同時讓 field level +1。"
   },
   {
     "flagId": "forest_hidden_cave_revealed",

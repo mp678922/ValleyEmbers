@@ -1,223 +1,157 @@
 [
   {
-    "id": "main_forbidden_books",
-    "title": "四本禁忌之書",
-    "description": "伊蓮提起的四本禁忌之書，像是被故意拆散的真相。你每追上一條線索，就像把山谷最深處的秘密又翻開一頁。",
-    "accepted": false,
-    "repeatable": false,
-    "completed": false,
-    "type": "main",
-    "giver": "elaine",
-    "statusOnAccept": "active",
-    "prerequisites": {
-      "flags": [
-        "asked_elaine_ruin_lore"
-      ]
-    },
-    "objectives": [
-      {
-        "id": "reveal_book_abundance",
-        "description": "追查第一本禁忌之書的線索：山谷之神曾為村莊帶來富饒",
-        "type": "completeNextForbiddenBookTask",
-        "revealIndex": 1,
-        "targetId": "forbidden_book_abundance"
-      },
-      {
-        "id": "reveal_book_priesthood",
-        "description": "追查第二本禁忌之書的線索：活祭是謊言，神殿每十年真正需要一名新祭司",
-        "type": "completeNextForbiddenBookTask",
-        "revealIndex": 2,
-        "targetId": "forbidden_book_priesthood"
-      },
-      {
-        "id": "reveal_book_madness",
-        "description": "追查第三本禁忌之書的線索：詛咒本質是失控瘴氣侵蝕山谷",
-        "type": "completeNextForbiddenBookTask",
-        "revealIndex": 3,
-        "targetId": "forbidden_book_madness"
-      },
-      {
-        "id": "reveal_book_defeat_god",
-        "description": "追查第四本禁忌之書的線索：擊敗山谷之神的方法",
-        "type": "completeNextForbiddenBookTask",
-        "revealIndex": 4,
-        "targetId": "forbidden_book_defeat_god"
-      }
-    ],
-    "rewards": {
-      "flags": [
-        "forbidden_books_truth_revealed"
-      ]
-    },
-    "nextQuestIds": [],
-    "tags": [
-      "主線",
-      "禁忌之書",
-      "山谷之神",
-      "遺跡"
-    ]
-  },
-  {
     "id": "sela_sharp_stone_bow_request",
-    "title": "授予弓箭的資格",
-    "description": "先交給我兩片夠利的碎石。能把石片處理到這種程度，至少代表你知道怎麼準備能保命的東西。森林一到夜裡就不是同一個地方；你要學會在天黑前把該準備的都準備好。",
+    "title": "獵弓之前的箭頭",
+    "offerLabel": "問賽拉能不能借用獵弓",
+    "submitLabel": "把銳利碎石拿給賽拉看",
+    "description": "你問賽拉，能不能借用她那把舊獵弓。她沒有立刻拒絕，只把弓放在膝上，指尖摸過弓弦旁一支磨鈍的舊箭。\n\n「弓不是拿起來就能用的東西。」她說。箭頭歪一點，獵物不會倒，反而會把你的位置暴露出去；更糟時，弦放出去的那一下會讓箭在半路翻掉。\n\n她要你先帶兩個銳利碎石回來。不是為了把石頭直接裝上箭，而是看你能不能分辨適合削成箭頭的形狀。",
     "accepted": false,
     "repeatable": false,
     "completed": false,
     "type": "villager",
     "giver": "sela",
     "statusOnAccept": "active",
-    "prerequisites": {
-      "flags": []
-    },
+    "prerequisites": { "flags": [] },
     "objectives": [
       {
         "id": "submit_sharp_stone_to_sela",
-        "description": "向賽拉提交 2 個銳利碎石",
+        "description": "向賽拉提交 2 個銳利碎石，證明自己懂得準備箭頭材料",
         "type": "submitItems",
         "targetId": "sharp_stone",
         "requiredCount": 2
       }
     ],
     "rewards": {
-      "items": {
-        "bow": 1,
-        "arrow": 4
-      },
-      "villagerAffection": {
-        "sela": 2
-      },
-      "flags": [
-        "sela_sharp_stone_bow_completed"
-      ]
+      "items": { "bow": 1, "arrow": 4 },
+      "villagerAffection": { "sela": 2 },
+      "flags": ["sela_sharp_stone_bow_completed"]
     },
     "nextQuestIds": [],
-    "tags": [
-      "賽拉",
-      "銳利碎石",
-      "獵弓",
-      "箭矢"
+    "tags": ["賽拉", "銳利碎石", "獵弓", "箭矢", "箭頭"],
+    "acceptPages": [
+      "賽拉把獵弓往自己身側收了半寸，像是在提醒你，真正危險的不是她願不願意借，而是你知不知道自己拿到的是什麼。",
+      "她從箭袋裡抽出一支舊箭，讓你看那枚磨鈍的箭頭。「去找兩個銳利碎石。不要只挑尖的，要挑能修成穩定箭頭的。你拿得出來，我才教你怎麼把箭射出去。」"
+    ],
+    "completePages": [
+      "賽拉把你帶回來的碎石排在舊箭旁，逐一用指甲刮過邊緣。她挑出角度較正的那幾面，低聲說：「這種才不會在離弦後亂翻。」",
+      "她把獵弓和幾支箭交給你，手沒有立刻放開。「拉弦以前先想箭頭。你不是在丟石頭，你是在把一條路送出去。」"
     ]
   },
   {
     "id": "sela_cracked_bone_melee_training",
-    "title": "賽拉的近戰訓練",
-    "description": "你最基本的近身動作還算站得住。帶三塊碎骨給我，骨頭脆、邊緣亂，正適合練習怎麼在混亂中穩住手腕、避開反咬。記住，這只是白天能用上的基本功；夜裡的森林不要只靠近身膽量硬撐。",
+    "title": "靠近時的手腕",
+    "offerLabel": "問賽拉近身時該怎麼自保",
+    "submitLabel": "把碎骨交給賽拉練習用",
+    "description": "你問賽拉，如果真的被逼到近身，自己該怎麼不慌。\n\n她從地上撿起一截裂開的骨片，在掌心轉了半圈。「近身不是比誰更兇。你只要讓對方的手腕先亂掉，自己就有退開的時間。」\n\n她要你找三個碎骨回來。骨頭脆、邊緣不穩，正適合用來練習怎麼拿住會滑、會裂、會刺手的東西。",
     "accepted": false,
     "repeatable": false,
     "completed": false,
     "type": "villager",
     "giver": "sela",
     "statusOnAccept": "active",
-    "prerequisites": {
-      "player": {
-        "meleeWeaponSkill": 1
-      }
-    },
+    "prerequisites": { "player": { "meleeWeaponSkill": 1 } },
     "objectives": [
       {
         "id": "submit_cracked_bone_to_sela",
-        "description": "向賽拉提交 3 個碎骨，完成近戰訓練",
+        "description": "向賽拉提交 3 個碎骨，練習近身時穩住手腕",
         "type": "submitItems",
         "targetId": "cracked_bone",
         "requiredCount": 3
       }
     ],
-    "rewards": {
-      "player": {
-        "meleeWeaponSkill": 1
-      }
-    },
+    "rewards": { "player": { "meleeWeaponSkill": 1 } },
     "nextQuestIds": [],
-    "tags": [
-      "賽拉",
-      "碎骨",
-      "近戰訓練",
-      "近戰技能"
+    "tags": ["賽拉", "碎骨", "近身防衛", "近戰技能"],
+    "acceptPages": [
+      "賽拉把骨片推到你面前，讓它在桌面上輕輕打轉。「你看，它不聽話。真正靠近你的東西也一樣，不會照你想的角度過來。」",
+      "她要你帶三個碎骨回來。不是為了做武器，而是讓你先學會在刺痛和滑手之間穩住手腕，免得危險靠近時只剩亂揮。"
+    ],
+    "completePages": [
+      "賽拉接過碎骨，先讓你一個個握住，再用刀背輕輕敲你的手腕。每一次角度偏掉，骨邊都會提醒你哪裡露出了破綻。",
+      "她放慢動作，示範怎麼用短距離把對方的力道帶偏。「近身時別急著贏。先讓自己的手還聽話，你才有下一步。」"
     ]
   },
   {
     "id": "sela_smoke_bomb_recipe_request",
-    "title": "濃煙的準備",
-    "description": "你如果真的想在被追上前脫身，就先弄懂什麼東西能產煙。帶一份乾苔給我，我教你怎麼把它做成能救命的煙霧彈。尤其別在夜裡把逃路想得太乾淨；森林暗下來後，有些東西不是靠跑快就能甩開。",
+    "title": "遮住一步的煙",
+    "offerLabel": "問賽拉被追上時該怎麼脫身",
+    "submitLabel": "把乾苔交給賽拉試做濃煙",
+    "description": "你問賽拉，如果敵人追得太近，箭也來不及搭上弦，還能怎麼辦。\n\n她往火盆裡撥了一點灰，讓灰白的煙貼著盆緣散開。「有時候你不需要打倒它，只需要讓它一瞬間看不清你往哪裡退。」\n\n她要你帶一份乾苔回來。濕苔只會悶住，乾苔才會在短時間裡爆出足夠遮住視線的煙。",
     "accepted": false,
     "repeatable": false,
     "completed": false,
     "type": "villager",
     "giver": "sela",
     "statusOnAccept": "active",
-    "prerequisites": {
-      "flags": []
-    },
+    "prerequisites": { "flags": [] },
     "objectives": [
       {
         "id": "submit_dry_moss_to_sela",
-        "description": "向賽拉提交 1 份乾苔，學會煙霧彈配方",
+        "description": "向賽拉提交 1 份乾苔，學會讓煙霧彈成形的材料處理",
         "type": "submitItems",
         "targetId": "dry_moss",
         "requiredCount": 1
       }
     ],
     "rewards": {
-      "recipeIds": [
-        "smoke_bomb_recipe"
-      ],
-      "flags": [
-        "sela_smoke_bomb_recipe_completed"
-      ]
+      "recipeIds": ["smoke_bomb_recipe"],
+      "flags": ["sela_smoke_bomb_recipe_completed"]
     },
     "nextQuestIds": [],
-    "tags": [
-      "賽拉",
-      "乾苔",
-      "煙霧彈",
-      "配方",
-      "戰術物品"
+    "tags": ["賽拉", "乾苔", "煙霧彈", "配方", "脫身"],
+    "acceptPages": [
+      "賽拉提醒你，煙不是可靠的武器。風向錯了，它會先遮住你自己；距離太近，它也只能爭取一口氣的時間。",
+      "她要你找乾苔，而且必須乾到指尖一搓就會碎。「材料不聽話，煙就不聽話。先把這件事記住。」"
+    ],
+    "completePages": [
+      "賽拉把乾苔揉碎，混進灰粉和細砂裡，再用薄布緊緊包住。包好的小球不起眼，卻有一股乾燥刺鼻的味道。",
+      "她把做法教給你，最後只說：「它遮不住一整場危險，只遮得住一步。可有時候，一步就夠你活下來。」"
     ]
   },
   {
     "id": "mira_moondew_herb",
-    "title": "藥棚的月露草",
-    "description": "藥材快見底了。你可以交給我兩株月露草嗎？至少要讓棚裡還留得住救人的東西。",
+    "title": "藥棚空籃",
+    "offerLabel": "問米菈藥棚還缺什麼",
+    "submitLabel": "把月露草交給米菈",
+    "description": "你問米菈，藥棚裡有沒有什麼快用完的東西。她原本想說沒有，視線卻停在架子下一只空籃上。\n\n「月露草。」她最後說。退熱、止癢、處理小傷都會用到它；村裡人少，消耗卻沒有少到可以放著不管。\n\n她讓你帶兩株回來，並提醒你不要拔太小的芽。成熟葉片邊緣帶著淡淡涼意，才是能入藥的那種。",
     "accepted": false,
     "repeatable": false,
     "completed": false,
     "type": "villager",
     "giver": "mira",
     "statusOnAccept": "active",
-    "prerequisites": {
-      "flags": []
-    },
+    "prerequisites": { "flags": [] },
     "objectives": [
       {
         "id": "submit_moondew_to_mira",
-        "description": "向米菈提交 2 株月露草",
+        "description": "向米菈提交 2 株月露草，補上藥棚最常用的退熱藥材",
         "type": "submitItems",
         "targetId": "moondew_herb",
         "requiredCount": 2
       }
     ],
     "rewards": {
-      "items": {
-        "empty_potion_bottle": 1
-      },
-      "villagerAffection": {
-        "mira": 2
-      },
-      "flags": [
-        "mira_moondew_completed"
-      ]
+      "items": { "empty_potion_bottle": 1 },
+      "villagerAffection": { "mira": 2 },
+      "flags": ["mira_moondew_completed"]
     },
     "nextQuestIds": [],
-    "tags": [
-      "藥草",
-      "米菈"
+    "tags": ["米菈", "月露草", "藥棚", "藥瓶"],
+    "acceptPages": [
+      "米菈把空籃往架子裡推了一點，像是不太想讓你看見藥材短缺的樣子。她停了停，還是把籃子拿出來。",
+      "她告訴你月露草該看葉背的濕亮，不要只看名字去拔帶露水的草。「兩株就好。拔錯了，我也不會把它放進藥裡。」"
+    ],
+    "completePages": [
+      "米菈接過月露草，先翻看葉背，再掐掉受傷的邊角。她的動作很快，像是已經在腦中排好了每一株該放的位置。",
+      "她把藥草收進陰涼處，遞給你一只洗乾淨的空瓶。「拿著。下次真的需要藥時，有瓶子比空手站在我面前有用。」"
     ]
   },
   {
     "id": "lizard_merchant_dry_ration_request",
-    "title": "蜥蜴的請求",
-    "description": "蜥蜴羅索趴在井沿下方，眼睛往開墾區的方向瞇了瞇。\n\n「那邊田裡的生菜看起來很可口。我是商人，不是小偷，所以我不自己拿。你帶三份生菜來，讓我試試味道。作為交換，白天你也可以在井底找到我。」\n\n他說完晃了晃尾巴，像是已經把這筆買賣算得很清楚。",
+    "title": "井底的白天交易",
+    "offerLabel": "問羅索白天也能不能交易",
+    "submitLabel": "把生菜帶給羅索試吃",
+    "description": "你在井邊問羅索，白天是否也能交換東西。牠眨了眨眼，像是在衡量你這句話值不值得回應。\n\n「白天太亮，路也太吵。」牠說。不過開墾區的生菜若足夠新鮮，牠願意把白天的交易門路留一條給你。\n\n牠要三個生菜。不是單純填肚子，而是確認你帶來的東西乾淨、完整，值得讓牠改變交易習慣。",
     "accepted": false,
     "repeatable": false,
     "completed": false,
@@ -228,226 +162,171 @@
     "objectives": [
       {
         "id": "submit_lettuce_to_lizard",
-        "description": "把 3 個生菜交給蜥蜴羅索",
+        "description": "把 3 個生菜交給蜥蜴羅索，換取白天交易門路",
         "type": "submitItems",
         "targetId": "lettuce",
         "requiredCount": 3
       }
     ],
-    "rewards": {
-      "flags": [
-        "lizard_merchant_day_access"
-      ]
-    },
+    "rewards": { "flags": ["lizard_merchant_day_access"] },
     "nextQuestIds": [],
-    "tags": [
-      "蜥蜴羅索",
-      "生菜",
-      "井",
-      "開墾區",
-      "白天解鎖"
+    "tags": ["蜥蜴羅索", "生菜", "井", "開墾區", "白天交易"],
+    "acceptPages": [
+      "羅索把爪子搭在井沿，語氣像是在談一份很正式的契約。「三個生菜。完整的，乾淨的，不要路上偷咬一口。」",
+      "牠說白天能不能見到牠，要看你拿來的東西是否值得牠冒著亮光露面。「這不是請求，是試吃。試吃通過，門才會開。」"
+    ],
+    "completePages": [
+      "羅索把三個生菜依序捧起來，從葉脈看到根部，最後才小心咬下一口。牠嚼得很慢，彷彿每一下都在評分。",
+      "「可以。」牠把剩下的生菜收進井邊陰影裡。「白天你若來，我會聽一聽。不要太吵，也不要帶不新鮮的東西。」"
     ]
   },
   {
     "id": "nuosi_wood_carry_training",
-    "title": "工坊的負重訓練",
-    "description": "先搬兩份木材給我。我順便教你怎麼綁束背包、分配肩背力道。這不是單純跑腿，是讓你之後能多帶一點東西回來的基本訓練。",
+    "title": "背包的綁法",
+    "offerLabel": "問諾絲背包總是拖著肩膀怎麼辦",
+    "submitLabel": "把練習綁束的木材搬給諾絲",
+    "description": "你問諾絲，為什麼自己明明還有力氣，背包一裝多就像拖著肩膀往下沉。\n\n她伸手捏了捏你的背帶，又看向工坊門邊散著的木材。「重量不是只靠力氣扛。東西要先綁成能貼住背的形狀，力道才會落在肩和腰該吃的位置。」\n\n她讓你搬兩份木材過來。木材長短固定，最適合示範怎麼綁束、怎麼調整背包重心；工坊也正好缺料，這件事便順勢成了能派上用場的練習。",
     "accepted": false,
     "repeatable": false,
     "completed": false,
     "type": "villager",
     "giver": "nuosi",
     "statusOnAccept": "active",
-    "prerequisites": {
-      "flags": []
-    },
+    "prerequisites": { "flags": [] },
     "objectives": [
       {
         "id": "submit_wood_to_nuosi",
-        "description": "向諾絲提交 2 份木材，完成第一次負重訓練",
+        "description": "向諾絲提交 2 份木材，學會更穩的背包綁法",
         "type": "submitItems",
         "targetId": "wood",
         "requiredCount": 2
       }
     ],
-    "rewards": {
-      "player": {
-        "carrySkill": 1
-      }
-    },
-    "nextQuestIds": [
-      "nuosi_soil_stone_carry_training"
+    "rewards": { "player": { "carrySkill": 1 } },
+    "nextQuestIds": ["nuosi_soil_stone_carry_training"],
+    "tags": ["諾絲", "木材", "背包綁法", "搬運", "工坊"],
+    "acceptPages": [
+      "諾絲把幾根短木推到你面前，一根橫放、一根斜放。只是角度不同，手掌壓上去時，木頭滾動的方向就完全不一樣。",
+      "她要你帶兩份木材來，不是為了堆在倉庫裡，而是要你親手看見長條物怎麼綁才不會拖著肩膀走。"
     ],
-    "tags": [
-      "諾絲",
-      "木材",
-      "負重訓練",
-      "工坊"
+    "completePages": [
+      "諾絲把你搬來的木材拆開，重新排成貼合背包的形狀。她把繩結收在不會磨背的位置，才示意你背起來走兩步。",
+      "重量還在，但不再往單邊扯。她點點頭：「這樣才叫背東西。你不是跟背包拔河，是讓它跟著你走。」"
     ]
   },
   {
     "id": "nuosi_storage_box_upgrade_1",
-    "title": "倉庫箱第一次加固",
-    "description": "倉庫箱要再撐久一點，先交給我五份木材。我把箱角和底板加固，之後能放的東西會多一些。",
+    "title": "箱角與底板",
+    "offerLabel": "問諾絲倉庫箱還能不能加固",
+    "submitLabel": "把加固用木材交給諾絲",
+    "description": "你問諾絲，倉庫箱是不是還能再放得下更多東西。\n\n她蹲下來敲了敲箱角，又用手掌托住底板。「不是往上疊就好。箱角吃不住力，底板先彎，裡面的東西再整排歪掉。」\n\n她要五份木材，用來補箱角和底板。這不是單純擴大箱子，而是讓它真的承得住更多重量。",
     "accepted": false,
     "repeatable": false,
     "completed": false,
     "type": "village",
     "giver": "nuosi",
     "statusOnAccept": "active",
-    "prerequisites": {
-      "flags": []
-    },
+    "prerequisites": { "flags": [] },
     "objectives": [
       {
         "id": "submit_wood_for_storage_box_upgrade",
-        "description": "向諾絲提交 5 份木材，完成倉庫箱第一次加固",
+        "description": "向諾絲提交 5 份木材，補強倉庫箱的箱角與底板",
         "type": "submitItems",
         "targetId": "wood",
         "requiredCount": 5
       }
     ],
     "rewards": {
-      "facilities": {
-        "storage_box": {
-          "levelDelta": 1
-        }
-      },
-      "flags": [
-        "storage_box_upgrade_1_completed"
-      ]
+      "facilities": { "storage_box": { "levelDelta": 1 } },
+      "flags": ["storage_box_upgrade_1_completed"]
     },
     "nextQuestIds": [],
-    "tags": [
-      "諾絲",
-      "木材",
-      "倉庫箱",
-      "設施升級",
-      "工坊"
+    "tags": ["諾絲", "木材", "倉庫箱", "村莊設施", "加固"],
+    "acceptPages": [
+      "諾絲掀開倉庫箱，把手指伸進箱角縫裡。木板間有一點鬆動，重物放久了，裂縫會慢慢把整只箱子拉歪。",
+      "她要你準備五份木材，而且特別提醒不要只挑漂亮的板面。「我要能吃力的料。箱子壞掉時，先壞的從來不是最顯眼的地方。」"
+    ],
+    "completePages": [
+      "諾絲從你帶來的木材裡挑出紋路最直的幾塊，拿去補底板，又把較短的木料裁成角撐。",
+      "敲打聲停下後，倉庫箱看起來沒有變大多少，推起來卻穩了許多。諾絲拍拍箱蓋：「可以多放一點了，但別把它當成沒有底。」"
     ]
   },
   {
     "id": "nuosi_soil_stone_carry_training",
-    "title": "工坊的負重訓練（二）",
-    "description": "這次換點更麻煩的重量。帶兩份泥土和兩顆石頭給我，我教你怎麼把零散又容易晃的東西固定好。",
+    "title": "會晃的重量",
+    "offerLabel": "問諾絲零散的東西該怎麼搬",
+    "submitLabel": "把泥土和石頭拿給諾絲整理",
+    "description": "你問諾絲，木材綁好以後確實好背多了，可是泥土、石頭這類零散東西總是會在包裡亂晃。\n\n她沒有笑你，只把一只空袋攤開在工坊桌上。「這種東西麻煩的不是重，是重心會跑。泥土會塌，石頭會滾，你要先學會把會晃的重量壓住。」\n\n她讓你帶兩份泥土和兩顆石頭回來。這些不是工坊指定要收的漂亮材料，而是最接近村外實際撿拾狀況的練習物；能固定好它們，你才真的能多帶東西回來。",
     "accepted": false,
     "repeatable": false,
     "completed": false,
     "type": "villager",
     "giver": "nuosi",
     "statusOnAccept": "active",
-    "prerequisites": {
-      "player": {
-        "carrySkill": 1
-      }
-    },
+    "prerequisites": { "player": { "carrySkill": 1 } },
     "objectives": [
       {
         "id": "submit_soil_to_nuosi",
-        "description": "向諾絲提交 2 份泥土",
+        "description": "向諾絲提交 2 份泥土，練習固定會塌的重量",
         "type": "submitItems",
         "targetId": "soil",
         "requiredCount": 2
       },
       {
         "id": "submit_stone_to_nuosi",
-        "description": "向諾絲提交 2 顆石頭",
+        "description": "向諾絲提交 2 顆石頭，練習固定會滾動的重量",
         "type": "submitItems",
         "targetId": "stone_ammo",
         "requiredCount": 2
       }
     ],
-    "rewards": {
-      "player": {
-        "carrySkill": 1
-      }
-    },
+    "rewards": { "player": { "carrySkill": 1 } },
     "nextQuestIds": [],
-    "tags": [
-      "諾絲",
-      "泥土",
-      "石頭",
-      "負重訓練",
-      "工坊"
+    "tags": ["諾絲", "泥土", "石頭", "背包綁法", "搬運", "工坊"],
+    "acceptPages": [
+      "諾絲把空袋斜斜拎起來，又丟進幾顆小石子讓你聽。袋底的聲音一路滑到角落，像整個重量都在找地方逃。",
+      "她要你帶泥土和石頭回來。泥土會塌，石頭會滾，兩種一起練，才知道背包裡的東西不是塞進去就算固定。"
+    ],
+    "completePages": [
+      "諾絲把泥土分成幾個小包，再把石頭卡在不會互相撞動的位置。她一邊綁，一邊要你摸袋底哪裡還會移動。",
+      "重新背起來時，包裡的重量仍然沉，卻不再每走一步就往旁邊撞。諾絲說：「能把會晃的東西帶回家，才是真的多帶了東西。」"
     ]
   },
   {
     "id": "tori_berry_self_defense_training",
-    "title": "防身練習",
-    "description": "開墾區離村外太近，光會跑腿和採菜還不夠。你帶三份莓果來當練習後的補給，我陪你做一輪最基本的近身防身練習。",
+    "title": "田埂邊的防身",
+    "offerLabel": "問托莉在開墾區工作會不會遇到危險",
+    "submitLabel": "把練習後要吃的莓果帶給托莉",
+    "description": "你問托莉，在開墾區工作時會不會遇到危險。\n\n她望向田埂外側，手指還沾著泥。「有時候不是危險來了才知道。草動得太重、聲音太近，或者你低頭太久，回神時就已經晚了。」\n\n她願意教你幾個不靠武器也能爭取時間的動作，但要你先帶三個莓果。練習會耗力，田邊不能讓人餓著硬撐。",
     "accepted": false,
     "repeatable": false,
     "completed": false,
     "type": "villager",
     "giver": "tori",
     "statusOnAccept": "active",
-    "prerequisites": {
-      "flags": []
-    },
+    "prerequisites": { "flags": [] },
     "objectives": [
       {
         "id": "submit_berries_to_tori",
-        "description": "向托莉提交 3 個莓果，完成近身防身練習",
+        "description": "向托莉提交 3 個莓果，作為田埂邊防身練習後的補給",
         "type": "submitItems",
         "targetId": "berry",
         "requiredCount": 3
       }
     ],
     "rewards": {
-      "player": {
-        "meleeWeaponSkill": 1
-      },
-      "villagerAffection": {
-        "tori": 1
-      }
+      "player": { "meleeWeaponSkill": 1 },
+      "villagerAffection": { "tori": 1 }
     },
     "nextQuestIds": [],
-    "tags": [
-      "托莉",
-      "莓果",
-      "防身訓練",
-      "近戰技能"
-    ]
-  },
-  {
-    "id": "tori_field_upgrade_1",
-    "title": "田地第一次整土",
-    "description": "田裡的土還太薄了。你可以帶三份泥土過來嗎？我把地墊高一點，之後能分出來的菜也會更穩。",
-    "accepted": false,
-    "repeatable": false,
-    "completed": false,
-    "type": "village",
-    "giver": "tori",
-    "statusOnAccept": "active",
-    "prerequisites": {
-      "flags": []
-    },
-    "objectives": [
-      {
-        "id": "submit_soil_for_field_upgrade",
-        "description": "向托莉提交 3 份泥土，完成田地第一次整土",
-        "type": "submitItems",
-        "targetId": "soil",
-        "requiredCount": 3
-      }
+    "tags": ["托莉", "莓果", "防身", "開墾區", "近戰技能"],
+    "acceptPages": [
+      "托莉把鋤頭靠到田埂邊，清出一小塊不會踩壞作物的空地。她看起來不像要嚇你，只是很認真地估量你會在哪裡跌倒。",
+      "她要你帶三個莓果來。「不是報酬，是練完要吃的。人在餓的時候反應會慢，反應慢就更容易受傷。」"
     ],
-    "rewards": {
-      "facilities": {
-        "field": {
-          "levelDelta": 1
-        }
-      },
-      "flags": [
-        "field_upgrade_1_completed"
-      ]
-    },
-    "nextQuestIds": [],
-    "tags": [
-      "托莉",
-      "泥土",
-      "田地",
-      "設施升級",
-      "開墾區"
+    "completePages": [
+      "托莉把莓果放到陰影裡，讓你站在田埂邊。她先教你怎麼護住手腕，再教你被推近時怎麼把腳跟踩穩。",
+      "動作都很短，沒有漂亮的架勢，卻能讓你在第一下衝撞裡不至於倒下。托莉擦掉手上的泥：「能跑當然最好。但跑以前，要先撐過最靠近的那一下。」"
     ]
   }
 ]

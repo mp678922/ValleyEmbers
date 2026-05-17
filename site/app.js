@@ -3,8 +3,8 @@ const LEGACY_SAVE_STORAGE_KEYS = ['codexpj_save'];
 const DORMITORY_LOCATION_ID = 'dormitory';
 const RESET_SECOND = 21600;
 const FALLBACK_SCENE_ID = 'village_square_hub';
-const INTERFACE_PLAN_VERSION = 'interface-ui@2026-05-17.02';
-const PROGRAM_VERSION = 'browser-prototype@2026-05-17.02';
+const INTERFACE_PLAN_VERSION = 'interface-ui@2026-05-17.08';
+const PROGRAM_VERSION = 'browser-prototype@2026-05-17.10';
 const EXPLORATION_SCENE_ID = 'forest_edge';
 const TEMPLE_RUINS_SCENE_ID = 'temple_ruins';
 const NAME_PROTAGONIST_SCENE_ID = 'nameProtagonist';
@@ -187,6 +187,7 @@ const elements = {
   openRecipeBookButton: document.querySelector('#open-recipe-book-button'),
   systemToggle: document.querySelector('#system-toggle'),
   systemBody: document.querySelector('#system-body'),
+  systemVersionList: document.querySelector('#system-version-list'),
   itemModal: document.querySelector('#item-modal'),
   itemModalKicker: document.querySelector('#item-modal-kicker'),
   itemModalTitle: document.querySelector('#item-modal-title'),
@@ -891,15 +892,15 @@ function getCurrentScene() {
   }
 
   if (gameState.currentSceneId.startsWith('quest:')) {
-    return createQuestScene(gameState.currentSceneId);
+    return createLegacyQuestReturnScene(gameState.currentSceneId);
   }
 
   if (gameState.currentSceneId.startsWith('questOffer:')) {
-    return createQuestOfferScene(gameState.currentSceneId);
+    return createLegacyQuestReturnScene(gameState.currentSceneId);
   }
 
   if (gameState.currentSceneId.startsWith('questSubmit:')) {
-    return createQuestSubmitScene(gameState.currentSceneId);
+    return createLegacyQuestReturnScene(gameState.currentSceneId);
   }
 
   if (gameState.currentSceneId.startsWith('knowledge:')) {
@@ -1291,10 +1292,6 @@ function getTimeBlock(secondsOfDay) {
   return current?.id || '深夜';
 }
 
-function getSecondsUntilTimeBlock(targetTimeBlock) {
-  return getTimeBlockTargetInfo(targetTimeBlock).seconds;
-}
-
 function getTimeBlockTargetInfo(targetTimeBlock) {
   const target = TIME_BLOCKS.find((block) => block.id === targetTimeBlock);
   if (!target) {
@@ -1609,12 +1606,10 @@ function applyDynamicChoice(choice) {
     moveToLocation: () => moveToLocation(choice),
     openFacility: () => openFacility(choice),
     openTrade: () => openTrade(choice),
-    openQuest: () => openQuest(choice),
     openKnowledge: () => openKnowledge(choice),
     openKnowledgePage: () => openKnowledgePage(choice),
     openSelaIntel: () => openSelaIntelModal(choice.enemyId),
-    openQuestOffer: () => openQuestOffer(choice),
-    openQuestSubmit: () => openQuestSubmit(choice),
+    startQuestEvent: () => startQuestEvent(choice),
     startEventReview: () => startEventReview(choice),
     advanceEventPage: () => advanceEventPage(choice),
     chooseEventBranch: () => chooseEventBranch(choice),
@@ -1628,9 +1623,6 @@ function applyDynamicChoice(choice) {
     blackCatFindShelter: () => blackCatFindShelter(choice),
     blackCatCarryItems: () => blackCatCarryItems(choice),
     participateWeavingWork: () => participateWeavingWork(choice),
-    acceptQuest: () => acceptQuest(choice),
-    declineQuest: () => declineQuest(choice),
-    completeQuest: () => completeQuest(choice),
     returnToScene: () => returnToScene(choice),
     withdrawFacility: () => withdrawFacility(choice.facilityId),
     withdrawFacilityItem: () => withdrawFacilityItem(choice.facilityId, choice.itemId, choice.returnSceneId),
@@ -1759,7 +1751,105 @@ function moveToScene(sceneId) {
 }
 
 function getEventById(eventId) {
-  return events.find((entry) => entry.id === eventId) || null;
+  return events.find((entry) => entry.id === eventId) || getGeneratedQuestEventById(eventId);
+}
+
+function getGeneratedQuestEventById(eventId) {
+  const questEventTypes = [
+    { prefix: 'quest_offer_', type: 'offer' },
+    { prefix: 'quest_accept_', type: 'accept' },
+    { prefix: 'quest_decline_', type: 'decline' },
+    { prefix: 'quest_complete_', type: 'complete' }
+  ];
+  const matchedType = questEventTypes.find((entry) => eventId?.startsWith(entry.prefix));
+  if (!matchedType) {
+    return null;
+  }
+
+  const questId = eventId.slice(matchedType.prefix.length);
+  const quest = quests.find((entry) => entry.id === questId);
+  if (!quest) {
+    return null;
+  }
+
+  return createGeneratedQuestEvent(matchedType.type, quest);
+}
+
+function createGeneratedQuestEvent(type, quest) {
+  const villager = villagers.find((entry) => entry.id === quest.giver);
+  const villagerName = villager?.name || '對方';
+  const title = quest.title || '委託';
+  const base = {
+    id: `quest_${type}_${quest.id}`,
+    title,
+    repeatable: true,
+    generated: true
+  };
+
+  if (type === 'offer') {
+    return {
+      ...base,
+      pages: [
+        {
+          id: 'offer',
+          text: createQuestOfferDialogue(villager, quest),
+          choices: [
+            { id: 'accept', label: '答應', targetEventId: `quest_accept_${quest.id}` },
+            { id: 'decline', label: '拒絕', targetEventId: `quest_decline_${quest.id}` }
+          ]
+        }
+      ]
+    };
+  }
+
+  if (type === 'accept') {
+    return {
+      ...base,
+      pages: createQuestEventPages(quest, 'accept', [
+        `${villagerName}把你的回應聽完，沒有急著把事情推到你手上。`,
+        `${villagerName}確認你真的願意接下後，才把接下來該做的事說清楚。`
+      ], {
+        questAccept: { questId: quest.id, villagerId: quest.giver }
+      }, `已接取委託：${title}。`)
+    };
+  }
+
+  if (type === 'decline') {
+    return {
+      ...base,
+      pages: [
+        {
+          id: 'decline',
+          text: `${villagerName}沒有多說什麼，只讓你準備好了再來。`
+        }
+      ]
+    };
+  }
+
+  return {
+    ...base,
+    pages: createQuestEventPages(quest, 'complete', [
+      createQuestSubmitDialogue(villager, quest),
+      `${villagerName}把事情收尾後，才把該給你的東西交到你手上。`
+    ], {
+      questComplete: { questId: quest.id, villagerId: quest.giver }
+    })
+  };
+}
+
+function createQuestEventPages(quest, type, fallbackTexts = [], effects = {}, resultMessage = '') {
+  const configuredTexts = Array.isArray(quest?.[`${type}Pages`])
+    ? quest[`${type}Pages`].map((entry) => String(entry || '').trim()).filter(Boolean)
+    : [];
+  const texts = configuredTexts.length >= 2 ? configuredTexts : fallbackTexts.filter(Boolean);
+  const pageTexts = texts.length >= 2 ? texts : [...texts, ...fallbackTexts].filter(Boolean).slice(0, 2);
+  const finalTexts = pageTexts.length >= 2 ? pageTexts : ['對方把事情重新說清楚。', '你確認自己已經聽明白了。'];
+  const lastIndex = finalTexts.length - 1;
+  return finalTexts.map((text, index) => ({
+    id: `${type}_${index + 1}`,
+    text,
+    ...(index === lastIndex ? { effects, ...(resultMessage ? { resultMessage } : {}) } : {})
+  }));
 }
 
 function getEventPage(eventId, pageId) {
@@ -2076,9 +2166,10 @@ function applyEventPageEntry(event, page, activeState) {
     effects: page.effects || {}
   };
   const rewardSceneId = activeState.returnSceneId || FALLBACK_SCENE_ID;
+  let effectResult = null;
   let droppedItems = [];
   runTrackedAction(syntheticChoice, () => {
-    applyEffects(page.effects || {});
+    effectResult = applyEffects(page.effects || {});
     droppedItems = applyCarryAwareItemRewards(createEventRewardItems(page), rewardSceneId);
     learnRecipes(page.rewardRecipeIds || []);
     advanceTime(page.timeCostSeconds || 0);
@@ -2087,6 +2178,11 @@ function applyEventPageEntry(event, page, activeState) {
     messageLabel: droppedItems.length ? '狀態' : '',
     showMessageWhenPresent: droppedItems.length || Boolean(page.resultMessage)
   });
+  const effectMessage = createEffectResultMessage(effectResult);
+  if (effectMessage && gameState.lastActionResult) {
+    gameState.lastActionResult.message = [effectMessage, gameState.lastActionResult.message || ''].filter(Boolean).join(' ');
+    gameState.lastActionResult.showMessageWhenPresent = true;
+  }
 }
 
 function createEventRewardItems(page = {}) {
@@ -2282,24 +2378,25 @@ function openTrade(choice) {
   render();
 }
 
-function openQuest(choice) {
-  gameState.lastInteraction = null;
-  clearActionResultDisplay();
-  gameState.currentSceneId = `quest:${choice.villagerId}:${choice.returnSceneId}`;
-  saveGame();
-  render();
-}
+function startQuestEvent(choice) {
+  const quest = quests.find((entry) => entry.id === choice.questId);
+  const villagerId = choice.villagerId || quest?.giver || '';
+  const returnSceneId = choice.returnSceneId || FALLBACK_SCENE_ID;
+  if (!quest || !villagerId) {
+    recordFailedAction({ id: choice.id || 'quest_event', label: choice.label || '委託' }, '委託資料不存在。');
+    return;
+  }
 
-function openQuestOffer(choice) {
   clearActionResultDisplay();
-  gameState.currentSceneId = `questOffer:${choice.villagerId}:${choice.questId}:${choice.returnSceneId}`;
-  saveGame();
-  render();
-}
-
-function openQuestSubmit(choice) {
-  clearActionResultDisplay();
-  gameState.currentSceneId = `questSubmit:${choice.villagerId}:${choice.questId}:${choice.returnSceneId}`;
+  if (!startEvent(choice.eventId, {
+    returnSceneId: `dialogue:${villagerId}:${returnSceneId}`,
+    triggerType: choice.questEventType || 'quest',
+    triggerSourceId: quest.id,
+    triggerContextKey: `quest:${choice.questEventType || 'event'}:${quest.id}:${returnSceneId}`
+  })) {
+    recordFailedAction({ id: choice.id || 'quest_event', label: choice.label || '委託' }, '委託事件不存在。');
+    return;
+  }
   saveGame();
   render();
 }
@@ -3663,7 +3760,7 @@ function getTimeDeltaSeconds(before, after) {
 }
 
 function applyEffects(effects) {
-  applyEffectsToState(gameState, effects);
+  return applyEffectsToState(gameState, effects);
 }
 
 function applyNumberEffect(target, key, amount, min, max) {
@@ -3691,6 +3788,7 @@ function applyPercentOfMaxEffect(target, key, ratio, min, max) {
 }
 
 function applyEffectsToState(state, effects = {}) {
+  const result = { messages: [] };
   applyNumberEffect(state.player, 'life', effects.life, 0, state.player.maxLife);
   applyNumberEffect(state.player, 'stamina', effects.stamina, 0, state.player.maxStamina);
   applyPercentOfMaxEffect(state.player, 'life', effects.lifePercentOfMax, 0, state.player.maxLife);
@@ -3735,6 +3833,18 @@ function applyEffectsToState(state, effects = {}) {
       state.player.dailyFlags.push(flag);
     }
   }
+
+  if (state === gameState) {
+    const questAcceptMessage = applyQuestAcceptEffect(effects.questAccept);
+    const questCompleteMessage = applyQuestCompleteEffect(effects.questComplete);
+    result.messages.push(...[questAcceptMessage, questCompleteMessage].filter(Boolean));
+  }
+
+  return result;
+}
+
+function createEffectResultMessage(result = null) {
+  return (result?.messages || []).filter(Boolean).join(' ');
 }
 
 function applyExplorationDefeatEffect(state, effect = null) {
@@ -3904,17 +4014,6 @@ function hasDirectItemUseEffect(item) {
     Object.keys(effects).length
     || (Array.isArray(item?.useReturnsItems) && item.useReturnsItems.length)
   );
-}
-
-function getUseItemMenuDisabledReason(returnSceneId = FALLBACK_SCENE_ID) {
-  const consumableEntries = getConsumableInventoryEntries(returnSceneId);
-  if (!consumableEntries.length) {
-    return '背包裡目前沒有可直接使用的道具。';
-  }
-  if (!consumableEntries.some(({ item }) => !getItemUseDisabledReason(item, returnSceneId))) {
-    return '目前沒有使用後會產生變化的道具。';
-  }
-  return '';
 }
 
 function getItemUseDisabledReason(item, returnSceneId = FALLBACK_SCENE_ID) {
@@ -4173,6 +4272,12 @@ function canReturnVillageFromExploration() {
     && Number(gameState.exploration.progress || 0) <= 0;
 }
 
+function isExplorationVillageReturnPoint(exploration = gameState.exploration) {
+  return Boolean(exploration?.active)
+    && exploration.currentLayer === EXPLORATION_LAYER_ORDER[0].id
+    && Number(exploration.progress || 0) <= 0;
+}
+
 function getNextExplorationLayer(currentLayerId) {
   const index = EXPLORATION_LAYER_ORDER.findIndex((layer) => layer.id === currentLayerId);
   return index >= 0 ? EXPLORATION_LAYER_ORDER[index + 1] || null : null;
@@ -4257,6 +4362,10 @@ function rerollBlackCatPresence(exploration = gameState.exploration) {
     return;
   }
   exploration.blackCatPositionKey = getExplorationPositionKey(exploration);
+  if (isExplorationVillageReturnPoint(exploration)) {
+    exploration.blackCatPresent = false;
+    return;
+  }
   exploration.blackCatPresent = Math.random() < BLACK_CAT_APPEARANCE_RATE;
 }
 
@@ -4271,6 +4380,10 @@ function ensureBlackCatPresenceForCurrentPosition(exploration = gameState.explor
 
 function isBlackCatPresentAt(locationId) {
   if (locationId !== EXPLORATION_SCENE_ID || !gameState.exploration?.active) {
+    return false;
+  }
+  if (isExplorationVillageReturnPoint(gameState.exploration)) {
+    gameState.exploration.blackCatPresent = false;
     return false;
   }
   ensureBlackCatPresenceForCurrentPosition(gameState.exploration);
@@ -4524,15 +4637,6 @@ function createEncounterDescription(enemy) {
   return `${opener}\n${detail}\n${threat}\n${closer}`;
 }
 
-function createEncounterChoices(enemy, returnSceneId) {
-  return [
-    ...createEncounterWeaponChoices(enemy, returnSceneId),
-    ...createEncounterRangedChoices(enemy, returnSceneId),
-    ...createEncounterToolChoices(enemy, returnSceneId),
-    ...createEncounterOtherChoices(enemy, returnSceneId)
-  ];
-}
-
 function createEncounterChoiceGroups(enemy, returnSceneId) {
   return [
     { title: '近身作戰', className: 'encounter-choice-group', choices: createEncounterWeaponChoices(enemy, returnSceneId), emptyLabel: '目前沒有可用的近身作戰選項。' },
@@ -4755,32 +4859,6 @@ function doesRangedAttackHit(enemy, weaponId) {
     return true;
   }
   return Math.random() < 0.33;
-}
-
-function canRangedWeaponDefeatEnemy(enemy, weaponId) {
-  const ammoItemId = getRangedWeaponAmmoItemId(weaponId);
-  if (getEncounterRangedDisabledReason(enemy, weaponId, ammoItemId)) {
-    return false;
-  }
-  return !enemy.absoluteAmmoEvasion
-    && getRangedHitPower(enemy, weaponId) >= Number(enemy.rangedDodge || 0)
-    && getEncounterStateDifficulty(enemy) <= 1;
-}
-
-function canRangedWeaponReachSafeResult(enemy, weaponId) {
-  const ammoItemId = getRangedWeaponAmmoItemId(weaponId);
-  if (getEncounterRangedDisabledReason(enemy, weaponId, ammoItemId)) {
-    return false;
-  }
-  if (enemy.absoluteAmmoEvasion || getRangedHitPower(enemy, weaponId) < Number(enemy.rangedDodge || 0)) {
-    return false;
-  }
-  const simulatedDifficulty = Math.max(0, getEncounterStateDifficulty(enemy) - 1);
-  return simulatedDifficulty <= 0
-    || [
-      ...getOwnedMeleeWeaponItems().map((item) => item.id),
-      null
-    ].some((weaponIdOption) => isSafeEncounterResult(getMeleeEncounterResultForDifficulty(enemy, weaponIdOption, simulatedDifficulty)));
 }
 
 function hasWinningEncounterOption(enemy) {
@@ -5375,18 +5453,6 @@ function isEffectiveRangedChoice(enemy, weaponId) {
   return Boolean(ammoType && (enemy?.effectiveAmmo === ammoType || enemy?.effectiveAmmo === '兩者'));
 }
 
-function getEncounterResultMessage(enemy, result) {
-  const messages = {
-    great_victory: `你完全壓制了${enemy.name}。`,
-    victory: `你壓住了${enemy.name}，成功把牠處理掉。`,
-    minor_fail: `你驚險地擊退了${enemy.name}，但也挨了一下。`,
-    fail: `你沒能壓過${enemy.name}，只能狼狽退開。`,
-    major_fail: `${enemy.name}把你逼到失去意識。`,
-    escape: `你勉強從${enemy.name}面前脫身。`
-  };
-  return messages[result] || `你和${enemy.name}纏鬥了一陣。`;
-}
-
 function getEncounterReportText(enemy, result) {
   if (!enemy) {
     return '';
@@ -5680,12 +5746,6 @@ function createAdventureStatusMeter(label, value, text, tone = '') {
   return item;
 }
 
-function createSceneInfoRows(scene = {}) {
-  return (scene.infoRows || [])
-    .filter((row) => row && row.value)
-    .map((row) => createActionResultLine(row.label || '資訊', row.value));
-}
-
 function createActionResultRows(result) {
   const rows = [];
 
@@ -5793,12 +5853,6 @@ function createChoiceGroups(scene) {
   const groups = scene.choiceGroups || groupChoicesByLabel(choices);
   const visibleGroups = groups
     .map((group) => {
-      if (group.type === 'questInfo') {
-        return {
-          ...group,
-          items: (group.items || []).filter(Boolean)
-        };
-      }
       if (group.type === 'tradeRows') {
         return {
           ...group,
@@ -5813,9 +5867,6 @@ function createChoiceGroups(scene) {
     .filter((group) => {
       if (group.type === 'nameInput') {
         return true;
-      }
-      if (group.type === 'questInfo') {
-        return group.items.length || group.emptyLabel;
       }
       if (group.type === 'tradeRows') {
         return group.rows.length || group.emptyLabel;
@@ -5833,7 +5884,6 @@ function createChoiceGroups(scene) {
     .map((group) => {
       if (group.type === 'waitSlider') return createWaitSliderGroup(group);
       if (group.type === 'sleepSlider') return createSleepSliderGroup(group);
-      if (group.type === 'questInfo') return createQuestInfoGroup(group);
       if (group.type === 'tradeRows') return createTradeRowGroup(group);
       if (group.type === 'storageRows') return createStorageRowGroup(group);
       if (group.type === 'tradeSummary') return createTradeSummaryGroup(group);
@@ -6098,49 +6148,6 @@ function createChoiceGroup(group) {
     section.append(title, body);
   }
   return section;
-}
-
-function createQuestInfoGroup(group) {
-  const section = document.createElement('section');
-  section.className = 'choice-group quest-info-group';
-
-  const title = document.createElement('h2');
-  title.className = 'choice-group-title';
-  title.textContent = group.title;
-
-  const body = document.createElement('div');
-  body.className = 'choice-group-body';
-
-  if (group.items.length) {
-    const list = document.createElement('div');
-    list.className = 'quest-info-list';
-    list.replaceChildren(...group.items.map(createQuestInfoItem));
-    body.append(list);
-  } else {
-    const empty = document.createElement('div');
-    empty.className = 'quest-info-empty-note';
-    empty.textContent = group.emptyLabel || '目前沒有進行中的委託。';
-    body.append(empty);
-  }
-
-  section.append(title, body);
-  return section;
-}
-
-function createQuestInfoItem(item) {
-  const article = document.createElement('article');
-  article.className = 'quest-info-item';
-
-  const title = document.createElement('div');
-  title.className = 'quest-info-title';
-  title.textContent = item.title;
-
-  const progress = document.createElement('div');
-  progress.className = 'quest-info-progress';
-  progress.textContent = item.progress || '進行中';
-
-  article.append(title, progress);
-  return article;
 }
 
 function createTradeRowGroup(group) {
@@ -6932,10 +6939,6 @@ function createFacilityEventReviewChoices(returnSceneId, facility, context) {
       facilityId: context.instanceId,
       returnSceneId
     }));
-}
-
-function createGenericFacilityInfoRows(facility, context) {
-  return createFacilityStatusRows(facility, context);
 }
 
 function createFacilityStatusRows(facility, context) {
@@ -7886,29 +7889,6 @@ function createDialogueScene(sceneId) {
   };
 }
 
-function createNpcInfoRows(villager, lastText = '') {
-  if (lastText.trim()) {
-    return [{ label: '回應', value: lastText.trim() }];
-  }
-  return [
-    { label: '人物', value: createNpcPresenceDescription(villager) },
-    { label: '提示', value: createNpcHint(villager) }
-  ].filter((row) => row.value);
-}
-
-function createNpcHint(villager) {
-  if (getSubmittableQuestsForVillager(villager.id).length) {
-    return '她似乎在等你把委託的結果交代清楚。';
-  }
-  if (getAvailableQuestsForVillager(villager.id).length) {
-    return '她似乎有工作想委託。';
-  }
-  if (getActiveQuestsForVillager(villager.id).length) {
-    return '你們之間還有未了的委託。';
-  }
-  return '';
-}
-
 function createNpcImpressionDescription(villager, returnSceneId = '') {
   const candidates = [
     ...getAuthoredNpcImpressionCandidates(villager, returnSceneId),
@@ -8129,58 +8109,6 @@ function createDoNotDisturbDialogueScene(villager, returnSceneId) {
   };
 }
 
-function createQuestScene(sceneId) {
-  const [, villagerId, returnSceneId] = sceneId.split(':');
-  const villager = villagers.find((candidate) => candidate.id === villagerId);
-  if (!villager) {
-    return createLocationScene(locations.find((location) => location.id === returnSceneId) || locations[0]);
-  }
-
-  const availableQuests = getAvailableQuestsForVillager(villagerId);
-  const activeQuests = getActiveQuestsForVillager(villagerId);
-  const submittableQuests = getSubmittableQuestsForVillager(villagerId);
-  const questInfo = availableQuests.length || activeQuests.length || submittableQuests.length
-    ? '有些事還能接下來，有些則已經到了該交代結果的時候。'
-    : '眼下似乎沒有什麼需要特地交代的事。';
-
-  const choiceGroups = [
-    {
-      title: '可接委託',
-      choices: availableQuests.map((quest) => createOfferQuestChoice(quest, villagerId, returnSceneId))
-    }
-  ];
-
-  if (activeQuests.length) {
-    choiceGroups.push({
-      title: '已接委託',
-      type: 'questInfo',
-      items: activeQuests.map((quest) => createTrackedQuestInfo(quest))
-    });
-  }
-
-  choiceGroups.push({
-    title: '可提交委託',
-    choices: submittableQuests.map((quest) => createSubmitQuestChoice(quest, villagerId, returnSceneId))
-  });
-
-  choiceGroups.push({
-    title: '返回',
-    choices: [createReturnChoice(`dialogue:${villagerId}:${returnSceneId}`)]
-  });
-
-  return {
-    id: sceneId,
-    title: `與${villager.name}確認委託`,
-    location: getLocationLabel(getVillagerLocationId(villager)),
-    description: '',
-    infoRows: [
-      { label: '人物', value: `${villager.name}看著你，像是在等你把手上的事一件件說清楚。` },
-      { label: '提示', value: questInfo }
-    ],
-    choiceGroups
-  };
-}
-
 function getAvailableQuestsForVillager(villagerId) {
   return quests.filter((quest) =>
     quest.giver === villagerId
@@ -8202,12 +8130,13 @@ function getSubmittableQuestsForVillager(villagerId) {
 function createOfferQuestChoice(quest, villagerId, returnSceneId) {
   return {
     id: `offer_quest_${quest.id}`,
-    label: quest.title,
+    label: createQuestActionLabel(quest, 'offer', villagerId),
     actionType: 'quest',
     timeCostSeconds: 0,
     hideCost: true,
-    hoverText: quest.description || '',
-    dynamicAction: 'openQuestOffer',
+    dynamicAction: 'startQuestEvent',
+    eventId: `quest_offer_${quest.id}`,
+    questEventType: 'questOffer',
     questId: quest.id,
     villagerId,
     returnSceneId
@@ -8217,37 +8146,25 @@ function createOfferQuestChoice(quest, villagerId, returnSceneId) {
 function createSubmitQuestChoice(quest, villagerId, returnSceneId) {
   return {
     id: `submit_quest_${quest.id}`,
-    label: quest.title,
+    label: createQuestActionLabel(quest, 'submit', villagerId),
     actionType: 'quest',
     timeCostSeconds: 0,
     hideCost: true,
-    hoverText: `${quest.description || ''}${formatQuestObjectives(quest) ? `\n\n${formatQuestObjectives(quest)}` : ''}`.trim(),
-    dynamicAction: 'openQuestSubmit',
+    dynamicAction: 'startQuestEvent',
+    eventId: `quest_complete_${quest.id}`,
+    questEventType: 'questComplete',
     questId: quest.id,
     villagerId,
     returnSceneId
   };
 }
 
-function createTrackedQuestInfo(quest) {
-  return {
-    id: `tracked_quest_${quest.id}`,
-    title: quest.title,
-    progress: formatQuestProgress(quest) || formatQuestObjectives(quest).replace(/^- /gm, '') || '進行中'
-  };
-}
-
-function formatQuestObjectives(quest) {
-  return (quest.objectives || [])
-    .map((objective) => `- ${objective.description}`)
-    .join('\n');
-}
-
-function formatQuestProgress(quest) {
-  return (quest.objectives || [])
-    .map((objective) => formatQuestObjectiveProgress(objective))
-    .filter(Boolean)
-    .join(' / ');
+function createQuestActionLabel(quest, type, villagerId) {
+  const villagerName = getVillagerName(villagerId);
+  if (type === 'submit') {
+    return quest.submitLabel || `向${villagerName}交代完成的事`;
+  }
+  return quest.offerLabel || `問${villagerName}還有什麼事`;
 }
 
 function formatQuestObjectiveProgress(objective) {
@@ -8263,85 +8180,6 @@ function formatQuestObjectiveProgress(objective) {
   }
 
   return objective.description || '';
-}
-
-function createQuestOfferScene(sceneId) {
-  const [, villagerId, questId, returnSceneId] = sceneId.split(':');
-  const villager = villagers.find((candidate) => candidate.id === villagerId);
-  const quest = quests.find((entry) => entry.id === questId);
-  if (!villager || !quest) {
-    return createDialogueScene(`dialogue:${villagerId}:${returnSceneId}`);
-  }
-
-  return {
-    id: sceneId,
-    title: quest.title,
-    location: getLocationLabel(getVillagerLocationId(villager)),
-    description: createQuestOfferDialogue(villager, quest),
-    choiceGroups: [
-      {
-        title: '選擇',
-        choices: [
-          {
-            id: `accept_quest_${quest.id}`,
-            label: '答應',
-            actionType: 'quest',
-            timeCostSeconds: 0,
-            hideCost: true,
-            dynamicAction: 'acceptQuest',
-            questId: quest.id,
-            villagerId,
-            returnSceneId
-          },
-          {
-            id: `decline_quest_${quest.id}`,
-            label: '拒絕',
-            actionType: 'quest',
-            timeCostSeconds: 0,
-            hideCost: true,
-            dynamicAction: 'declineQuest',
-            questId: quest.id,
-            villagerId,
-            returnSceneId
-          }
-        ]
-      }
-    ]
-  };
-}
-
-function createQuestSubmitScene(sceneId) {
-  const [, villagerId, questId, returnSceneId] = sceneId.split(':');
-  const villager = villagers.find((candidate) => candidate.id === villagerId);
-  const quest = quests.find((entry) => entry.id === questId);
-  if (!villager || !quest) {
-    return createDialogueScene(`dialogue:${villagerId}:${returnSceneId}`);
-  }
-
-  return {
-    id: sceneId,
-    title: quest.title,
-    location: getLocationLabel(getVillagerLocationId(villager)),
-    description: createQuestSubmitDialogue(villager, quest),
-    choiceGroups: [
-      {
-        title: '確認',
-        choices: [
-          {
-            id: `confirm_submit_quest_${quest.id}`,
-            label: '確認',
-            actionType: 'quest',
-            timeCostSeconds: 0,
-            hideCost: true,
-            dynamicAction: 'completeQuest',
-            questId: quest.id,
-            villagerId,
-            returnSceneId
-          }
-        ]
-      }
-    ]
-  };
 }
 
 function createEventScene(sceneId) {
@@ -8455,7 +8293,19 @@ function createQuestOfferDialogue(villager, quest) {
 }
 
 function createQuestSubmitDialogue(villager, quest) {
-  return `${villager.name}低頭確認了你帶來的東西，神情像是終於鬆了一口氣。\n\n只要你點頭，這件事就算正式交代清楚了。`;
+  return `${villager.name}低頭確認了你帶來的東西，神情像是終於鬆了一口氣。\n\n這件事到這裡總算正式交代清楚了。`;
+}
+
+function createLegacyQuestReturnScene(sceneId) {
+  const parts = sceneId.split(':');
+  const villagerId = parts[1] || '';
+  const returnSceneId = parts[sceneId.startsWith('quest:') ? 2 : 3] || FALLBACK_SCENE_ID;
+  if (villagers.some((villager) => villager.id === villagerId)) {
+    gameState.currentSceneId = `dialogue:${villagerId}:${returnSceneId}`;
+    return createDialogueScene(gameState.currentSceneId);
+  }
+  gameState.currentSceneId = returnSceneId;
+  return getCurrentScene();
 }
 
 function getQuestCompletionDisabledReason(quest, villagerId) {
@@ -8522,13 +8372,16 @@ function getNpcInteractionMode(villager) {
 function createNpcInteractionChoiceGroups(villager, returnSceneId) {
   const commandIds = getDialogueCommandIds(villager)
     .filter((commandId) => commandId !== 'leave')
+    .filter((commandId) => commandId !== 'quest')
     .filter((commandId) => shouldShowDialogueCommand(villager, commandId));
+  const questGroup = createNpcQuestChoiceGroup(villager, returnSceneId);
 
   return [
     {
       title: '共同互動',
       choices: commandIds.map((commandId) => createDialogueChoice(villager, commandId, returnSceneId))
     },
+    ...(questGroup ? [questGroup] : []),
     {
       title: '角色功能',
       choices: createNpcFeatureChoices(villager, returnSceneId)
@@ -8542,6 +8395,27 @@ function createNpcInteractionChoiceGroups(villager, returnSceneId) {
       choices: [createReturnChoice(returnSceneId, villager)]
     }
   ];
+}
+
+function createNpcQuestChoiceGroup(villager, returnSceneId) {
+  if (!villager) {
+    return null;
+  }
+
+  const availableQuests = getAvailableQuestsForVillager(villager.id);
+  const submittableQuests = getSubmittableQuestsForVillager(villager.id);
+  const choices = [
+    ...availableQuests.map((quest) => createOfferQuestChoice(quest, villager.id, returnSceneId)),
+    ...submittableQuests.map((quest) => createSubmitQuestChoice(quest, villager.id, returnSceneId))
+  ];
+  if (!choices.length) {
+    return null;
+  }
+
+  return {
+    title: '委託',
+    choices
+  };
 }
 
 function createNpcFeatureChoices(villager, returnSceneId) {
@@ -9371,19 +9245,6 @@ function createDialogueChoice(villager, commandId, returnSceneId) {
     };
   }
 
-  if (commandId === 'quest') {
-    return {
-      id: `${villager.id}_${commandId}`,
-      label: command.label || '委託',
-      actionType: command.actionType,
-      timeCostSeconds: 0,
-      hideCost: true,
-      dynamicAction: 'openQuest',
-      villagerId: villager.id,
-      returnSceneId
-    };
-  }
-
   return {
     id: `${villager.id}_${commandId}`,
     label: command.label || commandId,
@@ -9470,8 +9331,7 @@ function createInteractionResult(villagerId, commandId) {
   const fallbackByCommand = {
     chat: `${villager.name}和你聊了一會兒。`,
     gift: `你打開背包，準備選擇要送給${villager.name}的東西。`,
-    trade: `${villager.name}確認目前可交換的物品。`,
-    quest: `${villager.name}確認目前是否有能委託你的事情。`
+    trade: `${villager.name}確認目前可交換的物品。`
   };
   const configuredAction = getNpcConfiguredAction(villager, commandId);
 
@@ -9492,96 +9352,51 @@ function getNpcConfiguredAction(villager, commandId) {
   ].find((action) => (action.commandId || action.id) === commandId) || null;
 }
 
-function acceptQuest(choice) {
-  const quest = quests.find((entry) => entry.id === choice.questId);
-  if (!quest) {
-    recordFailedAction({ id: `accept_quest_${choice.questId}`, label: '接取委託' }, '委託資料不存在。');
-    return;
+function applyQuestAcceptEffect(effect = null) {
+  if (!effect) {
+    return '';
   }
-  if (isQuestActive(quest.id) || isQuestCompleted(quest.id)) {
-    recordFailedAction({ id: `accept_quest_${quest.id}`, label: `接取${quest.title}` }, '這個委託目前不能再次接取。');
-    return;
+  const questId = typeof effect === 'string' ? effect : effect?.questId;
+  const villagerId = effect && typeof effect === 'object' ? effect.villagerId : '';
+  const quest = quests.find((entry) => entry.id === questId);
+  if (!quest || isQuestActive(quest.id) || isQuestCompleted(quest.id) || !meetsQuestPrerequisites(quest.prerequisites || {})) {
+    return '';
   }
 
-  runTrackedAction({
-    id: `accept_quest_${quest.id}`,
-    label: `接取${quest.title}`,
-    timeCostSeconds: 0
-  }, () => {
-    gameState.quests.active.push(quest.id);
-    const villagerName = villagers.find((entry) => entry.id === choice.villagerId)?.name || '對方';
-    gameState.lastInteraction = {
-      villagerId: choice.villagerId,
-      commandId: 'quest',
-      text: `${villagerName}點了點頭：「那就交給你了。記得把事情做完再回來。」`
-    };
-    gameState.currentSceneId = `dialogue:${choice.villagerId}:${choice.returnSceneId}`;
-  }, { message: `已接取委託：${quest.title}。`, showMessageWhenPresent: true });
-  saveGame(`已接取委託：${quest.title}。`);
-  render();
+  gameState.quests.active.push(quest.id);
+  return '';
 }
 
-function declineQuest(choice) {
-  const quest = quests.find((entry) => entry.id === choice.questId);
-  const villagerName = villagers.find((entry) => entry.id === choice.villagerId)?.name || '對方';
+function applyQuestCompleteEffect(effect = null) {
+  if (!effect) {
+    return '';
+  }
+  const questId = typeof effect === 'string' ? effect : effect?.questId;
+  const villagerId = effect && typeof effect === 'object' ? effect.villagerId : '';
+  const returnSceneId = effect && typeof effect === 'object' ? effect.returnSceneId : '';
+  const quest = quests.find((entry) => entry.id === questId);
   if (!quest) {
-    recordFailedAction({ id: `decline_quest_${choice.questId}`, label: '拒絕委託' }, '委託資料不存在。');
-    return;
+    return '';
   }
 
-  gameState.lastInteraction = {
-    villagerId: choice.villagerId,
-    commandId: 'quest',
-    text: `${villagerName}淡淡地回了你一句：「行，那你準備好了再來找我。」`
-  };
-  clearActionResultDisplay();
-  gameState.currentSceneId = `dialogue:${choice.villagerId}:${choice.returnSceneId}`;
-  saveGame();
-  render();
-}
-
-function completeQuest(choice) {
-  const quest = quests.find((entry) => entry.id === choice.questId);
-  if (!quest) {
-    recordFailedAction({ id: `complete_quest_${choice.questId}`, label: '完成委託' }, '委託資料不存在。');
-    return;
-  }
-  const disabledReason = getQuestCompletionDisabledReason(quest, choice.villagerId);
+  const disabledReason = getQuestCompletionDisabledReason(quest, villagerId || quest.giver);
   if (disabledReason) {
-    recordFailedAction({ id: `complete_quest_${quest.id}`, label: `完成${quest.title}` }, disabledReason);
-    return;
+    return disabledReason;
   }
 
-  let droppedRewards = [];
-  runTrackedAction({
-    id: `complete_quest_${quest.id}`,
-    label: `完成${quest.title}`,
-    timeCostSeconds: 0
-  }, () => {
-    for (const objective of quest.objectives || []) {
-      if (objective.type === 'submitItems') {
-        changeInventoryItem(gameState.player.inventory, objective.targetId, -Number(objective.requiredCount || 0));
-      }
+  for (const objective of quest.objectives || []) {
+    if (objective.type === 'submitItems') {
+      changeInventoryItem(gameState.player.inventory, objective.targetId, -Number(objective.requiredCount || 0));
     }
+  }
 
-    droppedRewards = applyQuestRewards(quest.rewards || {}, choice.returnSceneId || FALLBACK_SCENE_ID);
-    removeFromArray(gameState.quests.active, quest.id);
-    if (!gameState.quests.completed.includes(quest.id)) {
-      gameState.quests.completed.push(quest.id);
-    }
-    const villagerName = villagers.find((entry) => entry.id === choice.villagerId)?.name || '對方';
-    gameState.lastInteraction = {
-      villagerId: choice.villagerId,
-      commandId: 'quest',
-      text: `${villagerName}看完後點了點頭：「這樣就對了。酬勞我會照規矩給你。」`
-    };
-    gameState.currentSceneId = `dialogue:${choice.villagerId}:${choice.returnSceneId}`;
-  }, { message: '', showMessageWhenPresent: true });
-  const completionMessage = createQuestCompletionMessage(quest, droppedRewards);
-  gameState.lastActionResult.message = completionMessage;
-  gameState.lastActionResult.showMessageWhenPresent = true;
-  saveGame(completionMessage);
-  render();
+  const droppedRewards = applyQuestRewards(quest.rewards || {}, returnSceneId || gameState.events?.active?.returnSceneId || FALLBACK_SCENE_ID);
+  removeFromArray(gameState.quests.active, quest.id);
+  if (!gameState.quests.completed.includes(quest.id)) {
+    gameState.quests.completed.push(quest.id);
+  }
+
+  return createQuestCompletionMessage(quest, droppedRewards);
 }
 
 function applyQuestRewards(rewards, returnSceneId = FALLBACK_SCENE_ID) {
@@ -11066,13 +10881,6 @@ function canDepositItem(facility, itemId, storageMode = '') {
   return Boolean(getItem(itemId));
 }
 
-function canContainerAcceptItem(facility, itemId, count, returnSceneId = gameState.currentSceneId) {
-  const context = resolveFacilityContext(facility?.id, returnSceneId);
-  const current = getInventoryWeight(context.state?.items || []);
-  const next = current + getItemWeight(itemId) * count;
-  return next <= getContainerCapacity(facility);
-}
-
 function getContainerDepositDisabledMessage(facility) {
   if (facility?.id === 'discarded_items') {
     return '這個道具目前不能丟在這裡。';
@@ -11087,11 +10895,24 @@ function getContainerCapacityDisabledMessage(facility) {
   return '倉庫箱容量不足。';
 }
 
-function createContainerDepositMessage(facility, itemName) {
-  if (facility?.id === 'discarded_items') {
-    return `已把${itemName}放到遺落的道具。留在這裡的東西可能永久消失。`;
-  }
-  return `已把${itemName}放入${facility?.name || '倉庫箱'}。`;
+function renderSystemVersionList() {
+  const versions = {
+    interfacePlan: gameState?.versions?.interfacePlan || INTERFACE_PLAN_VERSION,
+    program: gameState?.versions?.program || PROGRAM_VERSION
+  };
+  const rows = [
+    ['介面', versions.interfacePlan],
+    ['程式', versions.program]
+  ].map(([label, value]) => {
+    const fragment = document.createDocumentFragment();
+    const term = document.createElement('dt');
+    term.textContent = label;
+    const description = document.createElement('dd');
+    description.textContent = value;
+    fragment.append(term, description);
+    return fragment;
+  });
+  elements.systemVersionList.replaceChildren(...rows);
 }
 
 function renderSidebar() {
@@ -11116,6 +10937,7 @@ function renderSidebar() {
   elements.systemToggle.setAttribute('aria-expanded', String(!systemCollapsed));
   elements.systemToggle.querySelector('.inventory-toggle-icon').textContent = systemCollapsed ? '[展開]' : '[收合]';
   elements.systemBody.hidden = systemCollapsed;
+  renderSystemVersionList();
   elements.saveGameButton.disabled = !hasUnsavedChanges;
   elements.saveGameButton.title = hasUnsavedChanges
     ? '會保存目前角色狀態、背包、倉庫物品與村莊設施狀態。'
@@ -11633,15 +11455,42 @@ function removeFlag(flagId) {
     return;
   }
 
+  const relatedEventIds = getEventIdsRecordedByFlag(flagId);
   runTrackedAction({
     id: `debug_remove_flag_${flagId}`,
     label: '刪除旗標',
     timeCostSeconds: 0
   }, () => {
     gameState.player.flags = gameState.player.flags.filter((entry) => entry !== flagId);
+    if (relatedEventIds.length) {
+      gameState.events.completedEventIds = gameState.events.completedEventIds
+        .filter((eventId) => !relatedEventIds.includes(eventId));
+    }
   }, { message: `已刪除旗標 ${flagId}。` });
+  if (relatedEventIds.length && gameState.lastActionResult) {
+    gameState.lastActionResult.message = `已刪除旗標 ${flagId}，並解除相關事件完成紀錄。`;
+  }
   saveGame(gameState.lastActionResult?.message || '已刪除旗標。');
   render();
+}
+
+function getEventIdsRecordedByFlag(flagId) {
+  const source = getFlagSource(flagId);
+  const eventIds = new Set();
+  if (source?.sourceType === 'event' && getEventById(source.sourceId)) {
+    eventIds.add(source.sourceId);
+  }
+
+  for (const event of events) {
+    const writesFlag = (event.pages || []).some((page) =>
+      (page.effects?.flags || []).includes(flagId)
+    );
+    if (writesFlag) {
+      eventIds.add(event.id);
+    }
+  }
+
+  return [...eventIds].filter((eventId) => gameState.events.completedEventIds.includes(eventId));
 }
 
 function openItemModal(item, entry) {
@@ -11861,16 +11710,6 @@ function formatNumber(value) {
     return '無';
   }
   return String(Math.round((number + Number.EPSILON) * 100) / 100);
-}
-
-function createKeyValue(labelText, valueText) {
-  const row = document.createElement('div');
-  const label = document.createElement('span');
-  const value = document.createElement('strong');
-  label.textContent = labelText;
-  value.textContent = valueText;
-  row.append(label, value);
-  return row;
 }
 
 function createTextRow(text) {
@@ -12180,11 +12019,6 @@ function formatInventory(inventory) {
 
 function countInventoryItems(inventory) {
   return normalizeInventory(inventory).reduce((sum, entry) => sum + entry.count, 0);
-}
-
-function countAvailableFacilityItems() {
-  return Object.values(gameState.facilities || {})
-    .reduce((sum, state) => sum + countInventoryItems(state.items || []), 0);
 }
 
 function pickRandom(values) {

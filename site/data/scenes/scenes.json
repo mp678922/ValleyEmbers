@@ -34,66 +34,6 @@
     "baseCommandSet": "exploration"
   },
   {
-    "id": "aida_dialogue",
-    "title": "與艾妲對話",
-    "location": "村莊廣場",
-    "sceneType": "dialogue",
-    "targetVillagerId": "aida",
-    "baseCommandSet": "dialogueMenu",
-    "returnSceneId": "village_square_hub",
-    "description": "艾妲停下記錄，等你說明來意。她更重視實際成果，而不是漂亮的保證。"
-  },
-  {
-    "id": "mira_dialogue",
-    "title": "與米菈對話",
-    "location": "藥草棚",
-    "sceneType": "dialogue",
-    "targetVillagerId": "mira",
-    "baseCommandSet": "dialogueMenu",
-    "returnSceneId": "herb_shed",
-    "description": "米菈一邊整理藥草，一邊留意你的傷勢。她願意回答問題，但不希望你沒準備就離村。"
-  },
-  {
-    "id": "nuosi_dialogue",
-    "title": "與諾絲對話",
-    "location": "工坊倉庫",
-    "sceneType": "dialogue",
-    "targetVillagerId": "nuosi",
-    "baseCommandSet": "dialogueMenu",
-    "returnSceneId": "workshop_storage",
-    "description": "諾絲沒有停下手邊工作，只用眼角確認你是不是又帶著麻煩或材料上門。"
-  },
-  {
-    "id": "sela_dialogue",
-    "title": "與賽拉對話",
-    "location": "開墾區",
-    "sceneType": "dialogue",
-    "targetVillagerId": "sela",
-    "baseCommandSet": "dialogueMenu",
-    "returnSceneId": "reclamation_area",
-    "description": "賽拉看著村外道路，回答時依然保持警戒。她不反對你幫忙，但會要求你說清楚準備到哪裡去。"
-  },
-  {
-    "id": "tori_dialogue",
-    "title": "與托莉對話",
-    "location": "村莊廣場",
-    "sceneType": "dialogue",
-    "targetVillagerId": "tori",
-    "baseCommandSet": "dialogueMenu",
-    "returnSceneId": "village_square_hub",
-    "description": "托莉很快湊上來，想知道你在村外看過什麼。她的好奇心常常比耐心更快一步。"
-  },
-  {
-    "id": "elaine_dialogue",
-    "title": "與伊蓮對話",
-    "location": "宿舍",
-    "sceneType": "dialogue",
-    "targetVillagerId": "elaine",
-    "baseCommandSet": "dialogueMenu",
-    "returnSceneId": "dormitory",
-    "description": "伊蓮手邊放著宿舍點名表與舊資料。她抬頭看你一眼，把記錄紙壓平，等你選擇要問宿舍的事，還是遺跡的事。"
-  },
-  {
     "id": "temple_ruins",
     "title": "神殿遺跡",
     "location": "山谷森林深處",

@@ -1476,3 +1476,40 @@ This file stores concise conversation summaries for future Codex sessions. Keep 
 - Parsed all JSON files under `site/data`.
 - Checked touched files and `site/data` JSON files for UTF-8 BOM; none were detected.
 - Confirmed no remaining `CodeXPJ` or `codexpj` strings in the searched project files.
+
+## 2026-05-17 - Conversation Summary: GitHub Repository Upload and Pages Deployment
+
+### Completed
+- Added `D:/Project/ValleyEmbers` to Git safe.directory after Git blocked the repository for dubious ownership.
+- Configured `origin` as `https://github.com/mp678922/ValleyEmbers.git`.
+- Renamed the local branch from `master` to `main`.
+- Created the initial repository commit `9b9a604 Initial ValleyEmbers project` and pushed it to `origin/main`.
+- Excluded local ImageMagick tool downloads and portable executables from Git by updating `.gitignore`; the files remain on disk under `tools/` but are not tracked.
+- Added `.github/workflows/deploy-pages.yml` to publish the static playable build from `site/` through GitHub Pages.
+- Updated `README.md` with GitHub Pages setup instructions and the expected public URL.
+- Created and pushed commit `8230ccb Add GitHub Pages deployment`.
+- Helped the user complete GitHub CLI login for account `mp678922`.
+- Enabled or confirmed GitHub Pages for the repository and manually triggered the Pages workflow.
+
+### Decisions
+- Use GitHub Pages with GitHub Actions as the deployment path.
+- Publish only the `site/` folder, not the full repository root.
+- Keep local development/editor/tooling files out of the deployed playable build.
+- The public game URL is expected to be `https://mp678922.github.io/ValleyEmbers/`.
+
+### Changed Files
+- `.gitignore`
+- `.github/workflows/deploy-pages.yml`
+- `README.md`
+- `PROJECT_CONTEXT.md`
+
+### Verification
+- Confirmed `origin` points to `https://github.com/mp678922/ValleyEmbers.git`.
+- Confirmed local branch `main` tracks `origin/main`.
+- Confirmed latest GitHub Pages workflow run `25981018629` completed with `success`.
+- Confirmed the earlier workflow run `25980452262` failed because Pages was not yet enabled or configured for GitHub Actions.
+- Could not verify the served page content from the Codex shell because local PowerShell/curl HTTPS requests to GitHub Pages failed with Windows TLS/credential errors, but GitHub Actions reported a successful Pages deployment.
+
+### Follow-ups
+- If future deployments show Node.js action deprecation warnings, update GitHub Actions versions or workflow environment settings after GitHub's Node 24 transition.
+- If browser access to `https://mp678922.github.io/ValleyEmbers/` fails, check the repository `Settings -> Pages` page and the latest `Deploy GitHub Pages` workflow run first.
