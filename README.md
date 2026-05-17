@@ -28,6 +28,24 @@ Recommended static hosts:
 
 Do not upload `editor/`, `scripts/`, `tools/`, `tmp/`, `server.js`, or `package.json` as part of the playable static build.
 
+## GitHub Pages Deployment
+
+This repository includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml`.
+Every push to `main` publishes the static playable build from `site/`.
+
+One-time setup on GitHub:
+
+1. Open the repository on GitHub.
+2. Go to `Settings` -> `Pages`.
+3. Under `Build and deployment`, set `Source` to `GitHub Actions`.
+4. Push to `main`, or open `Actions` -> `Deploy GitHub Pages` -> `Run workflow`.
+
+After the workflow finishes, the game should be available at:
+
+```text
+https://mp678922.github.io/ValleyEmbers/
+```
+
 ## Local Preview
 
 Node.js is optional for local preview only. Run:
