@@ -355,7 +355,62 @@
       "村長",
       "主線",
       "村莊發展"
-    ]
+    ],
+    "locationInquiry": {
+      "prompt": "艾妲聽見你問起其他人的位置，指尖壓住記事紙邊緣。她沒有套用固定答案，而是先想那個人今天會怎麼走、會被什麼事拖住。",
+      "responses": [
+        {
+          "id": "aida_to_mira",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "mira"
+            ]
+          },
+          "text": "「米菈的話，往{locationName}找。」艾妲把記事紙往下壓了一點，聲音放輕。\n\n「她走路不太出聲，但身上有藥草味。你靠近時先出聲，別讓她端著瓶子回頭。」"
+        },
+        {
+          "id": "aida_to_nuosi",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "nuosi"
+            ]
+          },
+          "text": "「去{locationName}看看諾絲。」艾妲答得很快，像這件事早在她今天的安排裡。\n\n「如果她正在修東西，先等工具離手。她罵人通常不是衝你，是衝那塊又壞掉的木板。」"
+        },
+        {
+          "id": "aida_to_sela",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "sela"
+            ]
+          },
+          "text": "「賽拉會守在{locationName}那邊能看見出口的位置。」艾妲抬眼看向村外的方向。\n\n「你找到她時，先讓她知道你不是要硬闖。她聽見理由，才會把路說完整。」"
+        },
+        {
+          "id": "aida_to_tori",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "tori"
+            ]
+          },
+          "text": "「托莉跑去{locationName}了。」艾妲停了一下，像已經能想像那個腳步聲。\n\n「你若看見她又把小事當成大任務，先別笑太明顯。她其實很想被當成能幫忙的人。」"
+        },
+        {
+          "id": "aida_to_elaine",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "elaine"
+            ]
+          },
+          "text": "「伊蓮可以去{locationName}找。」艾妲指尖碰了碰鑰匙串的位置，像想起宿舍那些舊記錄。\n\n「她看起來像在閒聊，實際上什麼都記得。你問她時，把真正想問的事也想清楚。」"
+        }
+      ]
+    }
   },
   {
     "id": "mira",
@@ -492,7 +547,62 @@
       "治療",
       "藥草",
       "開場"
-    ]
+    ],
+    "locationInquiry": {
+      "prompt": "米菈放下手裡的藥草，安靜聽完你要找誰。她沒有急著猜，而是把那個人的習慣和現在的時段慢慢對上。",
+      "responses": [
+        {
+          "id": "mira_to_aida",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "aida"
+            ]
+          },
+          "text": "「艾妲在{locationName}。」米菈把手邊藥草攏齊，才抬頭回答。\n\n「如果她又一邊走一邊看記事紙，你幫我提醒她看路。她自己不太會承認累。」"
+        },
+        {
+          "id": "mira_to_nuosi",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "nuosi"
+            ]
+          },
+          "text": "「諾絲的聲音不難找，去{locationName}聽一下就知道。」米菈說得很輕，指尖卻像忍住一點笑。\n\n「敲木頭不一定是她心情不好。也可能只是木頭真的很欠修。」"
+        },
+        {
+          "id": "mira_to_sela",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "sela"
+            ]
+          },
+          "text": "「賽拉可能在{locationName}。」米菈看了看門外，聲音比平常更低。\n\n「她站得遠，不代表不在意。你靠近時別太急，讓她先看見你的手。」"
+        },
+        {
+          "id": "mira_to_tori",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "tori"
+            ]
+          },
+          "text": "「托莉在{locationName}。」米菈說完，又像想到什麼，補了一句。\n\n「如果她說自己一點都不累，你先看她臉是不是紅的。她跑太久時，自己最晚發現。」"
+        },
+        {
+          "id": "mira_to_elaine",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "elaine"
+            ]
+          },
+          "text": "「往{locationName}找伊蓮。」米菈把小剪刀收回布包，語氣慢了些。\n\n「她聽見腳步通常不會立刻抬頭，可是你說第一句話前，她大概已經知道你想問什麼了。」"
+        }
+      ]
+    }
   },
   {
     "id": "nuosi",
@@ -545,12 +655,12 @@
     ],
     "need": "需要木材、礦石與舊工具，才能維持村莊設施與外出裝備。",
     "initialAffection": 0,
-      "questHooks": [
-        "搬兩份木材給工坊",
-        "修繕橋梁",
-        "升級工坊倉庫",
-        "找回父親帶去遺跡的工具箱"
-      ],
+    "questHooks": [
+      "搬兩份木材給工坊",
+      "修繕橋梁",
+      "升級工坊倉庫",
+      "找回父親帶去遺跡的工具箱"
+    ],
     "unlocks": [
       "新設施建造",
       "探險工具"
@@ -595,7 +705,62 @@
       "倉庫",
       "建設",
       "工具"
-    ]
+    ],
+    "locationInquiry": {
+      "prompt": "諾絲把工具往旁邊一放，表情像在說這也要問。可她還是抬頭，很快把每個人的麻煩習慣在腦中過了一遍。",
+      "responses": [
+        {
+          "id": "nuosi_to_aida",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "aida"
+            ]
+          },
+          "text": "「艾妲？去{locationName}找。」諾絲把木屑從手套上拍掉，回答得很快。\n\n「她要是又站著看記錄，你就叫她坐一下。別說是我說的。」"
+        },
+        {
+          "id": "nuosi_to_mira",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "mira"
+            ]
+          },
+          "text": "「米菈在{locationName}。」諾絲下巴往那邊一點，語氣硬得很快。\n\n「進去別碰瓶子。藥草棚的東西不像木板，壞了不能釘兩下假裝沒事。」"
+        },
+        {
+          "id": "nuosi_to_sela",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "sela"
+            ]
+          },
+          "text": "「賽拉去{locationName}那邊找。」諾絲皺了皺眉，像連路線都嫌麻煩。\n\n「別從背後叫她。她不會被你嚇到，但你可能會先被自己的蠢勁嚇到。」"
+        },
+        {
+          "id": "nuosi_to_tori",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "tori"
+            ]
+          },
+          "text": "「托莉八成在{locationName}。」諾絲嘖了一聲，卻沒有真的不耐煩。\n\n「哪裡有泥、菜葉，或不知道誰撿回來的小石頭，往那邊看就對了。」"
+        },
+        {
+          "id": "nuosi_to_elaine",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "elaine"
+            ]
+          },
+          "text": "「伊蓮在{locationName}吧。」諾絲把工具放正，像怕自己不小心講太多。\n\n「她如果笑著問你是不是路過，你最好直接承認不是。那種人最麻煩，明明慢吞吞，什麼都看得見。」"
+        }
+      ]
+    }
   },
   {
     "id": "sela",
@@ -730,7 +895,62 @@
       "獵戶巡守",
       "安全",
       "村外探索"
-    ]
+    ],
+    "locationInquiry": {
+      "prompt": "賽拉沒有立刻答話。她先看向你身後的路，再想起你要找的人平常會站在哪裡、會不會把自己放到危險邊上。",
+      "responses": [
+        {
+          "id": "sela_to_aida",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "aida"
+            ]
+          },
+          "text": "「艾妲在{locationName}。」賽拉答得很短，視線已經掃過你要走的路。\n\n「她站的位置通常能看見幾條路。你去找她，別擋住她看人手的方向。」"
+        },
+        {
+          "id": "sela_to_mira",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "mira"
+            ]
+          },
+          "text": "「米菈在{locationName}。」賽拉的聲音壓低些，像怕驚動那邊細碎的工作。\n\n「藥草棚不是能亂闖的地方。先出聲，等她放下手邊東西再靠近。」"
+        },
+        {
+          "id": "sela_to_nuosi",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "nuosi"
+            ]
+          },
+          "text": "「諾絲在{locationName}。」賽拉看了看你的手，確認你沒打算順手摸工具。\n\n「工坊裡別從人背後靠近。尤其是有人拿著錘子，還正在生氣的時候。」"
+        },
+        {
+          "id": "sela_to_tori",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "tori"
+            ]
+          },
+          "text": "「托莉在{locationName}。」賽拉停了一瞬，像把那邊的路線重新想過。\n\n「她跑得快，停下來也快。你找到她時，先讓她看腳下，再讓她說話。」"
+        },
+        {
+          "id": "sela_to_elaine",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "elaine"
+            ]
+          },
+          "text": "「伊蓮去{locationName}找。」賽拉往宿舍方向看了一眼，神情沒有放鬆太多。\n\n「她看起來像只在翻紙，其實會聽見門口的動靜。你不用繞，直接說來意。」"
+        }
+      ]
+    }
   },
   {
     "id": "tori",
@@ -792,6 +1012,29 @@
       "村民好感事件",
       "食物產量提升"
     ],
+    "interactionActions": [
+      {
+        "id": "field_work",
+        "label": "協助開墾田地",
+        "actionType": "fieldWork",
+        "timeCostSeconds": 7200,
+        "hideCost": false,
+        "dynamicAction": "participateFieldWork",
+        "availability": {
+          "timeBlocks": [
+            "清晨",
+            "上午"
+          ],
+          "facilityLevelBelow": {
+            "field": 5
+          }
+        },
+        "progressLabel": "正在協助開墾田地...",
+        "requirements": {
+          "stamina": 4
+        }
+      }
+    ],
     "carriedItems": [
       {
         "itemId": "berry",
@@ -843,7 +1086,62 @@
       "農務",
       "食物",
       "好感事件"
-    ]
+    ],
+    "locationInquiry": {
+      "prompt": "托莉一聽見你要找人，眼睛立刻亮起來。她像在開始一場小小的村內探險，連答案都帶著跑起來的速度。",
+      "responses": [
+        {
+          "id": "tori_to_aida",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "aida"
+            ]
+          },
+          "text": "「艾妲在{locationName}！」托莉答得太快，差點把圍裙口袋裡的小石頭晃出來。\n\n「她站在那種大家都會找到她的位置。你看到她時，可以順便叫她不要一直皺眉，雖然她可能會說自己沒有。」"
+        },
+        {
+          "id": "tori_to_mira",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "mira"
+            ]
+          },
+          "text": "「米菈在{locationName}吧。」托莉立刻把聲音放小，像藥草棚隔著很遠也需要安靜。\n\n「你進去的時候不要碰瓶子。我現在都只用眼睛碰。大概。」"
+        },
+        {
+          "id": "tori_to_nuosi",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "nuosi"
+            ]
+          },
+          "text": "「諾絲在{locationName}！」托莉往那邊一指，又很快把手收回來。\n\n「如果她看起來很兇，你先看是不是旁邊有東西壞了。有時候不是人在被罵，是木頭。」"
+        },
+        {
+          "id": "tori_to_sela",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "sela"
+            ]
+          },
+          "text": "「賽拉在{locationName}。」托莉眨了眨眼，聲音忽然正經一點。\n\n「她很會站在看得到遠處的地方。你不要突然跳出來，不然她不一定嚇到，但我光想就先嚇到了。」"
+        },
+        {
+          "id": "tori_to_elaine",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "elaine"
+            ]
+          },
+          "text": "「伊蓮在{locationName}！」托莉說完又壓低聲音，像怕自己已經被聽見。\n\n「她常常還沒抬頭就知道你要問什麼。上次我只是路過，她就問我是不是又把東西藏進口袋。」"
+        }
+      ]
+    }
   },
   {
     "id": "elaine",
@@ -945,6 +1243,61 @@
       "遺跡",
       "主線",
       "傳說"
-    ]
+    ],
+    "locationInquiry": {
+      "prompt": "伊蓮把鑰匙串在指間慢慢繞了一圈。你問的是位置，她想的卻像是每個人今天在村裡留下的腳步和聲音。",
+      "responses": [
+        {
+          "id": "elaine_to_aida",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "aida"
+            ]
+          },
+          "text": "「艾妲在{locationName}。」伊蓮把鑰匙串繞過指節，笑意很淡。\n\n「她會把自己放在最容易被找到的位置。這樣大家省事，她自己最累。」"
+        },
+        {
+          "id": "elaine_to_mira",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "mira"
+            ]
+          },
+          "text": "「米菈在{locationName}。」伊蓮垂眼想了想，像已經聞到那裡的苦藥味。\n\n「她說話不多，但你走近時，她大概已經看過你的臉色和手背了。」"
+        },
+        {
+          "id": "elaine_to_nuosi",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "nuosi"
+            ]
+          },
+          "text": "「諾絲在{locationName}。」伊蓮輕輕笑了一下。\n\n「順著敲木頭和抱怨聲找，通常不會錯。如果那邊還有木屑、鐵屑，她應該就在附近。」"
+        },
+        {
+          "id": "elaine_to_sela",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "sela"
+            ]
+          },
+          "text": "「賽拉可以去{locationName}找。」伊蓮看向門口，語氣比玩笑安靜一些。\n\n「她不太站在人群中心，卻常站在能替大家多看一眼的地方。」"
+        },
+        {
+          "id": "elaine_to_tori",
+          "weight": 3,
+          "conditions": {
+            "targetVillagerIds": [
+              "tori"
+            ]
+          },
+          "text": "「托莉在{locationName}。」伊蓮輕輕笑了一下，像已經看見那串急促腳步。\n\n「你若找到一點泥、一點菜葉，或一個被她慎重命名的小石頭，通常就離她不遠了。」"
+        }
+      ]
+    }
   }
 ]

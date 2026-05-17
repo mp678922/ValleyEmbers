@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ValleyEmbers</title>
-    <link rel="stylesheet" href="./styles.css?v=interface-ui@2026-05-17.08">
+    <link rel="stylesheet" href="./styles.css?v=interface-ui@2026-05-18.03">
   </head>
   <body>
     <main class="shell">
@@ -60,6 +60,10 @@
                     <span class="stat-gauge-fill" id="stamina-gauge-fill"></span>
                   </span>
                 </dd>
+              </div>
+              <div>
+                <dt>貢獻</dt>
+                <dd id="contribution-display">0</dd>
               </div>
             </dl>
           </div>
@@ -197,7 +201,7 @@
             <h3>新增未持有道具</h3>
             <label class="debug-label" for="debug-item-select">道具</label>
             <select id="debug-item-select"></select>
-            <div class="debug-inline debug-inline-single">
+            <div class="debug-inline debug-inline-dual">
               <input id="debug-item-count" type="number" min="1" step="1" value="1">
               <button id="debug-add-item-button" type="button">新增</button>
             </div>
@@ -230,12 +234,77 @@
                 <input id="debug-stamina-input" type="number" min="0" step="1">
                 <button id="debug-apply-stamina-button" type="button">套用</button>
               </div>
+              <label class="debug-label" for="debug-contribution-input">貢獻</label>
+              <div class="debug-inline debug-inline-single">
+                <input id="debug-contribution-input" type="number" min="0" step="1">
+                <button id="debug-apply-contribution-button" type="button">套用</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="debug-group">
+            <h3>快速跳轉</h3>
+            <label class="debug-label" for="debug-location-select">地點</label>
+            <div class="debug-inline debug-inline-single">
+              <select id="debug-location-select"></select>
+              <button id="debug-jump-location-button" type="button">跳到地點</button>
+            </div>
+            <label class="debug-label" for="debug-villager-select">角色互動</label>
+            <div class="debug-inline debug-inline-single">
+              <select id="debug-villager-select"></select>
+              <button id="debug-open-villager-button" type="button">正常開啟</button>
+              <button id="debug-open-villager-menu-button" type="button">直接選單</button>
+            </div>
+            <label class="debug-label" for="debug-timeblock-select">時段</label>
+            <div class="debug-inline debug-inline-single">
+              <select id="debug-timeblock-select"></select>
+              <button id="debug-set-timeblock-button" type="button">套用時段</button>
+            </div>
+          </div>
+
+          <div class="debug-group">
+            <h3>快速測試預設</h3>
+            <div class="debug-preset-list">
+              <button id="debug-preset-aida-dinner-button" type="button">艾妲晚餐測試</button>
+            </div>
+            <p class="debug-note">預設只調整本機存檔：主角名、必要旗標、時段、測試食材與目前畫面。</p>
+          </div>
+
+          <div class="debug-group">
+            <h3>設施狀態</h3>
+            <div class="debug-stat-grid">
+              <label class="debug-label" for="debug-field-level-input">田地等級</label>
+              <input id="debug-field-level-input" type="number" min="1" step="1">
+              <label class="debug-label" for="debug-field-progress-input">田地進度</label>
+              <input id="debug-field-progress-input" type="number" min="0" max="100" step="20">
+            </div>
+            <div class="debug-inline debug-inline-single">
+              <button id="debug-apply-field-button" type="button">套用田地</button>
+            </div>
+            <div class="debug-stat-grid">
+              <label class="debug-label" for="debug-storage-level-input">倉庫箱等級</label>
+              <input id="debug-storage-level-input" type="number" min="1" step="1">
+            </div>
+            <div class="debug-inline debug-inline-single">
+              <button id="debug-apply-storage-button" type="button">套用倉庫箱</button>
             </div>
           </div>
 
           <div class="debug-group">
             <h3>旗標</h3>
-            <div class="debug-flag-list" id="debug-flag-list"></div>
+            <label class="debug-label" for="debug-flag-filter-input">搜尋旗標</label>
+            <input id="debug-flag-filter-input" type="search" placeholder="輸入旗標 id、說明、來源或解鎖內容">
+            <div class="debug-flag-browser">
+              <section class="debug-flag-pane" aria-label="已獲取旗標">
+                <h4>已獲取</h4>
+                <div class="debug-flag-list" id="debug-acquired-flag-list"></div>
+              </section>
+              <section class="debug-flag-pane" aria-label="可新增旗標">
+                <h4>可新增</h4>
+                <div class="debug-flag-list" id="debug-available-flag-list"></div>
+              </section>
+            </div>
+            <div class="debug-flag-detail-card" id="debug-flag-detail"></div>
           </div>
         </div>
         <div class="item-modal-actions">
@@ -244,6 +313,6 @@
       </article>
     </div>
 
-    <script type="module" src="./app.js?v=browser-prototype@2026-05-17.10"></script>
+    <script type="module" src="./app.js?v=browser-prototype@2026-05-18.03"></script>
   </body>
 </html>

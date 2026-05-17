@@ -16,6 +16,7 @@ body {
 
 button,
 label.file-button {
+  min-width: 0;
   min-height: 40px;
   border: 1px solid #8c9b92;
   border-radius: 6px;
@@ -23,6 +24,7 @@ label.file-button {
   color: #1e2522;
   font: inherit;
   cursor: pointer;
+  overflow-wrap: anywhere;
 }
 
 button:hover,
@@ -68,7 +70,7 @@ dl {
 
 h1 {
   margin-bottom: 20px;
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(1.85rem, 4.2vw, 3.35rem);
   line-height: 1.08;
   letter-spacing: 0;
 }
@@ -1439,6 +1441,10 @@ body.modal-open {
   grid-template-columns: minmax(0, 1fr) auto;
 }
 
+.debug-inline-dual {
+  grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, auto));
+}
+
 .debug-stat-grid {
   display: grid;
   gap: 8px;
@@ -1495,8 +1501,47 @@ body.modal-open {
   font-size: 0.85rem;
 }
 
-.debug-flag-list {
+.debug-flag-browser {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+.debug-flag-pane {
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 8px;
+  min-width: 0;
+}
+
+.debug-flag-pane h4 {
+  margin: 0;
+  color: #4e6158;
+  font-size: 0.88rem;
+}
+
+.debug-flag-list {
+  display: block;
+  max-height: min(30vh, 260px);
+  overflow: auto;
+  min-width: 0;
+  padding: 4px;
+  border: 1px solid #dce6e0;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.debug-flag-list > div {
+  padding: 10px;
+  color: #607268;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.debug-preset-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
   gap: 8px;
 }
 
@@ -1532,11 +1577,11 @@ body.modal-open {
 
 .debug-step-button {
   min-width: 42px;
-  min-height: 42px;
-  padding: 0;
+  min-height: 0;
+  padding: 6px 10px;
   border-radius: 8px;
   font-size: 1.15rem;
-  line-height: 1;
+  line-height: 1.2;
 }
 
 .debug-owned-weight {
@@ -1548,10 +1593,77 @@ body.modal-open {
 }
 
 .debug-flag-row {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: auto;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.debug-flag-row + .debug-flag-row {
+  margin-top: 2px;
+}
+
+.debug-flag-row.is-selected {
+  background: #eef8f2;
+  box-shadow: inset 3px 0 0 #75a48c;
+}
+
+.debug-flag-meta {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px;
+  min-width: 0;
+}
+
+.debug-flag-title {
+  color: #25312c;
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.debug-flag-detail {
+  color: #7c8d84;
+  font-size: 0.74rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.debug-flag-detail-card {
+  display: grid;
   gap: 8px;
-  align-items: center;
+  padding: 12px;
+  border: 1px solid #dde5e0;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.debug-flag-detail-title {
+  color: #25312c;
+  font-size: 0.94rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.debug-flag-detail-description {
+  margin: 0;
+  color: #4e6158;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.debug-flag-detail-meta {
+  color: #7c8d84;
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 860px) {
@@ -1607,5 +1719,10 @@ body.modal-open {
   .debug-owned-weight {
     min-width: 0;
     text-align: left;
+  }
+
+  .debug-flag-browser,
+  .debug-flag-row {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

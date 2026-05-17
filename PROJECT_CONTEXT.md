@@ -1513,3 +1513,337 @@ This file stores concise conversation summaries for future Codex sessions. Keep 
 ### Follow-ups
 - If future deployments show Node.js action deprecation warnings, update GitHub Actions versions or workflow environment settings after GitHub's Node 24 transition.
 - If browser access to `https://mp678922.github.io/ValleyEmbers/` fails, check the repository `Settings -> Pages` page and the latest `Deploy GitHub Pages` workflow run first.
+
+## 2026-05-17 - Conversation Summary: Quest Event Rewrite and System Version UI
+
+### Completed
+- Reworked the NPC quest flow so quest entries are shown as top-level `委託` actions on NPC interaction pages, not under a separate quest tab/page.
+- Made quest offer, accept, decline, and completion use generated event pages rather than common `lastInteraction` response text.
+- Added support for `quests[].offerLabel`, `quests[].submitLabel`, `quests[].acceptPages`, and `quests[].completePages`.
+- Required accept and complete quest events to be multi-page scenes; remaining quests now have at least two pages for accept and at least two pages for completion.
+- Removed the old generic completion line such as `酬勞我會照規矩給你` from quest completion handling.
+- Deleted the quests `四本禁忌之書` and `田地第一次整土` from active quest data.
+- Removed active references to deleted quest-related flags and impressions, including `forbidden_books_truth_revealed` and `field_upgrade_1_completed`.
+- Rewrote remaining quest titles, labels, objectives, tags, descriptions, accept scenes, and completion scenes to better connect mechanics, world logic, character motivation, and story context.
+- Updated 伊蓮 and 賽拉 knowledge/dialogue content around the valley myth, black cat, forest warnings, and early-game misdirection so it no longer over-explains hidden truth too precisely.
+- Updated the Mira low-life treatment flow so admitting poor condition leads to treatment through the intended event choice.
+- Added a low-key `版本` group inside the right-side `系統` panel showing `gameState.versions.interfacePlan` and `gameState.versions.program`.
+- Bumped version markers to `interface-ui@2026-05-17.08` and `browser-prototype@2026-05-17.10`.
+- Synced the relevant active data changes between `docs/data/` and `site/data/`.
+- Committed and pushed the work to GitHub as `8b69a64 Refine quest events and system version display`.
+
+### Decisions
+- Quest buttons should read as natural dialogue prompts or actions, not as direct quest-title links.
+- Quest hover tooltips are intentionally omitted for now.
+- Quest accept and completion text should be individual event scenes with clear situation, character reasoning, and story closure.
+- Completion effects are applied on the final page of the generated completion event.
+- Version information belongs in the `系統` tool panel, not in protagonist status, scene narrative, or action-result text.
+- Player-facing descriptions should avoid exposing hidden implementation details, but the system panel may show concise version identifiers.
+
+### Changed Files
+- `PROJECT_CONTEXT.md`
+- `docs/interface-design.md`
+- `docs/data/commands/commands.json`
+- `docs/data/events/events.json`
+- `docs/data/facilities/facilities.json`
+- `docs/data/flags/flag-sources.json`
+- `docs/data/knowledge/elaine-knowledge.json`
+- `docs/data/knowledge/sela-knowledge.json`
+- `docs/data/locations/locations.json`
+- `docs/data/quests/quests.json`
+- `docs/data/save/save-template.json`
+- `docs/data/scenes/scenes.json`
+- `site/app.js`
+- `site/index.html`
+- `site/styles.css`
+- `site/data/commands/commands.json`
+- `site/data/events/events.json`
+- `site/data/facilities/facilities.json`
+- `site/data/flags/flag-sources.json`
+- `site/data/knowledge/elaine-knowledge.json`
+- `site/data/knowledge/sela-knowledge.json`
+- `site/data/locations/locations.json`
+- `site/data/quests/quests.json`
+- `site/data/save/save-template.json`
+- `site/data/scenes/scenes.json`
+
+### Verification
+- Parsed all JSON files under `docs/data` and `site/data`; all parsed successfully.
+- Checked active data for deleted quest ids and deleted quest-related flags; no active references remained.
+- Checked all remaining quests have at least two `acceptPages` and two `completePages`.
+- Checked quest `nextQuestIds` references; no references point to missing quests.
+- Ran `node --check site\app.js`; syntax check passed.
+- Confirmed `main` pushed to `origin/main` with commit `8b69a64`.
+
+### Follow-ups
+- The summary entry itself was added after the pushed commit. Commit and push `PROJECT_CONTEXT.md` if this summary should also be stored on GitHub immediately.
+
+## 2026-05-17 - Conversation Summary: Field Work, Storage Upgrade, Black Cat Roll, and Debug Controls
+
+### Completed
+- Updated forest black-cat appearance so the black cat cannot appear in two consecutive exploration positions.
+- Added persistent exploration state `lastBlackCatPresenceRollWasPresent` to support the non-consecutive black-cat rule.
+- Fixed storage-box upgrade behavior so quest facility rewards can increase facility levels, and changed the storage-box capacity increase to `+20` maximum weight per level.
+- Restored the field as a visible facility in `reclamation_area`.
+- Added field reclamation progress to facility/save state: field starts at level `1`, tracks progress `0-100%`, and can level up to max level `5`.
+- Added Tori's `協助開墾田地` NPC action, visible only before noon (`清晨` and `上午`) while the field is below level `5`.
+- Made the `協助開墾田地` button display its `1 小時` cost.
+- Added a rotating field-work event pool, following the same non-repeat rotation style as night weaving; each completed field-work event consumes `1 小時` and increases field progress by `20%`.
+- Added field-work cameo events involving the village girls to keep the action immersive.
+- Extended generic facility effects so events and quest rewards can apply nested facility effects such as `progressDelta` and `levelDelta`.
+- Added facility status display for progress-bearing facilities, including `開墾進度`.
+- Expanded the Debug modal with faster testing controls: quick location jump, villager interaction open, time-block switch, field level/progress edit, storage-box level edit, and flag add/remove controls.
+- Added common progress-flag shortcut buttons in Debug for opening, core NPC first interactions, black cat, lizard merchant, and storage-box quest testing.
+- Bumped version markers to `interface-ui@2026-05-17.12` and `browser-prototype@2026-05-17.14`.
+
+### Decisions
+- Field reclamation is driven through Tori's NPC interaction, not through a direct facility action.
+- Field work is available only before noon: `清晨` and `上午`; it is hidden from `中午` onward.
+- Field work becomes unavailable when the field reaches max level `5`.
+- Field progress reaches `100%` to raise the field level; if not at max level, progress resets according to the generic progress-upgrade handling.
+- Storage-box level upgrades should use the generic facility reward/effect path instead of one-off quest-specific code.
+- Debug controls are local save-state tools only; they do not write back into `docs/data` or `site/data`.
+- Flag deletion in Debug continues to remove related one-time event completion records when possible, so removed event flags can be retested.
+
+### Changed Files
+- `docs/interface-design.md`
+- `docs/game-design.md`
+- `docs/data/events/events.json`
+- `docs/data/facilities/facilities.json`
+- `docs/data/save/save-template.json`
+- `docs/data/villagers/villagers.json`
+- `site/app.js`
+- `site/index.html`
+- `site/styles.css`
+- `site/data/events/events.json`
+- `site/data/facilities/facilities.json`
+- `site/data/save/save-template.json`
+- `site/data/villagers/villagers.json`
+- `PROJECT_CONTEXT.md`
+
+### Verification
+- Ran `node --check site\app.js`; syntax check passed after using the approved local Node execution path because sandboxed Node returned access denied.
+- Parsed JSON files under `docs/data` and `site/data`; all parsed successfully.
+- Checked touched files for UTF-8 BOM; no BOM was detected.
+- Used the in-app browser at `http://localhost:3000/` to verify Tori's `協助開墾田地 1 小時` action appears in the correct time window.
+- Verified a completed field-work event advances time by `1 小時` and changes field progress from `0` to `20`.
+- Verified the field appears in the reclamation area and its facility page shows level and reclamation progress.
+- Verified a static five-work simulation raises the field from level `1` to level `2` with progress reset to `0`.
+- Verified the Debug modal shows the new quick controls, can add a selected flag, can jump to `開墾區`, can apply field state, and produces no browser console errors.
+- Restored the browser test save state after Debug testing by removing the added black-cat flag and returning the field to level `1`, progress `20%`.
+
+### Follow-ups
+- Commit and push these changes when ready; the current working tree remains uncommitted.
+- If future tests require faster setup, use the Debug modal instead of walking the full opening and early-game flow.
+- Consider adding more Debug presets later for quest state, inventory kits, or exploration danger/layer if those become frequent test bottlenecks.
+
+## 2026-05-17 - Debug Fast-Test Flow Note
+
+### Decision
+- For fast browser testing, future agents should not manually play through the opening and every first-interaction event unless the task is specifically about those events.
+- Skipping early events affects two things: required one-time flags and protagonist naming.
+- Protagonist naming can be handled by using the default player name `旅人` for test saves.
+- Required one-time flags should be set explicitly through Debug before jumping into the target interaction. For Aida dinner testing, at minimum set `opening_recovery_intro_seen` and `aida_first_village_briefing_seen`.
+- Preferred Debug UX direction: keep a normal "open villager interaction" path for testing real trigger behavior, and add/use a separate direct-menu path for feature testing. The direct-menu path should bypass first-interaction event triggers only for Debug/testing, not change normal gameplay.
+
+### Recommended Quick Test Setup
+- Open the local game at `http://localhost:3000/`.
+- Use the Debug modal rather than walking the full opening flow.
+- Ensure `player.name` is usable; the default `旅人` is acceptable for testing unless the task is specifically about protagonist naming.
+- Add the relevant progress flags with Debug flag controls before opening a target villager. For Aida menu/dinner tests, add `opening_recovery_intro_seen` and `aida_first_village_briefing_seen`.
+- Set the required time block through Debug. For the Aida evening dinner activity, use `傍晚`.
+- Add required test items through Debug inventory controls. For dinner tests, add eligible food such as `apple`, `berry`, `lettuce`, `bird_egg`, or `dry_ration`.
+- Then open the target villager/menu directly and verify the feature-specific entry, instead of validating the whole early-game chain.
+
+### Follow-up
+- Implemented in `browser-prototype@2026-05-17.16`: Debug now has separate `正常開啟` and `直接選單` villager buttons. `直接選單` bypasses one-time `villagerInteract` trigger checks for that Debug action only.
+- Implemented in `browser-prototype@2026-05-17.16`: Debug now has an `艾妲晚餐測試` preset that fills the default protagonist name when needed, adds `opening_recovery_intro_seen` and `aida_first_village_briefing_seen`, switches to `傍晚`, clears the dinner daily lock, ensures dinner test foods, and opens Aida's menu directly.
+- Implemented in `browser-prototype@2026-05-17.17`: Debug flag control no longer uses hard-coded shortcut buttons. It now shows a searchable flag browser from `flags/flag-sources.json`; each row shows id, description, storage target, source, enabled status, and an add/remove action. Daily flag sources write to `player.dailyFlags`; normal progress flags write to `player.flags`.
+- Implemented in `browser-prototype@2026-05-17.18`: Debug flag control now separates `已獲取` and `可新增` into scrollable panes. List rows are compact and only show id/storage/status; selecting a row opens the detail card with description, source, and the add/remove action.
+- Implemented in `browser-prototype@2026-05-17.19`: Debug text overflow was hardened. Buttons now allow long text to wrap, flag panes collapse responsively, long flag ids wrap inside rows/details, and status chips no longer force rows wider than their containers.
+- Implemented in `browser-prototype@2026-05-17.20`: Debug flag panes now use matched scroll-frame heights. Flag list rows stack id/storage/status vertically so long flag ids no longer collide with status chips, and empty/acquired panes keep the same useful height as the available pane.
+- Implemented in `browser-prototype@2026-05-17.21`: Debug flag panes now use content-adaptive height instead of forced matching heights. Empty or short panes shrink to their content; long panes expand naturally up to `min(60vh, 520px)` before scrolling.
+- Implemented in `browser-prototype@2026-05-17.22`: Debug flag pane grid alignment was changed from stretch to start so the acquired and available panes each keep their own content-fit height instead of one side forcing the other side taller.
+- Implemented in `browser-prototype@2026-05-17.23`: Debug flag list rows no longer show raw storage paths such as `player.flags`; detail uses human labels `進度旗標` / `每日旗標`. Selecting a flag row no longer rebuilds the lists, so the scroll position does not jump just from selecting a row.
+- Implemented in `browser-prototype@2026-05-17.24`: Debug flag list rows no longer show redundant enabled/disabled chips because the panes already communicate acquired vs available. Small debug step buttons can now grow with content instead of enforcing a fixed minimum height.
+- Implemented in `browser-prototype@2026-05-17.25`: Debug flag rows were restyled as true list rows instead of pill-like buttons. Rows show a single-line ellipsized id, selected state is a subtle left accent, and full flag text lives in the detail card.
+- Implemented in `browser-prototype@2026-05-17.26`: Debug flag scroll panes were reduced to half the prior cap, now `min(30vh, 260px)`, while still shrinking naturally when content is short.
+
+## 2026-05-17 - Conversation Summary: Aida Dinner Activity and Debug UX Iteration
+
+### Completed
+- Implemented Aida's evening dinner village activity as runtime content, entered from Aida's interaction menu at `傍晚`.
+- Added dinner activity data under `docs/data/village-activities/dinner.json` and synced it to `site/data/village-activities/dinner.json`.
+- Added dinner ingredient selection from player inventory and storage box, showing only eligible cookable foods and hiding ineligible items.
+- Implemented dinner scoring with `>=` thresholds: score `1-2` gives the plain result and all core villagers `+1` affection, `3-4` gives `+2`, and `5+` gives `+3`.
+- Implemented the two-stage dinner flow: preparation event consumes `1 小時`, then meal event consumes `1 小時`, with a fade transition between stages.
+- Added 6 preparation events and 9 meal events, with meal events split into `plain`, `good`, and `excellent` result pools.
+- Added dynamic dinner text tokens such as `{mealFood}`, `{mealFoodPhrase}`, `{mealFoodPair}`, and `{mealFoodComment}`, resolved from the selected ingredients at runtime.
+- Implemented rotating non-repeat event pools for dinner preparation and dinner meal result pools. Pools cycle through all available entries before reshuffling, and the first draw of a new cycle avoids repeating the previous cycle's last event when possible.
+- Updated existing weaving and field-work random event rotation to use the same no-repeat helper so narrative pools behave consistently.
+- Added Debug `正常開啟` and `直接選單` villager entry paths. `正常開啟` preserves real trigger behavior; `直接選單` bypasses one-time `villagerInteract` triggers for that Debug action only.
+- Added the `艾妲晚餐測試` Debug preset: fills default protagonist name when needed, adds opening/Aida first-interaction flags, switches to `傍晚`, clears the dinner daily lock, ensures dinner test foods, and opens Aida's menu directly.
+- Reworked Debug flag management through several UX passes into a compact searchable two-pane manager: `已獲取` and `可新增`, each with a scrollable list. Rows now show only the flag id, and details/actions live in the detail card.
+- Removed redundant flag-row details such as raw `player.flags`, raw `dailyFlags`, and `已啟用`/`未啟用` chips from the flag lists.
+- Hardened Debug layout against text overflow and adjusted the flag list height cap to `min(30vh, 260px)`.
+- Bumped active versions through the iteration to `interface-ui@2026-05-17.24` and `browser-prototype@2026-05-17.26`.
+
+### Decisions
+- Village dinner is a village activity, not a quest. It should provide a small village-recovery feeling through shared routine, short scenes, and affection rewards, without starting a large facility-repair system.
+- Dinner result thresholds use `>=`, not strict greater-than.
+- Flowers stay excluded from dinner despite having recovery value, because they do not read as intuitive dinner ingredients.
+- Dynamic dinner text should use named tokens tied to the activity context rather than a vague `{randomfood}` placeholder.
+- Narrative event pools should rotate without repeats and avoid immediate cross-cycle repetition. This rule applies to text event pools, not random item rewards, restocks, forage loot, or resource spawns.
+- Fast browser testing should not require replaying opening/first-interaction events unless the task is specifically about those events. Default protagonist name `旅人` is acceptable for feature testing.
+- Debug flag controls should expose useful testing state without dumping raw save implementation details into the list UI.
+- For flag UX, the list should support fast selection and scanning; full explanations and destructive/add actions belong in the selected-detail card.
+
+### Changed Files
+- `docs/data/village-activities/dinner.json`
+- `site/data/village-activities/dinner.json`
+- `docs/data/README.md`
+- `docs/data/events/README.md`
+- `docs/data/save/save-template.json`
+- `docs/game-design.md`
+- `docs/interface-design.md`
+- `site/app.js`
+- `site/index.html`
+- `site/styles.css`
+- `site/data/save/save-template.json`
+- `PROJECT_CONTEXT.md`
+
+### Verification
+- Ran `node --check site\app.js` after code changes; sandboxed Node returned access denied, but the approved local Node check passed.
+- Parsed touched save-template JSON files successfully with PowerShell `ConvertFrom-Json`.
+- Checked touched files for UTF-8 BOM; no BOM was detected.
+- Verified `http://localhost:3000/` returns `200`.
+- Used the in-app browser to verify Debug opens, `正常開啟` / `直接選單` are visible, and the `艾妲晚餐測試` preset opens Aida's menu without triggering Aida's first briefing.
+- Verified the dinner ingredient screen appears from Aida's menu, shows eligible food, hides flower, and blocks start when no ingredient is selected.
+- Verified Debug flag list no longer displays raw `player.flags` / `dailyFlags` in list rows.
+- Verified selecting a flag row updates only the detail card rather than rebuilding the list, avoiding scroll jump.
+- Verified flag rows have no horizontal overflow after the list restyling.
+
+### Follow-ups
+- Continue browser-testing the full dinner event playback path from ingredient selection through preparation event, meal event, affection reward, and daily lock.
+- Commit and push when ready; the working tree remains uncommitted and already contains other unrelated dirty files from prior work.
+- If Debug flag UX still feels heavy, consider moving the detail card beside the two panes on wide screens and below them on narrow screens, but keep row content minimal.
+
+## 2026-05-17 - Conversation Summary: NPC Location Inquiry, Field Work, and Empty-State UI
+
+### Completed
+- Added and refined the core girls' shared `ask_other_location` interaction. It appears only when there is at least one other core girl outside the current scene, lists target names with role subtitles, and does not reveal the answer in the command area.
+- Shortened the location inquiry scene title to `詢問位置` and reduced large scene title sizing so functional pages do not read like landing-page heroes.
+- Added anti-template writing rules to prevent repeated cross-character dialogue and situation skeletons, including fallback text.
+- Reworked location inquiry fallback responses so they consider both the asker and the target. Broad location-only authored responses are no longer played unless they also specify `conditions.targetVillagerIds`, preventing the same line from being reused for different people just by replacing `{targetName}`.
+- Updated field-work UI and rules: Tori's `協助開墾田地` shows `2 小時 / 需體力 4`; the button uses `需體力 N` short formatting, while disabled explanations still use full text such as `需要體力至少 4，目前 3。`
+- Fixed Tori field work so all six `field_work_*` events consume `stamina: -4` on the completion page, alongside the `2 小時` time cost and field progress step.
+- Added and refined the noon rest village activity: daily once, 30 minutes, six rotating warm/funny stories, effect `體力 +4`, available from the square.
+- Added Tori's low-stamina care event: requires Tori affection `>= 5`, triggers when moving into Tori's current area while player stamina is below half, daily once, three cute templates, effect `體力 +1`.
+- Reviewed quest wording for location contradictions where quests are not restricted to a fixed scene, because characters move around.
+- Removed the mistaken implication that moondew herb patches belong in the reclamation area; current intended source is random forest appearance only.
+- Consolidated NPC command grouping under `互動`, moved `返回` under `其他`, and avoided treating `返回` as a content category.
+- Reworked empty-state UI semantics. Empty groups now use dashed empty-state notes instead of disabled buttons, while disabled buttons are reserved for known actions blocked by resources, stamina, capacity, daily limits, or state.
+
+### Decisions
+- The command area should present actions only; it should not answer questions before the player chooses an option.
+- Location inquiry text must avoid both broad per-location templates and broad per-asker templates. Any complete authored response must be target-specific, or fallback must combine asker voice with target-specific context.
+- `requirements.stamina` is a threshold check, not an automatic cost. If an event or action should consume stamina, the effect must explicitly include a negative stamina change or a `staminaCost` path.
+- Empty states and disabled actions have distinct meanings: empty-state notes mean there is no content in that group; disabled buttons mean a known action exists but is temporarily blocked.
+- Fallback text may exist, but player-visible fallback must be short and neutral or sufficiently role/context-specific to avoid sounding like a reusable AI template.
+
+### Changed Files
+- `docs/narrative-guidelines.md`
+- `docs/interface-design.md`
+- `docs/game-design.md`
+- `docs/data/events/events.json`
+- `docs/data/save/save-template.json`
+- `docs/data/villagers/villagers.json`
+- `site/app.js`
+- `site/styles.css`
+- `site/data/events/events.json`
+- `site/data/save/save-template.json`
+- `site/data/villagers/villagers.json`
+- `PROJECT_CONTEXT.md`
+
+### Verification
+- Ran `node --check site\app.js` repeatedly after runtime changes; the approved local Node check passed.
+- Parsed touched JSON files successfully and checked they are UTF-8 without BOM.
+- Searched for removed template lines such as `往那個方向看了一眼`, `重新排過一遍`, `你要去找她嗎`, and `趕上她還沒把事情做完之前`; the problematic lines were removed from active code/data paths.
+- Verified all six `field_work_*` events in both `docs/data/events/events.json` and `site/data/events/events.json` include `stamina: -4`.
+- Verified the pair-based location inquiry fallback followups contain no duplicate full followup lines.
+- Verified the earlier empty-state `createDisabledChoice(...)` uses were removed for the targeted empty groups; only the deliberate `今天已經送過禮了。` disabled state remains from that helper.
+
+### Follow-ups
+- Browser-check the updated empty-state UI in the exploration `看見的物件`, item-use, crafting, facility, knowledge, and gift scenes if visual confirmation is needed.
+- The broad location-only `locationInquiry.responses` still exist in villager JSON as legacy data, but runtime no longer uses them unless they add `targetVillagerIds`; future data cleanup can either delete or rewrite them as true target-specific responses.
+- Working tree remains uncommitted.
+
+## 2026-05-18 - Conversation Summary: Contribution, Aida Training, Dialogue Tone, Humor, and Location Inquiry Polish
+
+### Completed
+- Added a persistent contribution value to save/state and UI status, with contribution rewards from village activities: field work, noon rest, night weaving, and dinner scoring.
+- Added Debug controls near life/stamina for directly editing contribution during testing.
+- Removed the old skill-training task surface and added Aida's `安排訓練` menu under Aida interaction.
+- Added Aida training options for carry, melee, and ranged skills, each capped at level 2 for now.
+- Set training contribution costs to level 1 = `100` and level 2 = `150`.
+- Made each training consume `4 小時` and play a unique three-page event; later compressed the six training events to about `0.65` of the previous text volume while preserving structure and effects.
+- Fixed corrupted `????` training text and rewrote the six training events to be formal, practical, and only lightly humorous.
+- Added and refined global dialogue-tone guidance in `docs/narrative-guidelines.md`, emphasizing ratio, warmth, empathy, and avoiding "manager sentence" phrasing in normal interactions.
+- Audited and revised broad player-facing text in dialogues, events, quests, knowledge, villagers, and dinner activity text to reduce condescending or overly supervisory phrasing.
+- Added global humor-writing guidance to `docs/narrative-guidelines.md`, covering direct humor, serious characters briefly playing along, collective escalation, harmless teasing, someone being fooled, and making characters embarrassed without humiliation.
+- Audited and revised current humorous passages in notice-board events, noon rest, training, weaving/dinner-adjacent text, and dinner activity events to make jokes more direct and less dependent on subtext.
+- Reworked location inquiry text again after identifying template drift such as `「托莉多半在村莊廣場。」米菈說得很輕...`.
+- Changed location inquiry data to 30 target-specific responses (`asker x target`) using `conditions.targetVillagerIds`, so answers are based on who is being asked about rather than only the target location.
+- Changed runtime location-inquiry selection so authored target-specific responses are not mixed with fallback responses; fallback is only used when no authored response exists.
+- Produced reports under `tmp/` for dialogue-tone changes, humor changes, training text compression, and location inquiry revisions.
+
+### Decisions
+- Contribution is a player progress/resource value, shown in the UI status area and adjustable through Debug for testing.
+- Aida training costs are contribution-gated and should remain framed in-character: Aida can convince everyone to help arrange training only when the protagonist has built enough contribution.
+- Each skill level should remain a distinct authored event rather than a generic repeated training message.
+- Serious or strict characters can keep their personality, but normal dialogue should usually feel understanding and warm; hard commands and judgmental phrasing are for danger, urgency, or deliberate pressure.
+- Humor in ValleyEmbers should be direct enough to understand immediately, while still preserving character competence. Good patterns include "serious situation made slightly silly", collective escalation, harmless teasing, someone being lightly fooled, and a serious character briefly playing along.
+- Location inquiry responses must avoid broad per-location or per-asker templates. Complete authored answers should be target-specific; fallback can exist but should be a last resort.
+
+### Changed Files
+- `docs/narrative-guidelines.md`
+- `docs/interface-design.md`
+- `docs/game-design.md`
+- `docs/data/dialogues/dialogues.json`
+- `docs/data/events/events.json`
+- `docs/data/quests/quests.json`
+- `docs/data/villagers/villagers.json`
+- `docs/data/knowledge/elaine-knowledge.json`
+- `docs/data/knowledge/sela-knowledge.json`
+- `docs/data/village-activities/dinner.json`
+- `docs/data/save/save-template.json`
+- `docs/data/flags/flag-sources.json`
+- `site/app.js`
+- `site/index.html`
+- `site/styles.css`
+- `site/data/dialogues/dialogues.json`
+- `site/data/events/events.json`
+- `site/data/quests/quests.json`
+- `site/data/villagers/villagers.json`
+- `site/data/knowledge/elaine-knowledge.json`
+- `site/data/knowledge/sela-knowledge.json`
+- `site/data/village-activities/dinner.json`
+- `site/data/save/save-template.json`
+- `site/data/flags/flag-sources.json`
+- `tmp/dialogue-tone-revision-report.md`
+- `tmp/humor-writing-revision-report.md`
+- `tmp/training-text-compression-report.md`
+- `tmp/location-inquiry-dialogue-revision-report.md`
+
+### Verification
+- Parsed all JSON files under `docs/data` and `site/data` after each major data pass; all parsed successfully.
+- Ran `node --check site\app.js` after runtime changes; the approved local Node check passed.
+- Searched for removed/corrupted text such as training `????` output and location-inquiry template patterns; targeted problematic patterns were removed from active data/runtime paths.
+- Confirmed the six training event totals changed from `4533` characters to `2936` characters overall, approximately `0.65` of the previous volume.
+- Confirmed no `諾希` typo remains in training event data.
+
+### Follow-ups
+- Browser-check Aida's training menu from a real Debug setup if visual/runtime confirmation is needed.
+- Browser-check a sample of the 30 location inquiry responses in-game to ensure the target-specific response selection is visibly working.
+- Future training expansion should add new skill levels as unique authored events and keep text length close to the compressed current style.
+- Working tree remains uncommitted.

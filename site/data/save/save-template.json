@@ -1,8 +1,8 @@
 {
   "schemaVersion": "save@v1",
   "versions": {
-    "interfacePlan": "interface-ui@2026-05-17.08",
-    "program": "browser-prototype@2026-05-17.10"
+    "interfacePlan": "interface-ui@2026-05-18.03",
+    "program": "browser-prototype@2026-05-18.03"
   },
   "storage": {
     "primary": "localStorage",
@@ -58,7 +58,8 @@
     "knownRecipeIds": [],
     "flags": [],
     "dailyFlags": [],
-    "recentActions": []
+    "recentActions": [],
+    "contribution": 0
   },
   "currentSceneId": "event:opening_valley_call:call_1",
   "exploration": {
@@ -72,6 +73,7 @@
     "sceneryPositionKey": null,
     "blackCatPositionKey": null,
     "blackCatPresent": false,
+    "lastBlackCatPresenceRollWasPresent": false,
     "forageState": {
       "positionKey": null,
       "usedAtCurrentPosition": false
@@ -95,10 +97,6 @@
       "lastRestockDay": 0,
       "items": []
     },
-    "moondew_herb_patch": {
-      "lastRestockDay": 0,
-      "items": []
-    },
     "apple_tree": {
       "lastRestockDay": 0,
       "items": []
@@ -107,12 +105,9 @@
       "lastRestockDay": 0,
       "items": []
     },
-    "medical_supply_box": {
-      "lastRestockDay": 0,
-      "items": []
-    },
     "field": {
-      "level": 1
+      "level": 1,
+      "progress": 0
     },
     "weed_patch": {
       "lastRestockDay": 0,
@@ -208,7 +203,23 @@
     "lastExplorationDefeatCaregiverId": null,
     "explorationDefeatCaregiverHistory": [],
     "lastWeavingWorkEventId": "",
-    "remainingWeavingWorkEventIds": []
+    "remainingWeavingWorkEventIds": [],
+    "lastFieldWorkEventId": "",
+    "remainingFieldWorkEventIds": [],
+    "lastNoonRestEventId": "",
+    "remainingNoonRestEventIds": [],
+    "lastDinnerPreparationEventId": "",
+    "remainingDinnerPreparationEventIds": [],
+    "lastDinnerMealEventIds": {
+      "plain": "",
+      "good": "",
+      "excellent": ""
+    },
+    "remainingDinnerMealEventIds": {
+      "plain": [],
+      "good": [],
+      "excellent": []
+    }
   },
   "mainStory": {
     "forbiddenBooks": {

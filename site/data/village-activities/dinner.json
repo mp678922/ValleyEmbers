@@ -1,0 +1,312 @@
+{
+  "id": "aida_evening_dinner",
+  "name": "黃昏晚餐",
+  "planningStatus": "planningOnly",
+  "hostVillagerId": "aida",
+  "entry": {
+    "source": "villagerInteraction",
+    "villagerId": "aida",
+    "label": "協助準備晚餐",
+    "timeBlocks": [
+      "黃昏"
+    ],
+    "dailyLimitFlag": "evening_dinner_done_today",
+    "requiresAnyEligibleFood": true
+  },
+  "flow": {
+    "ingredientSelection": {
+      "inventorySources": [
+        "player.inventory",
+        "storage_box"
+      ],
+      "uiReference": "storageView",
+      "showOnlyEligibleFoods": true,
+      "hideIneligibleItems": true,
+      "minimumScoreToStart": 1,
+      "zeroScoreBehavior": "cannotStart",
+      "confirmLabel": "開始準備晚餐"
+    },
+    "stages": [
+      {
+        "id": "preparation",
+        "name": "料理過程",
+        "timeCostSeconds": 3600,
+        "eventSelection": {
+          "poolId": "preparationEvents",
+          "selectionRule": "cycleWithoutRepeatThenReshuffle",
+          "avoidImmediateRepeatAfterReshuffle": true
+        }
+      },
+      {
+        "id": "meal",
+        "name": "享用晚餐",
+        "timeCostSeconds": 3600,
+        "eventSelection": {
+          "poolByResultTier": true,
+          "selectionRule": "cycleWithoutRepeatThenReshuffle",
+          "avoidImmediateRepeatAfterReshuffle": true
+        }
+      }
+    ],
+    "transition": {
+      "betweenStages": "fadeOutFadeIn",
+      "reason": "準備與享用各耗時一小時，淡出淡入發生在階段轉換。"
+    }
+  },
+  "scoring": {
+    "scoreRule": "可料理食材分數暫時等於該道具的體力恢復值；若道具雖有體力恢復但不適合作為晚餐食材，必須明確排除。",
+    "eligibleFoods": [
+      {
+        "itemId": "berry",
+        "score": 1,
+        "dinnerLabel": "莓果",
+        "dinnerPhrase": "莓果的酸甜味混進熱氣裡",
+        "dinnerComment": "托莉總說莓果只要沒有被她先吃掉，就已經算準備成功。"
+      },
+      {
+        "itemId": "apple",
+        "score": 1,
+        "dinnerLabel": "蘋果",
+        "dinnerPhrase": "蘋果煮軟後帶出一點清甜",
+        "dinnerComment": "伊蓮說蘋果香最適合讓宿舍看起來像真的在等人回家。"
+      },
+      {
+        "itemId": "lettuce",
+        "score": 2,
+        "dinnerLabel": "生菜",
+        "dinnerPhrase": "生菜還留著一點清脆",
+        "dinnerComment": "托莉堅持新鮮生菜是開墾區的面子問題。"
+      },
+      {
+        "itemId": "bird_egg",
+        "score": 2,
+        "dinnerLabel": "禽蛋",
+        "dinnerPhrase": "禽蛋讓湯色柔和了一些",
+        "dinnerComment": "米菈看見禽蛋時，第一反應是先確認它沒有裂在不該裂的地方。"
+      },
+      {
+        "itemId": "dry_ration",
+        "score": 3,
+        "dinnerLabel": "乾糧",
+        "dinnerPhrase": "乾糧泡開後讓鍋裡多了些飽足感",
+        "dinnerComment": "賽拉說乾糧至少可靠，托莉說這句話聽起來不像在稱讚食物。"
+      }
+    ],
+    "excludedEvenIfEdible": [
+      {
+        "itemId": "flower",
+        "reason": "花朵目前雖有體力恢復效果，但直覺上不像正式晚餐食材。"
+      }
+    ],
+    "resultTiers": [
+      {
+        "id": "plain",
+        "label": "不怎麼樣",
+        "scoreMin": 1,
+        "scoreMax": 2,
+        "allCoreVillagerAffectionDelta": 1
+      },
+      {
+        "id": "good",
+        "label": "好吃",
+        "scoreMin": 3,
+        "scoreMax": 4,
+        "allCoreVillagerAffectionDelta": 2
+      },
+      {
+        "id": "excellent",
+        "label": "非常好吃",
+        "scoreMin": 5,
+        "scoreMax": null,
+        "allCoreVillagerAffectionDelta": 3
+      }
+    ]
+  },
+  "dynamicText": {
+    "selectedIngredientSource": "本次玩家投入且被消耗的 eligibleFoods。",
+    "tokens": [
+      {
+        "token": "{mealFood}",
+        "description": "從投入食材中抽一種，輸出 dinnerLabel。"
+      },
+      {
+        "token": "{mealFoodPhrase}",
+        "description": "從投入食材中抽一種，輸出 dinnerPhrase。"
+      },
+      {
+        "token": "{mealFoodPair}",
+        "description": "從投入食材中抽一到兩種，輸出自然串接的 dinnerLabel；只有一種時不強行補第二種。"
+      },
+      {
+        "token": "{mealFoodComment}",
+        "description": "從投入食材中抽一種，輸出 dinnerComment，適合角色吐槽或補一句生活感。"
+      }
+    ],
+    "fallbacks": {
+      "{mealFood}": "食材",
+      "{mealFoodPhrase}": "鍋裡的味道慢慢熱起來",
+      "{mealFoodPair}": "那些食材",
+      "{mealFoodComment}": "大家都很清楚，能坐下來吃完一頓飯已經不容易。"
+    },
+    "authoringRule": "享用階段事件優先使用 phrase 或 comment，而不是只把食材名硬塞進句子。玩家可見文字不可顯示 token 名稱。"
+  },
+  "preparationEvents": [
+    {
+      "id": "dinner_prep_tori_taste_test",
+      "title": "托莉偷吃未遂",
+      "guestVillagerIds": [
+        "tori"
+      ],
+      "pages": [
+        "托莉負責洗食材，手卻總是比水盆快一步。她捏起一小塊{mealFood}，很嚴肅地說只是確認品質，結果還沒送進嘴裡，就被艾妲叫住名字。\n\n伊蓮在旁邊慢慢補了一句：「未經任命的試味員。」托莉立刻把手放下，問現在能不能任命。",
+        "艾妲沒有罵她，只把最小的一份放到托莉手心，說既然要試味就好好試。托莉立刻挺直背，認真得像整個山谷的晚餐都壓在她的舌頭上。\n\n諾絲看不下去：「妳只是吃一口，不是在替村子宣判。」托莉含著那一小口，很努力地點頭。"
+      ]
+    },
+    {
+      "id": "dinner_prep_nuosi_pot_stand",
+      "title": "諾絲修鍋修到變主廚",
+      "guestVillagerIds": [
+        "nuosi"
+      ],
+      "pages": [
+        "鍋架歪了一點，諾絲本來只是被艾妲請來看一眼。她蹲下去敲了兩下，又嘖了一聲，說這樣煮到一半一定會偏火。",
+        "等鍋架穩了，她又開始嫌木柴擺得不對、鍋太靠邊、{mealFoodPhrase}的時機也不能亂來。艾妲看著她越管越多，只淡淡問：「妳不是說很麻煩？」\n\n諾絲停了一下，手還扶著鍋架。「我是怕你們把麻煩煮熟。」\n\n托莉小聲問麻煩熟了能不能吃，諾絲立刻回：「不能。」"
+      ]
+    },
+    {
+      "id": "dinner_prep_mira_timing_warning",
+      "title": "米菈的溫柔警告",
+      "guestVillagerIds": [
+        "mira",
+        "tori"
+      ],
+      "pages": [
+        "米菈提醒大家，{mealFood}不能煮太久。托莉立刻問煮太久會怎樣，語氣像在問某種可怕的病。",
+        "米菈想了想，很平靜地說：「會變得很難吃。」\n\n托莉倒抽一口氣：「那是晚飯的重傷嗎？」\n\n米菈看了她一眼，竟然回答：「如果來得及關火，還能治。」\n\n大家反而比聽見中毒還緊張，連艾妲都多看了鍋一眼。"
+      ]
+    },
+    {
+      "id": "dinner_prep_sela_knife_work",
+      "title": "賽拉切菜太像備戰",
+      "guestVillagerIds": [
+        "sela",
+        "tori"
+      ],
+      "pages": [
+        "賽拉切食材的動作又快又整齊，刀落下去的聲音規律得像巡路時標記步距。托莉看了一會兒，忍不住問她是不是連{mealFood}都會怕她。",
+        "賽拉沉默片刻，看著砧板上的食材說：「它至少沒有亂動。」\n\n托莉想笑又不敢太大聲，只好把笑憋成很奇怪的咳嗽。賽拉抬眼看她：「如果它亂動，我會先通知妳。」\n\n托莉立刻把手舉到胸前：「我沒有要支援切菜戰線。」"
+      ]
+    },
+    {
+      "id": "dinner_prep_elaine_menu_legend",
+      "title": "伊蓮把菜單寫成傳說",
+      "guestVillagerIds": [
+        "elaine"
+      ],
+      "pages": [
+        "伊蓮負責記下今天用了什麼，結果她把{mealFoodPair}寫得像山谷第幾次小小豐收。艾妲看見那行字，第一個反應是想糾正。\n\n托莉湊過去念了一遍，立刻問這是不是今晚的正式菜名。伊蓮很平靜地說：「如果沒有人反對，它現在就是。」",
+        "她最後還是沒有改。比起「把剩下的東西煮掉」，伊蓮的寫法聽起來確實更像她們今天又把日子往前推了一點。"
+      ]
+    },
+    {
+      "id": "dinner_prep_aida_loses_control",
+      "title": "艾妲失去主持權",
+      "guestVillagerIds": [
+        "mira",
+        "nuosi",
+        "tori"
+      ],
+      "pages": [
+        "艾妲原本把分工排得很清楚：誰洗、誰切、誰看火。可托莉想幫忙，諾絲嫌位置不對，米菈又提醒火候，桌邊很快變成一場小小的混亂。",
+        "艾妲把你拉到旁邊，壓低聲音說：「幫我看一下鍋邊，好嗎？如果有人想把奇怪的東西丟進去，先叫我。」\n\n托莉聽見「鍋邊」兩個字，立刻問這是不是正式守備。賽拉看了一眼鍋和門口的距離，竟然說站位還可以。\n\n艾妲閉了閉眼：「這不是守備。只是晚飯。」\n\n諾絲在旁邊補了一句：「晚飯現在聽起來比較危險了。」"
+      ]
+    }
+  ],
+  "mealEvents": {
+    "plain": [
+      {
+        "id": "dinner_plain_everyone_praises",
+        "title": "大家努力稱讚",
+        "pages": [
+          "{mealFoodPhrase}，但整鍋味道還是有點普通。大家輪流找優點，托莉最後憋出一句：「很有山谷的味道。」",
+          "伊蓮立刻問這句要不要記下來，托莉又急忙改口：「不要，寫成很有……正常的味道。」\n\n諾絲放下碗：「妳越補越糟。」\n\n艾妲低頭喝了一口湯，嘴角動得很輕，最後只說：「至少大家都還在吃。」"
+        ]
+      },
+      {
+        "id": "dinner_plain_quiet_is_fine",
+        "title": "沉默不是壞事",
+        "pages": [
+          "桌邊安靜了一小段時間。艾妲以為是味道太普通，正想開口補救，賽拉卻先說：「只是太餓。」",
+          "這句話像把緊繃的氣氛鬆開了。托莉立刻點頭，說餓到連{mealFood}都變得很認真。\n\n米菈抬眼：「食物沒有認真或不認真。」\n\n伊蓮很自然地接話：「那就記成進食者很認真。」\n\n諾絲嘆了口氣，大家終於小聲笑了起來。"
+        ]
+      },
+      {
+        "id": "dinner_plain_empty_pot",
+        "title": "至少鍋底空了",
+        "pages": [
+          "這頓晚餐說不上特別成功，{mealFoodComment}可是最後鍋底還是空了。",
+          "諾絲說那只是因為不能浪費。托莉馬上補一句：「也可能是因為我們真的很厲害。」\n\n伊蓮問要不要記成「鍋底全數撤離成功」。托莉立刻點頭，下一秒才反應過來：「等一下，妳是不是在笑我？」\n\n伊蓮含笑說沒有。諾絲說她有。"
+        ]
+      }
+    ],
+    "good": [
+      {
+        "id": "dinner_good_tori_takes_credit",
+        "title": "托莉得意太早",
+        "pages": [
+          "{mealFoodPhrase}，味道比大家預期都好。托莉立刻宣布自己洗食材有功，語氣像剛替村莊立下大功。",
+          "米菈提醒她只是把食材洗乾淨。托莉很認真地說：「乾淨很重要。」\n\n賽拉竟然點頭：「泥沙確實會影響後續行動。」\n\n托莉立刻看向大家，像終於得到戰術支援。艾妲沒有反駁，只把下一碗遞給她：「那就請功臣繼續吃。」"
+        ]
+      },
+      {
+        "id": "dinner_good_aida_relaxes",
+        "title": "艾妲放鬆了一瞬",
+        "pages": [
+          "艾妲吃了一口，肩膀明顯鬆下來。那只是一瞬間，短得像她自己也不打算承認。",
+          "伊蓮看見了，故意低頭在紙上記下今天用了{mealFoodPair}，又補了一行：「艾妲吃第一口時肩膀放鬆。」\n\n艾妲立刻抬眼：「那不是菜單內容。」\n\n伊蓮很從容地把筆停住：「那我寫在旁註。」\n\n托莉努力低頭吃飯，肩膀卻一直在抖。"
+        ]
+      },
+      {
+        "id": "dinner_good_sela_second_bowl",
+        "title": "賽拉多盛一點",
+        "pages": [
+          "賽拉原本說自己吃一點就好。等大家聊開後，她又默默盛了半碗，動作很快，像是不想讓任何人看見。",
+          "托莉的眼睛立刻亮起來。賽拉抬眼看她，托莉便非常用力地低頭吃飯，假裝自己什麼都沒發現。\n\n伊蓮輕聲問：「要記成賽拉追加補給嗎？」\n\n賽拉把碗放穩：「記成晚飯分配正常。」\n\n諾絲看了一眼她的碗：「正常到多半碗？」"
+        ]
+      }
+    ],
+    "excellent": [
+      {
+        "id": "dinner_excellent_real_dinner",
+        "title": "像真正的晚餐",
+        "pages": [
+          "{mealFoodPhrase}，整間宿舍的熱氣都變得柔和。大家不是為了撐過今天才吃，而是真的期待下一口。",
+          "艾妲看著桌邊，難得沒有催大家快點收拾。這一小段時間裡，山谷村像是真正回到了一頓晚餐該有的樣子。"
+        ]
+      },
+      {
+        "id": "dinner_excellent_elaine_records_it",
+        "title": "伊蓮正式記錄",
+        "pages": [
+          "伊蓮宣布這頓飯值得寫進紀錄。諾絲立刻說不要把晚餐寫得像歷史事件，尤其不要把{mealFoodPair}寫成什麼偉大轉折。",
+          "伊蓮含笑反問：「那妳剛才為什麼多吃一碗？」\n\n諾絲低頭看著自己的碗，難得安靜了好一會兒。\n\n托莉小聲說：「她被晚飯打敗了。」\n\n諾絲抬頭：「是我判斷它值得消失。」\n\n伊蓮點頭：「我照這句記。」"
+        ]
+      },
+      {
+        "id": "dinner_excellent_small_celebration",
+        "title": "小小慶功",
+        "pages": [
+          "托莉說這應該算村莊慶功宴，因為今天的鍋沒有焦，湯也沒有變成奇怪顏色，{mealFoodComment}",
+          "艾妲本來想說太誇張，卻看見大家都笑了。她最後只改口：「那就慶祝今天沒有把鍋燒壞。」\n\n托莉立刻舉起碗，像真的得到允許。賽拉也把碗抬高了一點，表情仍然很嚴肅。\n\n諾絲看著她：「妳怎麼也配合？」\n\n賽拉回答：「鍋沒有燒壞，確實值得確認。」"
+        ]
+      }
+    ]
+  },
+  "stateOwnership": {
+    "consumedItems": "確認開始晚餐時從玩家選定來源移除投入食材。",
+    "score": "本次活動臨時計算，不需永久保存；若中途存檔需要保存活動上下文，放在 events.active 或未來 villageActivities.active。",
+    "dailyLock": "完成後寫入 player.dailyFlags 的 evening_dinner_done_today。",
+    "eventHistory": "必須保存 lastDinnerPreparationEventId、remainingDinnerPreparationEventIds，以及各結果階段的 last/remaining meal event ids。抽選時只從 remaining ids 中抽取；remaining 清空後重建整個池，且在候選超過一個時避開上一輪最後播放的事件。",
+    "affectionReward": "第二階段完成後套用六名核心村民好感。特殊 NPC 不受影響。"
+  }
+}

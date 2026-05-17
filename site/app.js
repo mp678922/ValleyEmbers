@@ -1,10 +1,11 @@
 const SAVE_STORAGE_KEY = 'valleyembers_save';
 const LEGACY_SAVE_STORAGE_KEYS = ['codexpj_save'];
 const DORMITORY_LOCATION_ID = 'dormitory';
+const VILLAGE_SQUARE_LOCATION_ID = 'village_square_hub';
 const RESET_SECOND = 21600;
 const FALLBACK_SCENE_ID = 'village_square_hub';
-const INTERFACE_PLAN_VERSION = 'interface-ui@2026-05-17.08';
-const PROGRAM_VERSION = 'browser-prototype@2026-05-17.10';
+const INTERFACE_PLAN_VERSION = 'interface-ui@2026-05-18.03';
+const PROGRAM_VERSION = 'browser-prototype@2026-05-18.03';
 const EXPLORATION_SCENE_ID = 'forest_edge';
 const TEMPLE_RUINS_SCENE_ID = 'temple_ruins';
 const NAME_PROTAGONIST_SCENE_ID = 'nameProtagonist';
@@ -47,6 +48,7 @@ const SLEEP_STEP_SECONDS = 3600;
 const SCENE_TRANSITION_THRESHOLD_SECONDS = 3600;
 const SCENE_TRANSITION_FADE_MS = 640;
 const SCENE_TRANSITION_HOLD_MS = 440;
+const PROGRESS_EPSILON = 1e-9;
 const WEAVING_WORK_EVENT_IDS = [
   'dormitory_weaving_aida_counts_threads',
   'dormitory_weaving_tori_competes_with_knot',
@@ -54,6 +56,53 @@ const WEAVING_WORK_EVENT_IDS = [
   'dormitory_weaving_nuosi_tough_rope',
   'dormitory_weaving_elaine_story_thread',
   'dormitory_weaving_shared_late_table'
+];
+const FIELD_WORK_EVENT_IDS = [
+  'field_work_tori_first_rows',
+  'field_work_aida_water_line',
+  'field_work_mira_seedling_rest',
+  'field_work_nuosi_tool_angle',
+  'field_work_sela_boundary_watch',
+  'field_work_elaine_old_marker'
+];
+const NOON_REST_EVENT_IDS = [
+  'village_square_noon_rest_tori_stolen_seat',
+  'village_square_noon_rest_mira_water_cup',
+  'village_square_noon_rest_nuosi_tool_shadow',
+  'village_square_noon_rest_sela_watch_post',
+  'village_square_noon_rest_elaine_bad_record',
+  'village_square_noon_rest_shared_quiet'
+];
+const DINNER_ACTIVITY_ID = 'aida_evening_dinner';
+const DINNER_SELECTED_MEAL_EVENT_TARGET = '__dinner_selected_meal__';
+const NOON_REST_DAILY_FLAG = 'village_square_noon_rest_done';
+const AIDA_SKILL_TRAINING_MAX_LEVEL = 2;
+const AIDA_SKILL_TRAINING_TIME_COST_SECONDS = 14400;
+const AIDA_SKILL_TRAINING_OPTIONS = [
+  {
+    skillKey: 'carrySkill',
+    label: '負重訓練',
+    eventIds: {
+      1: 'aida_training_carry_level_1',
+      2: 'aida_training_carry_level_2'
+    }
+  },
+  {
+    skillKey: 'meleeWeaponSkill',
+    label: '近戰訓練',
+    eventIds: {
+      1: 'aida_training_melee_level_1',
+      2: 'aida_training_melee_level_2'
+    }
+  },
+  {
+    skillKey: 'rangedWeaponSkill',
+    label: '遠程訓練',
+    eventIds: {
+      1: 'aida_training_ranged_level_1',
+      2: 'aida_training_ranged_level_2'
+    }
+  }
 ];
 const LEGACY_WEAVING_WORK_EVENT_ID_MAP = {
   aida_counts_threads: 'dormitory_weaving_aida_counts_threads',
@@ -63,7 +112,14 @@ const LEGACY_WEAVING_WORK_EVENT_ID_MAP = {
   elaine_story_thread: 'dormitory_weaving_elaine_story_thread',
   shared_late_table: 'dormitory_weaving_shared_late_table'
 };
-
+const DEBUG_LOCATION_IDS = [
+  FALLBACK_SCENE_ID,
+  'dormitory',
+  'herb_shed',
+  'workshop_storage',
+  'reclamation_area',
+  EXPLORATION_SCENE_ID
+];
 let scenes = [];
 let villagers = [];
 let items = [];
@@ -82,10 +138,14 @@ let selaKnowledge = null;
 let saveTemplate = null;
 let forageLootConfig = null;
 let resourceNodeSpawnConfig = null;
+let villageDinnerActivity = null;
 let gameState = null;
 let tradeDraft = null;
 let droppedItemsDraft = null;
 let containerDraft = null;
+let dinnerDraft = null;
+let debugSelectedFlagId = '';
+let debugBypassNextTriggeredEvent = false;
 let forageLootDraft = null;
 let pendingActionFlow = null;
 let waitDraftSeconds = 1800;
@@ -170,6 +230,7 @@ const elements = {
   staminaDisplay: document.querySelector('#stamina-display'),
   staminaGauge: document.querySelector('#stamina-gauge'),
   staminaGaugeFill: document.querySelector('#stamina-gauge-fill'),
+  contributionDisplay: document.querySelector('#contribution-display'),
   statusToggle: document.querySelector('#status-toggle'),
   statusBody: document.querySelector('#status-body'),
   questPanel: document.querySelector('.quest-panel'),
@@ -221,7 +282,25 @@ const elements = {
   debugApplyLifeButton: document.querySelector('#debug-apply-life-button'),
   debugStaminaInput: document.querySelector('#debug-stamina-input'),
   debugApplyStaminaButton: document.querySelector('#debug-apply-stamina-button'),
-  debugFlagList: document.querySelector('#debug-flag-list')
+  debugContributionInput: document.querySelector('#debug-contribution-input'),
+  debugApplyContributionButton: document.querySelector('#debug-apply-contribution-button'),
+  debugLocationSelect: document.querySelector('#debug-location-select'),
+  debugJumpLocationButton: document.querySelector('#debug-jump-location-button'),
+  debugVillagerSelect: document.querySelector('#debug-villager-select'),
+  debugOpenVillagerButton: document.querySelector('#debug-open-villager-button'),
+  debugOpenVillagerMenuButton: document.querySelector('#debug-open-villager-menu-button'),
+  debugTimeblockSelect: document.querySelector('#debug-timeblock-select'),
+  debugSetTimeblockButton: document.querySelector('#debug-set-timeblock-button'),
+  debugPresetAidaDinnerButton: document.querySelector('#debug-preset-aida-dinner-button'),
+  debugFieldLevelInput: document.querySelector('#debug-field-level-input'),
+  debugFieldProgressInput: document.querySelector('#debug-field-progress-input'),
+  debugApplyFieldButton: document.querySelector('#debug-apply-field-button'),
+  debugStorageLevelInput: document.querySelector('#debug-storage-level-input'),
+  debugApplyStorageButton: document.querySelector('#debug-apply-storage-button'),
+  debugFlagFilterInput: document.querySelector('#debug-flag-filter-input'),
+  debugAcquiredFlagList: document.querySelector('#debug-acquired-flag-list'),
+  debugAvailableFlagList: document.querySelector('#debug-available-flag-list'),
+  debugFlagDetail: document.querySelector('#debug-flag-detail')
 };
 
 function createInitialState() {
@@ -368,14 +447,14 @@ function createFacilityState(existing, playerFlags = []) {
       const level = getFacilityInitialLevel(facility, current.level);
       next[facility.id] = {
         level,
-        capacityWeight: Number(current.capacityWeight || facility.storage?.initialCapacityWeight || 0),
+        capacityWeight: getFacilityContainerCapacity(facility, { ...current, level }),
         items: normalizeInventory(current.items || [])
       };
       continue;
     }
 
     if (facility.facilityType === 'upgradeable') {
-      next[facility.id] = { level: getFacilityInitialLevel(facility, current.level) };
+      next[facility.id] = createUpgradeableFacilityState(facility, current);
       continue;
     }
 
@@ -394,6 +473,29 @@ function getFacilityInitialLevel(facility, currentLevelValue) {
     ? minLevel
     : Number(currentLevelValue || 0);
   return Math.max(minLevel, currentLevel);
+}
+
+function createUpgradeableFacilityState(facility, current = {}) {
+  const state = { level: getFacilityInitialLevel(facility, current.level) };
+  if (facility?.progress) {
+    state.progress = clampNumber(
+      Number(current.progress ?? facility.progress.initial ?? 0),
+      0,
+      Number(facility.progress.max ?? 100)
+    );
+  }
+  return state;
+}
+
+function getFacilityContainerCapacity(facility, state = {}) {
+  const initial = Number(facility?.storage?.initialCapacityWeight || 0);
+  const increase = Number(facility?.storage?.capacityIncreasePerLevel || 0);
+  if (increase) {
+    const initialLevel = Number(facility?.upgrade?.initialLevel ?? facility?.upgrade?.minLevel ?? 0);
+    const level = getFacilityInitialLevel(facility, state.level);
+    return initial + Math.max(0, level - initialLevel) * increase;
+  }
+  return Number(state.capacityWeight || initial);
 }
 
 function readPersistentSave() {
@@ -559,6 +661,7 @@ function normalizeImportedState(candidate) {
   merged.player.maxStamina = Math.max(initial.player.maxStamina, Number(merged.player.maxStamina || 0));
   merged.player.stamina = Math.max(0, Math.min(merged.player.maxStamina, Number(merged.player.stamina || 0)));
   merged.player.maxCarryWeight = Math.max(initial.player.maxCarryWeight || 0, Number(merged.player.maxCarryWeight || 0));
+  merged.player.contribution = Math.max(0, Number(merged.player.contribution || 0));
   merged.player.restValue = normalizeRestValueRemainder(merged.player.restValue);
   normalizeRecipeUnlockMigration(merged);
   restockSmallStorages(merged, false);
@@ -631,6 +734,7 @@ function normalizeEventState(source) {
       triggerSourceId: typeof source.active.triggerSourceId === 'string' ? source.active.triggerSourceId : '',
       triggerContextKey: typeof source.active.triggerContextKey === 'string' ? source.active.triggerContextKey : '',
       reviewMode: Boolean(source.active.reviewMode),
+      dinnerContext: normalizeDinnerContext(source.active.dinnerContext),
       appliedPageIds: Array.isArray(source.active.appliedPageIds)
         ? [...new Set(source.active.appliedPageIds.filter((entry) => typeof entry === 'string' && entry))]
         : []
@@ -655,7 +759,15 @@ function normalizeEventState(source) {
     ),
     remainingWeavingWorkEventIds: normalizeWeavingEventIdList(
       source?.remainingWeavingWorkEventIds || source?.remainingWeavingWorkTemplateIds
-    )
+    ),
+    lastFieldWorkEventId: normalizeFieldWorkEventId(source?.lastFieldWorkEventId),
+    remainingFieldWorkEventIds: normalizeFieldWorkEventIdList(source?.remainingFieldWorkEventIds),
+    lastNoonRestEventId: normalizeNoonRestEventId(source?.lastNoonRestEventId),
+    remainingNoonRestEventIds: normalizeNoonRestEventIdList(source?.remainingNoonRestEventIds),
+    lastDinnerPreparationEventId: normalizeDinnerPreparationEventId(source?.lastDinnerPreparationEventId),
+    remainingDinnerPreparationEventIds: normalizeDinnerPreparationEventIdList(source?.remainingDinnerPreparationEventIds),
+    lastDinnerMealEventIds: normalizeDinnerMealEventIdMap(source?.lastDinnerMealEventIds),
+    remainingDinnerMealEventIds: normalizeDinnerMealEventIdListMap(source?.remainingDinnerMealEventIds)
   };
 }
 
@@ -674,6 +786,9 @@ function isKnownRuntimeSceneId(sceneId) {
     || (typeof sceneId === 'string' && (
       sceneId.startsWith('encounter:')
       || sceneId.startsWith('dialogue:')
+      || sceneId.startsWith('aidaTraining:')
+      || sceneId.startsWith('locationInquiry:')
+      || sceneId.startsWith('dinner:')
       || sceneId.startsWith('quest:')
       || sceneId.startsWith('questOffer:')
       || sceneId.startsWith('questSubmit:')
@@ -711,6 +826,83 @@ function normalizeWeavingEventId(eventId) {
   return LEGACY_WEAVING_WORK_EVENT_ID_MAP[eventId] || eventId;
 }
 
+function normalizeFieldWorkEventIdList(list) {
+  return normalizeEventIdListForPool(list, FIELD_WORK_EVENT_IDS);
+}
+
+function normalizeFieldWorkEventId(eventId) {
+  return typeof eventId === 'string' && FIELD_WORK_EVENT_IDS.includes(eventId) ? eventId : '';
+}
+
+function normalizeNoonRestEventIdList(list) {
+  return normalizeEventIdListForPool(list, NOON_REST_EVENT_IDS);
+}
+
+function normalizeNoonRestEventId(eventId) {
+  return typeof eventId === 'string' && NOON_REST_EVENT_IDS.includes(eventId) ? eventId : '';
+}
+
+function normalizeDinnerPreparationEventIdList(list) {
+  return normalizeEventIdListForPool(list, getDinnerPreparationEventIds());
+}
+
+function normalizeDinnerPreparationEventId(eventId) {
+  const pool = getDinnerPreparationEventIds();
+  return typeof eventId === 'string' && pool.includes(eventId) ? eventId : '';
+}
+
+function normalizeDinnerMealEventIdListMap(source = {}) {
+  const next = {};
+  for (const tierId of getDinnerResultTierIds()) {
+    next[tierId] = normalizeEventIdListForPool(source?.[tierId], getDinnerMealEventIds(tierId));
+  }
+  return next;
+}
+
+function normalizeDinnerMealEventIdMap(source = {}) {
+  const next = {};
+  for (const tierId of getDinnerResultTierIds()) {
+    const eventId = source?.[tierId];
+    const pool = getDinnerMealEventIds(tierId);
+    next[tierId] = typeof eventId === 'string' && pool.includes(eventId) ? eventId : '';
+  }
+  return next;
+}
+
+function normalizeEventIdListForPool(list, pool) {
+  return (Array.isArray(list) ? list : [])
+    .filter((entry) => typeof entry === 'string' && pool.includes(entry))
+    .filter((entry, index, array) => array.indexOf(entry) === index);
+}
+
+function normalizeDinnerContext(context = null) {
+  if (!context || typeof context !== 'object') {
+    return null;
+  }
+  const tierIds = getDinnerResultTierIds();
+  const tierId = tierIds.includes(context.tierId) ? context.tierId : '';
+  const selectedFoods = normalizeInventory(context.selectedFoods || [])
+    .filter((entry) => getDinnerFoodConfig(entry.itemId));
+  const tokenFoodIds = {};
+  for (const [key, value] of Object.entries(context.tokenFoodIds || {})) {
+    if (typeof value === 'string' && getDinnerFoodConfig(value)) {
+      tokenFoodIds[key] = value;
+    }
+  }
+  const mealFoodPairIds = Array.isArray(context.mealFoodPairIds)
+    ? context.mealFoodPairIds.filter((itemId) => typeof itemId === 'string' && getDinnerFoodConfig(itemId)).slice(0, 2)
+    : [];
+  return {
+    activityId: context.activityId === DINNER_ACTIVITY_ID ? DINNER_ACTIVITY_ID : '',
+    score: Math.max(0, Number(context.score || 0)),
+    tierId,
+    selectedFoods,
+    tokenFoodIds,
+    mealFoodPairIds,
+    mealEventId: typeof context.mealEventId === 'string' ? context.mealEventId : ''
+  };
+}
+
 function normalizeExplorationState(source) {
   const currentLayer = EXPLORATION_LAYER_ORDER.some((layer) => layer.id === source?.currentLayer)
     ? source.currentLayer
@@ -733,6 +925,9 @@ function normalizeExplorationState(source) {
     sceneryPositionKey: typeof source?.sceneryPositionKey === 'string' ? source.sceneryPositionKey : null,
     blackCatPositionKey: typeof source?.blackCatPositionKey === 'string' ? source.blackCatPositionKey : null,
     blackCatPresent: Boolean(source?.blackCatPresent),
+    lastBlackCatPresenceRollWasPresent: typeof source?.lastBlackCatPresenceRollWasPresent === 'boolean'
+      ? source.lastBlackCatPresenceRollWasPresent
+      : Boolean(source?.blackCatPresent),
     openFacilityInstanceId: typeof source?.openFacilityInstanceId === 'string' ? source.openFacilityInstanceId : null
   };
 }
@@ -863,7 +1058,9 @@ function getCurrentScene() {
     return createEventScene(gameState.currentSceneId);
   }
 
-  if (tryStartTriggeredEventForCurrentScene()) {
+  if (debugBypassNextTriggeredEvent) {
+    debugBypassNextTriggeredEvent = false;
+  } else if (tryStartTriggeredEventForCurrentScene()) {
     return createEventScene(gameState.currentSceneId);
   }
 
@@ -889,6 +1086,18 @@ function getCurrentScene() {
 
   if (gameState.currentSceneId.startsWith('dialogue:')) {
     return createDialogueScene(gameState.currentSceneId);
+  }
+
+  if (gameState.currentSceneId.startsWith('aidaTraining:')) {
+    return createAidaSkillTrainingScene(gameState.currentSceneId);
+  }
+
+  if (gameState.currentSceneId.startsWith('locationInquiry:')) {
+    return createLocationInquiryScene(gameState.currentSceneId);
+  }
+
+  if (gameState.currentSceneId.startsWith('dinner:')) {
+    return createDinnerIngredientScene(gameState.currentSceneId);
   }
 
   if (gameState.currentSceneId.startsWith('quest:')) {
@@ -1426,6 +1635,21 @@ function isChoiceVisible(choice) {
   if (blockedFlags.some((flag) => flags.includes(flag))) {
     return false;
   }
+  const dailyFlags = gameState.player.dailyFlags || [];
+  const requiredDailyFlags = [
+    ...(visibility.requiredDailyFlags || []),
+    ...(visibility.requiredDailyFlag ? [visibility.requiredDailyFlag] : [])
+  ];
+  if (requiredDailyFlags.some((flag) => !dailyFlags.includes(flag))) {
+    return false;
+  }
+  const blockedDailyFlags = [
+    ...(visibility.blockedDailyFlags || []),
+    ...(visibility.blockedDailyFlag ? [visibility.blockedDailyFlag] : [])
+  ];
+  if (blockedDailyFlags.some((flag) => dailyFlags.includes(flag))) {
+    return false;
+  }
   if (Array.isArray(visibility.timeBlocks) && !visibility.timeBlocks.includes(getTimeBlock(gameState.time.secondsOfDay))) {
     return false;
   }
@@ -1619,10 +1843,20 @@ function applyDynamicChoice(choice) {
     finalizeTrade: () => finalizeTrade(choice),
     runDialogueCommand: () => runDialogueCommand(choice),
     runInteractionAction: () => runInteractionAction(choice),
+    openDinnerActivity: () => openDinnerActivity(choice),
+    adjustDinnerIngredient: () => adjustDinnerIngredient(choice),
+    confirmDinnerIngredients: () => confirmDinnerIngredients(choice),
+    cancelDinnerIngredients: () => cancelDinnerIngredients(choice),
+    openAidaSkillTrainingMenu: () => openAidaSkillTrainingMenu(choice),
+    openLocationInquiry: () => openLocationInquiry(choice),
+    askVillagerLocation: () => askVillagerLocation(choice),
     blackCatDistract: () => blackCatDistract(choice),
     blackCatFindShelter: () => blackCatFindShelter(choice),
     blackCatCarryItems: () => blackCatCarryItems(choice),
     participateWeavingWork: () => participateWeavingWork(choice),
+    participateFieldWork: () => participateFieldWork(choice),
+    participateNoonRest: () => participateNoonRest(choice),
+    startAidaSkillTraining: () => startAidaSkillTraining(choice),
     returnToScene: () => returnToScene(choice),
     withdrawFacility: () => withdrawFacility(choice.facilityId),
     withdrawFacilityItem: () => withdrawFacilityItem(choice.facilityId, choice.itemId, choice.returnSceneId),
@@ -1708,6 +1942,7 @@ function moveToLocation(choice) {
     advanceTime(choice.timeCostSeconds || 0);
     moveToScene(targetSceneId);
   });
+  tryStartMoveArrivalEvent(choice, targetSceneId);
   saveGame();
   render();
 }
@@ -1740,6 +1975,22 @@ function tryStartMoveEvent(choice) {
     triggerType: context.type,
     triggerSourceId: context.triggerSourceId,
     triggerContextKey: context.triggerContextKey
+  });
+}
+
+function tryStartMoveArrivalEvent(choice, targetSceneId) {
+  if (!targetSceneId || gameState.events?.active || isEventSceneId(gameState.currentSceneId)) {
+    return false;
+  }
+
+  return tryStartTriggeredEvent({
+    type: 'moveArriveLocation',
+    from: choice.fromSceneId || '',
+    to: targetSceneId,
+    sceneId: targetSceneId,
+    returnSceneId: targetSceneId,
+    triggerSourceId: choice.id || `${choice.fromSceneId || ''}_${targetSceneId}`,
+    triggerContextKey: `moveArriveLocation:${choice.fromSceneId || ''}:${targetSceneId}`
   });
 }
 
@@ -1906,6 +2157,15 @@ function doesEventMeetConditions(conditions = {}) {
   if (typeof conditions.playerStaminaAtMost === 'number' && gameState.player.stamina > conditions.playerStaminaAtMost) {
     return false;
   }
+  if (typeof conditions.playerStaminaRatioBelow === 'number') {
+    const maxStamina = Math.max(1, Number(gameState.player.maxStamina || 0));
+    if ((Number(gameState.player.stamina || 0) / maxStamina) >= conditions.playerStaminaRatioBelow) {
+      return false;
+    }
+  }
+  if ((conditions.presentVillagerIds || []).some((villagerId) => !isVillagerPresentAtCurrentScene(villagerId))) {
+    return false;
+  }
 
   for (const [villagerId, minAffection] of Object.entries(conditions.villagerAffectionMins || {})) {
     if (Number(gameState.villagers?.[villagerId]?.affection || 0) < Number(minAffection || 0)) {
@@ -2000,6 +2260,19 @@ function doesTriggerMatchContext(trigger, context) {
     return true;
   }
 
+  if (trigger.type === 'moveArriveLocation') {
+    if (trigger.from && trigger.from !== context.from) {
+      return false;
+    }
+    if (trigger.to && trigger.to !== context.to) {
+      return false;
+    }
+    if (trigger.sceneId && trigger.sceneId !== context.sceneId) {
+      return false;
+    }
+    return true;
+  }
+
   return false;
 }
 
@@ -2089,12 +2362,13 @@ function tryStartTriggeredEvent(context, options = {}) {
     return true;
   }
 
-  const event = events.find((candidate) =>
+  const candidates = events.filter((candidate) =>
     !shouldSkipCompletedEvent(candidate)
     && doesEventMeetConditions(candidate.conditions || {})
     && (candidate.triggers || []).some((trigger) => doesTriggerMatchContext(trigger, context))
   );
 
+  const event = selectTriggeredEvent(candidates);
   if (!event) {
     return false;
   }
@@ -2107,6 +2381,23 @@ function tryStartTriggeredEvent(context, options = {}) {
   });
   if (options.save) saveGame();
   return true;
+}
+
+function selectTriggeredEvent(candidates = []) {
+  if (!candidates.length) {
+    return null;
+  }
+
+  const first = candidates[0];
+  const randomGroup = first.randomTriggerGroup || first.triggerGroup || '';
+  if (!randomGroup) {
+    return first;
+  }
+
+  const grouped = candidates.filter((event) =>
+    (event.randomTriggerGroup || event.triggerGroup || '') === randomGroup
+  );
+  return pickRandom(grouped.length ? grouped : candidates);
 }
 
 function tryStartBlackCatFirstEncounterEvent(context) {
@@ -2163,13 +2454,13 @@ function applyEventPageEntry(event, page, activeState) {
     id: `event_page_${event.id}_${page.id}`,
     label: event.title || '事件',
     timeCostSeconds: Number(page.timeCostSeconds || 0),
-    effects: page.effects || {}
+    effects: createResolvedEventPageEffects(page, activeState)
   };
   const rewardSceneId = activeState.returnSceneId || FALLBACK_SCENE_ID;
   let effectResult = null;
   let droppedItems = [];
   runTrackedAction(syntheticChoice, () => {
-    effectResult = applyEffects(page.effects || {});
+    effectResult = applyEffects(syntheticChoice.effects || {});
     droppedItems = applyCarryAwareItemRewards(createEventRewardItems(page), rewardSceneId);
     learnRecipes(page.rewardRecipeIds || []);
     advanceTime(page.timeCostSeconds || 0);
@@ -2183,6 +2474,20 @@ function applyEventPageEntry(event, page, activeState) {
     gameState.lastActionResult.message = [effectMessage, gameState.lastActionResult.message || ''].filter(Boolean).join(' ');
     gameState.lastActionResult.showMessageWhenPresent = true;
   }
+}
+
+function createResolvedEventPageEffects(page = {}, activeState = null) {
+  const effects = structuredClone(page.effects || {});
+  const contributionPerDinnerScore = Number(effects.contributionPerDinnerScore || 0);
+  if (contributionPerDinnerScore) {
+    const score = Number(activeState?.dinnerContext?.score || 0);
+    effects.player = {
+      ...(effects.player || {}),
+      contribution: Number(effects.player?.contribution || 0) + Math.max(0, score) * contributionPerDinnerScore
+    };
+    delete effects.contributionPerDinnerScore;
+  }
+  return effects;
 }
 
 function createEventRewardItems(page = {}) {
@@ -2223,6 +2528,7 @@ function startEvent(eventId, options = {}) {
     triggerSourceId: options.triggerSourceId || '',
     triggerContextKey: options.triggerContextKey || '',
     reviewMode: Boolean(options.reviewMode),
+    dinnerContext: normalizeDinnerContext(options.dinnerContext),
     appliedPageIds: []
   };
   gameState.currentSceneId = `event:${eventId}:${pageId}`;
@@ -2304,6 +2610,7 @@ function advanceEventPage(choice) {
 function chooseEventBranch(choice) {
   const previousReturnSceneId = choice.returnSceneId || gameState.events?.active?.returnSceneId || FALLBACK_SCENE_ID;
   const previousTriggerContextKey = gameState.events?.active?.triggerContextKey || '';
+  const previousDinnerContext = normalizeDinnerContext(gameState.events?.active?.dinnerContext);
   if (choice.eventId) {
     markEventCompleted(choice.eventId);
   }
@@ -2321,7 +2628,12 @@ function chooseEventBranch(choice) {
     render();
     return;
   }
-  if (!startEvent(choice.targetEventId, { returnSceneId: previousReturnSceneId, triggerContextKey: previousTriggerContextKey })) {
+  const targetEventId = resolveEventBranchTargetEventId(choice.targetEventId, previousDinnerContext);
+  if (!startEvent(targetEventId, {
+    returnSceneId: previousReturnSceneId,
+    triggerContextKey: previousTriggerContextKey,
+    dinnerContext: previousDinnerContext
+  })) {
     if (Object.keys(choice.effects || {}).length || (choice.timeCostSeconds || 0) > 0 || choice.resultMessage) {
       runTrackedAction(choice, () => {
         applyEffects(choice.effects || {});
@@ -2338,6 +2650,13 @@ function chooseEventBranch(choice) {
   }
   saveGame();
   render();
+}
+
+function resolveEventBranchTargetEventId(targetEventId, dinnerContext = null) {
+  if (targetEventId === DINNER_SELECTED_MEAL_EVENT_TARGET) {
+    return dinnerContext?.mealEventId || '';
+  }
+  return targetEventId || '';
 }
 
 function finishEvent(choice) {
@@ -2423,6 +2742,38 @@ function runInteractionAction(choice) {
       text: choice.resultText || `${choice.label}完成。`
     };
   }, { message: '' });
+  saveGame();
+  render();
+}
+
+function openLocationInquiry(choice) {
+  clearActionResultDisplay();
+  const returnSceneId = choice.returnSceneId || getVillagerLocationId(villagers.find((entry) => entry.id === choice.villagerId)) || FALLBACK_SCENE_ID;
+  gameState.currentSceneId = `locationInquiry:${choice.villagerId}:${returnSceneId}`;
+  saveGame();
+  render();
+}
+
+function askVillagerLocation(choice) {
+  const asker = villagers.find((entry) => entry.id === choice.villagerId);
+  const target = villagers.find((entry) => entry.id === choice.targetVillagerId);
+  if (!asker || !target || !isCoreVillager(asker) || !isCoreVillager(target)) {
+    recordFailedAction(choice, '找不到能詢問的位置。');
+    return;
+  }
+  const returnSceneId = choice.returnSceneId || getVillagerLocationId(asker) || FALLBACK_SCENE_ID;
+  if (getLocationInquiryTargets(asker, returnSceneId).every((entry) => entry.id !== target.id)) {
+    recordFailedAction(choice, '這個人就在附近，沒有必要特地詢問。');
+    return;
+  }
+
+  clearActionResultDisplay();
+  gameState.lastInteraction = {
+    villagerId: asker.id,
+    commandId: 'ask_other_location',
+    text: createLocationInquiryResponse(asker, target)
+  };
+  gameState.currentSceneId = `dialogue:${asker.id}:${returnSceneId}`;
   saveGame();
   render();
 }
@@ -2717,17 +3068,549 @@ function pickWeavingWorkEventId() {
 
 function getRemainingWeavingEventIds() {
   gameState.events = normalizeEventState(gameState.events || {});
-  const lastEventId = gameState.events.lastWeavingWorkEventId || '';
-  const stored = normalizeWeavingEventIdList(gameState.events.remainingWeavingWorkEventIds);
-  const basePool = stored.length ? stored : [...WEAVING_WORK_EVENT_IDS];
-  const filteredPool = basePool.filter((id) => id !== lastEventId);
-  return filteredPool.length ? filteredPool : basePool;
+  return getRotatingEventPoolState({
+    storedRemaining: gameState.events.remainingWeavingWorkEventIds,
+    fullPool: WEAVING_WORK_EVENT_IDS,
+    lastEventId: gameState.events.lastWeavingWorkEventId || ''
+  }).candidates;
 }
 
 function applyWeavingEventRotation(selectedEventId) {
-  const basePool = getRemainingWeavingEventIds();
+  const basePool = getRotatingEventPoolState({
+    storedRemaining: gameState.events.remainingWeavingWorkEventIds,
+    fullPool: WEAVING_WORK_EVENT_IDS,
+    lastEventId: gameState.events.lastWeavingWorkEventId || ''
+  }).activePool;
   gameState.events.lastWeavingWorkEventId = selectedEventId;
   gameState.events.remainingWeavingWorkEventIds = basePool.filter((id) => id !== selectedEventId);
+}
+
+function participateFieldWork(choice) {
+  const timeBlock = getTimeBlock(gameState.time.secondsOfDay);
+  if (!['清晨', '上午'].includes(timeBlock)) {
+    recordFailedAction(choice, '中午以後不適合再重新開一輪田地工作。');
+    return;
+  }
+  if (getFacilityLevel('field') >= getFacilityMaxLevel('field')) {
+    recordFailedAction(choice, '田地已經整理到目前能承受的極限。');
+    return;
+  }
+
+  const eventId = pickFieldWorkEventId();
+  gameState.events = normalizeEventState(gameState.events || {});
+  applyFieldWorkEventRotation(eventId);
+  const baseReturnSceneId = choice.returnSceneId || getVillagerLocationId(villagers.find((entry) => entry.id === 'tori')) || 'village_square_hub';
+  if (!startEvent(eventId, {
+    returnSceneId: `dialogue:tori:${baseReturnSceneId}`,
+    triggerType: 'villagerAction',
+    triggerSourceId: choice.id || 'tori_field_work',
+    triggerContextKey: `villagerAction:tori:field_work:${gameState.time.day}:${gameState.time.secondsOfDay}`
+  })) {
+    recordFailedAction(choice, '找不到可播放的開墾演出。');
+    return;
+  }
+  saveGame('開始協助托莉開墾田地。');
+  render();
+}
+
+function pickFieldWorkEventId() {
+  gameState.events = normalizeEventState(gameState.events || {});
+  const remainingIds = getRemainingFieldWorkEventIds();
+  const availableIds = remainingIds.filter((eventId) => getEventById(eventId));
+  return pickRandom(availableIds.length ? availableIds : remainingIds);
+}
+
+function getRemainingFieldWorkEventIds() {
+  gameState.events = normalizeEventState(gameState.events || {});
+  return getRotatingEventPoolState({
+    storedRemaining: gameState.events.remainingFieldWorkEventIds,
+    fullPool: FIELD_WORK_EVENT_IDS,
+    lastEventId: gameState.events.lastFieldWorkEventId || ''
+  }).candidates;
+}
+
+function applyFieldWorkEventRotation(selectedEventId) {
+  const basePool = getRotatingEventPoolState({
+    storedRemaining: gameState.events.remainingFieldWorkEventIds,
+    fullPool: FIELD_WORK_EVENT_IDS,
+    lastEventId: gameState.events.lastFieldWorkEventId || ''
+  }).activePool;
+  gameState.events.lastFieldWorkEventId = selectedEventId;
+  gameState.events.remainingFieldWorkEventIds = basePool.filter((id) => id !== selectedEventId);
+}
+
+function participateNoonRest(choice) {
+  const returnSceneId = choice.returnSceneId || VILLAGE_SQUARE_LOCATION_ID;
+  const timeBlock = getTimeBlock(gameState.time.secondsOfDay);
+  if (returnSceneId !== VILLAGE_SQUARE_LOCATION_ID || timeBlock !== '中午') {
+    recordFailedAction(choice, '現在還不是能在廣場一起歇下來的時候。');
+    return;
+  }
+  if (hasPlayerDailyFlag(NOON_REST_DAILY_FLAG)) {
+    recordFailedAction(choice, '今天已經和大家一起休息過了。');
+    return;
+  }
+
+  const eventId = pickNoonRestEventId();
+  gameState.events = normalizeEventState(gameState.events || {});
+  applyNoonRestEventRotation(eventId);
+  if (!startEvent(eventId, {
+    returnSceneId,
+    triggerType: 'localAction',
+    triggerSourceId: choice.id || 'village_square_noon_rest',
+    triggerContextKey: `localAction:${returnSceneId}:village_square_noon_rest:${gameState.time.day}`
+  })) {
+    recordFailedAction(choice, '找不到可播放的午間休息演出。');
+    return;
+  }
+  saveGame('開始午間休息。');
+  render();
+}
+
+function pickNoonRestEventId() {
+  gameState.events = normalizeEventState(gameState.events || {});
+  const remainingIds = getRemainingNoonRestEventIds();
+  const availableIds = remainingIds.filter((eventId) => getEventById(eventId));
+  return pickRandom(availableIds.length ? availableIds : remainingIds);
+}
+
+function getRemainingNoonRestEventIds() {
+  gameState.events = normalizeEventState(gameState.events || {});
+  return getRotatingEventPoolState({
+    storedRemaining: gameState.events.remainingNoonRestEventIds,
+    fullPool: NOON_REST_EVENT_IDS,
+    lastEventId: gameState.events.lastNoonRestEventId || ''
+  }).candidates;
+}
+
+function applyNoonRestEventRotation(selectedEventId) {
+  const basePool = getRotatingEventPoolState({
+    storedRemaining: gameState.events.remainingNoonRestEventIds,
+    fullPool: NOON_REST_EVENT_IDS,
+    lastEventId: gameState.events.lastNoonRestEventId || ''
+  }).activePool;
+  gameState.events.lastNoonRestEventId = selectedEventId;
+  gameState.events.remainingNoonRestEventIds = basePool.filter((id) => id !== selectedEventId);
+}
+
+function createDinnerActivityChoices(villager, returnSceneId) {
+  const activity = getDinnerActivity();
+  if (!activity || villager?.id !== activity.hostVillagerId) {
+    return [];
+  }
+  if (!getDinnerEntryTimeBlocks(activity).includes(getTimeBlock(gameState.time.secondsOfDay))) {
+    return [];
+  }
+  const dailyFlag = activity.entry?.dailyLimitFlag || '';
+  const doneToday = dailyFlag && hasPlayerDailyFlag(dailyFlag);
+  return [{
+    id: `${villager.id}_${activity.id}`,
+    label: activity.entry?.label || activity.name || '協助準備晚餐',
+    actionType: 'villageActivity',
+    timeCostSeconds: 0,
+    hideCost: true,
+    dynamicAction: 'openDinnerActivity',
+    villagerId: villager.id,
+    activityId: activity.id,
+    returnSceneId,
+    disabledReason: doneToday ? '今天已經一起準備過晚餐了。' : ''
+  }];
+}
+
+function getDinnerActivity() {
+  return villageDinnerActivity?.id === DINNER_ACTIVITY_ID ? villageDinnerActivity : null;
+}
+
+function getDinnerActivityName(activityId = DINNER_ACTIVITY_ID) {
+  const activity = activityId === DINNER_ACTIVITY_ID ? getDinnerActivity() : null;
+  return activity?.name || '黃昏晚餐';
+}
+
+function getDinnerEntryTimeBlocks(activity = getDinnerActivity()) {
+  return (activity?.entry?.timeBlocks || [])
+    .map((timeBlock) => timeBlock === '黃昏' ? '傍晚' : timeBlock)
+    .filter(Boolean);
+}
+
+function openDinnerActivity(choice) {
+  const activity = getDinnerActivity();
+  if (!activity || choice.activityId !== activity.id) {
+    recordFailedAction(choice, '找不到晚餐活動資料。');
+    return;
+  }
+  const timeBlock = getTimeBlock(gameState.time.secondsOfDay);
+  if (!getDinnerEntryTimeBlocks(activity).includes(timeBlock)) {
+    recordFailedAction(choice, '現在還不是準備晚餐的時間。');
+    return;
+  }
+  const dailyFlag = activity.entry?.dailyLimitFlag || '';
+  if (dailyFlag && hasPlayerDailyFlag(dailyFlag)) {
+    recordFailedAction(choice, '今天已經一起準備過晚餐了。');
+    return;
+  }
+  clearActionResultDisplay();
+  ensureDinnerDraft(choice.returnSceneId, true);
+  gameState.currentSceneId = `dinner:${activity.id}:${choice.returnSceneId || FALLBACK_SCENE_ID}`;
+  saveGame();
+  render();
+}
+
+function ensureDinnerDraft(returnSceneId, reset = false) {
+  const key = `dinner:${DINNER_ACTIVITY_ID}:${returnSceneId || FALLBACK_SCENE_ID}`;
+  if (reset || !dinnerDraft || dinnerDraft.key !== key) {
+    dinnerDraft = {
+      key,
+      activityId: DINNER_ACTIVITY_ID,
+      returnSceneId: returnSceneId || FALLBACK_SCENE_ID,
+      inventory: {},
+      storage: {}
+    };
+  }
+  return dinnerDraft;
+}
+
+function createDinnerIngredientScene(sceneId) {
+  const [, activityId, returnSceneId = FALLBACK_SCENE_ID] = sceneId.split(':');
+  const activity = getDinnerActivity();
+  if (!activity || activityId !== activity.id) {
+    return createLocationScene(locations.find((location) => location.id === returnSceneId) || locations[0]);
+  }
+  ensureDinnerDraft(returnSceneId);
+  const draftState = getDinnerDraftState(returnSceneId);
+  const score = getDinnerDraftScore();
+  const tier = getDinnerResultTier(score);
+  const summaryLines = createDinnerDraftSummaryLines(score, tier);
+  return {
+    id: sceneId,
+    title: activity.name || '黃昏晚餐',
+    location: getSceneLocationLabel(returnSceneId),
+    description: '艾妲把桌面清出一塊位置，讓你把能拿來分食的東西先放到一旁。她沒有催你多拿，只提醒你，晚餐至少得真的能煮成一鍋。',
+    choiceGroups: [
+      {
+        title: `背包食材（整理後負重：${formatNumber(getInventoryWeight(draftState.inventoryAfter))} / ${formatNumber(getPlayerCarryCapacity())}）`,
+        type: 'tradeRows',
+        rows: createDinnerIngredientRows('inventory', draftState.inventoryFoods),
+        emptyLabel: '背包裡沒有能拿來煮的食材。'
+      },
+      {
+        title: '倉庫食材',
+        type: 'tradeRows',
+        rows: createDinnerIngredientRows('storage', draftState.storageFoods),
+        emptyLabel: '倉庫箱裡沒有能拿來煮的食材。'
+      },
+      {
+        title: '本次晚餐',
+        type: 'tradeSummary',
+        lines: summaryLines
+      },
+      {
+        title: '確認',
+        choices: [
+          {
+            id: `${activity.id}_confirm`,
+            label: activity.flow?.ingredientSelection?.confirmLabel || '開始準備晚餐',
+            actionType: 'villageActivity',
+            timeCostSeconds: 0,
+            hideCost: true,
+            transition: 'fade',
+            dynamicAction: 'confirmDinnerIngredients',
+            activityId: activity.id,
+            returnSceneId,
+            disabledReason: score <= 0 ? '至少要放入一樣能煮的食材。' : ''
+          },
+          {
+            id: `${activity.id}_cancel`,
+            label: '返回',
+            actionType: 'cancelVillageActivity',
+            timeCostSeconds: 0,
+            hideCost: true,
+            dynamicAction: 'cancelDinnerIngredients',
+            activityId: activity.id,
+            returnSceneId
+          }
+        ]
+      }
+    ]
+  };
+}
+
+function getDinnerDraftState(returnSceneId) {
+  const storageInventory = cloneInventory(gameState.facilities?.storage_box?.items || []);
+  const playerInventory = cloneInventory(gameState.player.inventory || []);
+  for (const [itemId, count] of Object.entries(dinnerDraft?.inventory || {})) {
+    changeInventoryItem(playerInventory, itemId, -Number(count || 0));
+  }
+  for (const [itemId, count] of Object.entries(dinnerDraft?.storage || {})) {
+    changeInventoryItem(storageInventory, itemId, -Number(count || 0));
+  }
+  return {
+    inventoryAfter: normalizeInventory(playerInventory),
+    storageAfter: normalizeInventory(storageInventory),
+    inventoryFoods: normalizeInventory(gameState.player.inventory || []).filter((entry) => getDinnerFoodConfig(entry.itemId)),
+    storageFoods: normalizeInventory(gameState.facilities?.storage_box?.items || []).filter((entry) => getDinnerFoodConfig(entry.itemId))
+  };
+}
+
+function createDinnerIngredientRows(source, entries) {
+  return entries.map((entry) => {
+    const item = getItem(entry.itemId);
+    const selected = Number(dinnerDraft?.[source]?.[entry.itemId] || 0);
+    const food = getDinnerFoodConfig(entry.itemId);
+    const sourceLabel = source === 'storage' ? '倉庫' : '背包';
+    return {
+      id: `dinner_${source}_${entry.itemId}`,
+      itemId: entry.itemId,
+      count: entry.count,
+      name: item?.name || food?.dinnerLabel || entry.itemId,
+      meta: `${sourceLabel} ${entry.count}　分數 ${food?.score || 0}`,
+      selectedLabel: `放入 ${selected}`,
+      minusChoice: {
+        id: `dinner_${source}_${entry.itemId}_minus`,
+        label: `${item?.name || entry.itemId}　減少放入`,
+        actionType: 'adjustDinnerIngredient',
+        timeCostSeconds: 0,
+        hideCost: true,
+        dynamicAction: 'adjustDinnerIngredient',
+        source,
+        itemId: entry.itemId,
+        delta: -1,
+        disabledReason: selected <= 0 ? '目前沒有放入這個食材。' : ''
+      },
+      plusChoice: {
+        id: `dinner_${source}_${entry.itemId}_plus`,
+        label: `${item?.name || entry.itemId}　增加放入`,
+        actionType: 'adjustDinnerIngredient',
+        timeCostSeconds: 0,
+        hideCost: true,
+        dynamicAction: 'adjustDinnerIngredient',
+        source,
+        itemId: entry.itemId,
+        delta: 1,
+        disabledReason: selected >= entry.count ? '已達目前可放入數量。' : ''
+      }
+    };
+  });
+}
+
+function adjustDinnerIngredient(choice) {
+  if (!dinnerDraft || !['inventory', 'storage'].includes(choice.source)) {
+    recordFailedAction(choice, '目前沒有正在整理的晚餐食材。');
+    return;
+  }
+  if (!getDinnerFoodConfig(choice.itemId)) {
+    recordFailedAction(choice, '這個道具不能拿來準備晚餐。');
+    return;
+  }
+  const bucket = dinnerDraft[choice.source];
+  const available = choice.source === 'storage'
+    ? getInventoryCount(gameState.facilities?.storage_box?.items || [], choice.itemId)
+    : getInventoryCount(gameState.player.inventory || [], choice.itemId);
+  const next = clampNumber(Number(bucket[choice.itemId] || 0) + Number(choice.delta || 0), 0, available);
+  if (next <= 0) {
+    delete bucket[choice.itemId];
+  } else {
+    bucket[choice.itemId] = next;
+  }
+  clearActionResultDisplay();
+  render();
+}
+
+function confirmDinnerIngredients(choice) {
+  const activity = getDinnerActivity();
+  if (!activity || !dinnerDraft) {
+    recordFailedAction(choice, '目前沒有正在整理的晚餐食材。');
+    return;
+  }
+  const score = getDinnerDraftScore();
+  const tier = getDinnerResultTier(score);
+  if (!tier) {
+    recordFailedAction(choice, '至少要放入一樣能煮的食材。');
+    return;
+  }
+  const selectedFoods = getDinnerDraftSelectedFoods();
+  consumeDinnerDraftIngredients();
+  const preparationEventId = pickDinnerPreparationEventId();
+  const mealEventId = pickDinnerMealEventId(tier.id);
+  applyDinnerPreparationEventRotation(preparationEventId);
+  applyDinnerMealEventRotation(tier.id, mealEventId);
+  const dinnerContext = createDinnerContext({
+    score,
+    tierId: tier.id,
+    selectedFoods,
+    mealEventId
+  });
+  dinnerDraft = null;
+  const returnSceneId = `dialogue:${activity.hostVillagerId}:${choice.returnSceneId || FALLBACK_SCENE_ID}`;
+  if (!startEvent(preparationEventId, {
+    returnSceneId,
+    triggerType: 'villageActivity',
+    triggerSourceId: activity.id,
+    triggerContextKey: `villageActivity:${activity.id}:${gameState.time.day}`,
+    dinnerContext
+  })) {
+    recordFailedAction(choice, '找不到可播放的晚餐準備演出。');
+    return;
+  }
+  saveGame('開始協助準備晚餐。');
+  render();
+}
+
+function cancelDinnerIngredients(choice) {
+  dinnerDraft = null;
+  clearActionResultDisplay();
+  gameState.currentSceneId = `dialogue:aida:${choice.returnSceneId || FALLBACK_SCENE_ID}`;
+  saveGame();
+  render();
+}
+
+function getDinnerDraftSelectedFoods() {
+  const totals = {};
+  for (const [source, bucket] of Object.entries({ inventory: dinnerDraft?.inventory || {}, storage: dinnerDraft?.storage || {} })) {
+    for (const [itemId, count] of Object.entries(bucket || {})) {
+      if (getDinnerFoodConfig(itemId)) {
+        totals[itemId] = Number(totals[itemId] || 0) + Number(count || 0);
+      }
+    }
+  }
+  return normalizeInventory(inventoryMapToArray(totals));
+}
+
+function getDinnerDraftScore() {
+  return getDinnerDraftSelectedFoods().reduce((sum, entry) => {
+    const food = getDinnerFoodConfig(entry.itemId);
+    return sum + Number(food?.score || 0) * Number(entry.count || 0);
+  }, 0);
+}
+
+function createDinnerDraftSummaryLines(score, tier) {
+  const selectedFoods = getDinnerDraftSelectedFoods();
+  if (!selectedFoods.length) {
+    return ['尚未放入食材。'];
+  }
+  const foodText = selectedFoods
+    .map((entry) => `${getItem(entry.itemId)?.name || entry.itemId} x${entry.count}`)
+    .join('、');
+  return [
+    `放入：${foodText}`,
+    `目前分數：${score}`,
+    `晚餐結果：${tier?.label || '尚不足以開始'}`
+  ];
+}
+
+function consumeDinnerDraftIngredients() {
+  for (const [itemId, count] of Object.entries(dinnerDraft?.inventory || {})) {
+    changeInventoryItem(gameState.player.inventory, itemId, -Number(count || 0));
+  }
+  if (!gameState.facilities.storage_box) {
+    gameState.facilities.storage_box = { items: [] };
+  }
+  for (const [itemId, count] of Object.entries(dinnerDraft?.storage || {})) {
+    changeInventoryItem(gameState.facilities.storage_box.items, itemId, -Number(count || 0));
+  }
+  gameState.player.inventory = normalizeInventory(gameState.player.inventory || []);
+  gameState.facilities.storage_box.items = normalizeInventory(gameState.facilities.storage_box.items || []);
+}
+
+function getDinnerFoodConfig(itemId) {
+  return (getDinnerActivity()?.scoring?.eligibleFoods || []).find((entry) => entry.itemId === itemId) || null;
+}
+
+function getDinnerResultTier(score) {
+  return (getDinnerActivity()?.scoring?.resultTiers || []).find((tier) => {
+    const min = Number(tier.scoreMin || 0);
+    const max = tier.scoreMax === null || tier.scoreMax === undefined ? Infinity : Number(tier.scoreMax);
+    return score >= min && score <= max;
+  }) || null;
+}
+
+function getDinnerResultTierIds() {
+  return (getDinnerActivity()?.scoring?.resultTiers || []).map((tier) => tier.id).filter(Boolean);
+}
+
+function getDinnerPreparationEventIds() {
+  return (getDinnerActivity()?.preparationEvents || []).map((event) => event.id).filter(Boolean);
+}
+
+function getDinnerMealEventIds(tierId) {
+  return (getDinnerActivity()?.mealEvents?.[tierId] || []).map((event) => event.id).filter(Boolean);
+}
+
+function pickDinnerPreparationEventId() {
+  const pool = getDinnerPreparationEventIds();
+  const remaining = getRotatingEventPoolState({
+    storedRemaining: gameState.events?.remainingDinnerPreparationEventIds,
+    fullPool: pool,
+    lastEventId: gameState.events?.lastDinnerPreparationEventId || ''
+  }).candidates;
+  const available = remaining.filter((eventId) => getEventById(eventId));
+  return pickRandom(available.length ? available : remaining);
+}
+
+function applyDinnerPreparationEventRotation(selectedEventId) {
+  const pool = getDinnerPreparationEventIds();
+  const remaining = getRotatingEventPoolState({
+    storedRemaining: gameState.events?.remainingDinnerPreparationEventIds,
+    fullPool: pool,
+    lastEventId: gameState.events?.lastDinnerPreparationEventId || ''
+  }).activePool;
+  gameState.events.lastDinnerPreparationEventId = selectedEventId;
+  gameState.events.remainingDinnerPreparationEventIds = remaining.filter((id) => id !== selectedEventId);
+}
+
+function pickDinnerMealEventId(tierId) {
+  const pool = getDinnerMealEventIds(tierId);
+  const remaining = getRotatingEventPoolState({
+    storedRemaining: gameState.events?.remainingDinnerMealEventIds?.[tierId],
+    fullPool: pool,
+    lastEventId: gameState.events?.lastDinnerMealEventIds?.[tierId] || ''
+  }).candidates;
+  const available = remaining.filter((eventId) => getEventById(eventId));
+  return pickRandom(available.length ? available : remaining);
+}
+
+function applyDinnerMealEventRotation(tierId, selectedEventId) {
+  const pool = getDinnerMealEventIds(tierId);
+  const remaining = getRotatingEventPoolState({
+    storedRemaining: gameState.events?.remainingDinnerMealEventIds?.[tierId],
+    fullPool: pool,
+    lastEventId: gameState.events?.lastDinnerMealEventIds?.[tierId] || ''
+  }).activePool;
+  gameState.events.lastDinnerMealEventIds = gameState.events.lastDinnerMealEventIds || {};
+  gameState.events.remainingDinnerMealEventIds = gameState.events.remainingDinnerMealEventIds || {};
+  gameState.events.lastDinnerMealEventIds[tierId] = selectedEventId;
+  gameState.events.remainingDinnerMealEventIds[tierId] = remaining.filter((id) => id !== selectedEventId);
+}
+
+function getRotatingEventPoolState({ storedRemaining, fullPool, lastEventId }) {
+  const normalizedFullPool = normalizeEventIdListForPool(fullPool, fullPool);
+  const stored = normalizeEventIdListForPool(storedRemaining, normalizedFullPool);
+  const activePool = stored.length ? stored : [...normalizedFullPool];
+  const candidates = stored.length
+    ? activePool
+    : activePool.filter((id) => id !== lastEventId);
+  return {
+    activePool,
+    candidates: candidates.length ? candidates : activePool
+  };
+}
+
+function createDinnerContext({ score, tierId, selectedFoods, mealEventId }) {
+  const uniqueFoodIds = selectedFoods.map((entry) => entry.itemId).filter((itemId, index, array) => array.indexOf(itemId) === index);
+  const pickFoodId = () => pickRandom(uniqueFoodIds) || uniqueFoodIds[0] || '';
+  const pairIds = [...uniqueFoodIds].sort(() => Math.random() - 0.5).slice(0, 2);
+  return {
+    activityId: DINNER_ACTIVITY_ID,
+    score,
+    tierId,
+    selectedFoods,
+    mealEventId,
+    tokenFoodIds: {
+      mealFood: pickFoodId(),
+      mealFoodPhrase: pickFoodId(),
+      mealFoodComment: pickFoodId()
+    },
+    mealFoodPairIds: pairIds
+  };
 }
 
 function createWaitSceneDescription(returnSceneId, seconds, staminaGain = 0) {
@@ -3569,6 +4452,7 @@ function createStateSnapshot() {
     player: {
       life: Number(gameState.player.life || 0),
       stamina: Number(gameState.player.stamina || 0),
+      contribution: Number(gameState.player.contribution || 0),
       inventory: normalizeInventory(gameState.player.inventory || []),
       carrySkill: Number(gameState.player.carrySkill || 0),
       gatheringSkill: Number(gameState.player.gatheringSkill || 0),
@@ -3594,6 +4478,7 @@ function createActionResult(choice, before, after, options = {}) {
       location: createLocationChange(before.position, after.position),
       life: createNumberChange(before.player.life, after.player.life),
       stamina: createNumberChange(before.player.stamina, after.player.stamina),
+      contribution: createNumberChange(before.player.contribution, after.player.contribution),
       skills: createPlayerSkillChanges(before.player, after.player),
       recipes: createRecipeChanges(before.player.knownRecipeIds, after.player.knownRecipeIds),
       items: createInventoryChanges(before.player.inventory, after.player.inventory),
@@ -3689,7 +4574,7 @@ function createFacilityChanges(beforeFacilities, afterFacilities) {
       const after = afterFacilities?.[facilityId] || {};
       const facilityName = facilities.find((facility) => facility.id === facilityId)?.name || facilityId;
       const changes = [];
-      for (const key of ['level', 'capacityWeight', 'unlocked']) {
+      for (const key of ['level', 'progress', 'capacityWeight', 'unlocked']) {
         if (JSON.stringify(before[key]) !== JSON.stringify(after[key])) {
           changes.push({
             facilityId,
@@ -3812,12 +4697,7 @@ function applyEffectsToState(state, effects = {}) {
     state.villagers[id].affection = Math.max(0, (state.villagers[id].affection || 0) + affectionChange);
   }
 
-  for (const [facilityId, amount] of Object.entries(effects.facilities || {})) {
-    const facilityState = state.facilities[facilityId] || { level: 0 };
-    const maxLevel = getFacilityMaxLevel(facilityId);
-    facilityState.level = Math.min(maxLevel, Math.max(0, (facilityState.level || 0) + amount));
-    state.facilities[facilityId] = facilityState;
-  }
+  applyFacilityEffectsToState(state, effects.facilities || {});
 
   for (const flag of effects.flags || []) {
     if (!state.player.flags.includes(flag)) {
@@ -3841,6 +4721,85 @@ function applyEffectsToState(state, effects = {}) {
   }
 
   return result;
+}
+
+function applyFacilityEffectsToState(state, facilityEffects = {}) {
+  for (const [facilityId, effect] of Object.entries(facilityEffects || {})) {
+    applySingleFacilityEffectToState(state, facilityId, effect);
+  }
+}
+
+function applySingleFacilityEffectToState(state, facilityId, effect) {
+  const facility = getFacility(facilityId);
+  const current = state.facilities[facilityId] || {};
+  const nextState = { ...current };
+  const minLevel = Number(facility?.upgrade?.minLevel ?? 0);
+  const maxLevel = getFacilityMaxLevel(facilityId);
+  const currentLevel = getFacilityInitialLevel(facility, nextState.level);
+  const effectObject = typeof effect === 'number' ? { levelDelta: effect } : (effect || {});
+  const explicitLevel = Number.isFinite(Number(effectObject.level)) ? Number(effectObject.level) : null;
+  const levelDelta = Number(effectObject.levelDelta || 0);
+  nextState.level = clampNumber(explicitLevel === null ? currentLevel + levelDelta : explicitLevel, minLevel, maxLevel);
+
+  if (
+    facility?.progress
+    || Number.isFinite(Number(effectObject.progressDelta))
+    || Number.isFinite(Number(effectObject.progressStepDelta))
+    || Number.isFinite(Number(effectObject.progress))
+  ) {
+    applyFacilityProgressEffect(nextState, facility, effectObject);
+  }
+  if (facility?.facilityType === 'container') {
+    nextState.capacityWeight = getFacilityContainerCapacity(facility, nextState);
+  }
+  state.facilities[facilityId] = nextState;
+}
+
+function applyFacilityProgressEffect(nextState, facility, effectObject = {}) {
+  const maxProgress = Number(facility?.progress?.max ?? 100);
+  const threshold = Number(facility?.progress?.upgradeThreshold ?? maxProgress);
+  const resetOnLevelUp = facility?.progress?.resetOnLevelUp !== false;
+  const explicitProgress = Number.isFinite(Number(effectObject.progress)) ? Number(effectObject.progress) : null;
+  const progressDelta = getFacilityProgressDelta(nextState, facility, effectObject, threshold);
+  let progress = explicitProgress === null
+    ? Number(nextState.progress ?? facility?.progress?.initial ?? 0) + progressDelta
+    : explicitProgress;
+  const maxLevel = getFacilityMaxLevel(facility.id);
+  let leveledUpByProgress = false;
+  if (progress + PROGRESS_EPSILON >= threshold && Number(nextState.level || 0) < maxLevel) {
+    nextState.level = Math.min(maxLevel, Number(nextState.level || 0) + Number(effectObject.levelDeltaOnProgressComplete ?? 1));
+    leveledUpByProgress = true;
+    progress = resetOnLevelUp ? Math.max(0, progress - threshold) : threshold;
+  }
+  if (Number(nextState.level || 0) >= maxLevel && (progress + PROGRESS_EPSILON >= threshold || leveledUpByProgress)) {
+    progress = maxProgress;
+  }
+  nextState.progress = clampNumber(progress, 0, maxProgress);
+}
+
+function getFacilityProgressDelta(nextState, facility, effectObject = {}, threshold = 100) {
+  const directDelta = Number(effectObject.progressDelta || 0);
+  const stepDelta = Number(effectObject.progressStepDelta || 0);
+  if (!stepDelta) {
+    return directDelta;
+  }
+
+  const currentLevel = Number(nextState.level || facility?.upgrade?.initialLevel || 0);
+  const stepCount = getFacilityProgressStepCount(facility, currentLevel);
+  if (stepCount <= 0) {
+    return directDelta;
+  }
+  return directDelta + (threshold / stepCount) * stepDelta;
+}
+
+function getFacilityProgressStepCount(facility, level) {
+  const stepCounts = facility?.progress?.stepCountsByLevel || {};
+  const exact = Number(stepCounts[String(level)]);
+  if (Number.isFinite(exact) && exact > 0) {
+    return exact;
+  }
+  const fallback = Number(facility?.progress?.stepCount);
+  return Number.isFinite(fallback) && fallback > 0 ? fallback : 0;
 }
 
 function createEffectResultMessage(result = null) {
@@ -4364,9 +5323,16 @@ function rerollBlackCatPresence(exploration = gameState.exploration) {
   exploration.blackCatPositionKey = getExplorationPositionKey(exploration);
   if (isExplorationVillageReturnPoint(exploration)) {
     exploration.blackCatPresent = false;
+    exploration.lastBlackCatPresenceRollWasPresent = false;
+    return;
+  }
+  if (exploration.lastBlackCatPresenceRollWasPresent) {
+    exploration.blackCatPresent = false;
+    exploration.lastBlackCatPresenceRollWasPresent = false;
     return;
   }
   exploration.blackCatPresent = Math.random() < BLACK_CAT_APPEARANCE_RATE;
+  exploration.lastBlackCatPresenceRollWasPresent = exploration.blackCatPresent;
 }
 
 function ensureBlackCatPresenceForCurrentPosition(exploration = gameState.exploration) {
@@ -5761,6 +6727,9 @@ function createActionResultRows(result) {
   if (result.changes?.stamina) {
     rows.push(createActionResultLine('體力', formatNumberChange(result.changes.stamina)));
   }
+  if (result.changes?.contribution) {
+    rows.push(createActionResultLine('貢獻', formatNumberChange(result.changes.contribution)));
+  }
   if (result.changes?.skills?.length) {
     rows.push(...result.changes.skills.map((change) => createActionResultLine(change.name, formatNumberChange(change))));
   }
@@ -5826,9 +6795,13 @@ function formatInventoryChange(change) {
 function formatFacilityChange(change) {
   const keyLabel = {
     level: '等級',
+    progress: '進度',
     capacityWeight: '容量',
     unlocked: '解鎖'
   }[change.key] || change.key;
+  if (change.key === 'progress') {
+    return `${change.name}${keyLabel}：${formatProgressPercent(change.before)}% → ${formatProgressPercent(change.after)}%`;
+  }
   return `${change.name}${keyLabel}：${formatValue(change.before)} → ${formatValue(change.after)}`;
 }
 
@@ -6104,7 +7077,7 @@ function formatChoiceRequirementParts(choice) {
   const requirements = choice?.requirements || {};
   const parts = [];
   if (requirements.stamina) {
-    parts.push(`需體力至少 ${requirements.stamina}`);
+    parts.push(`需體力 ${requirements.stamina}`);
   }
   if (requirements.life) {
     parts.push(`需生命至少 ${requirements.life}`);
@@ -6532,6 +7505,8 @@ function createLocationExitChoice(location, exit) {
     label: exit.label.replace(/^前往/, '').replace(/^離開村莊，前往/, '').replace(/^返回/, '返回'),
     actionType: 'move',
     timeCostSeconds: exit.timeCostSeconds ?? getCommandCost('move'),
+    dynamicAction: 'moveToLocation',
+    fromSceneId: location.id,
     nextSceneId: exit.to,
     progressLabel: `正在${exit.label}...`
   };
@@ -6603,10 +7578,6 @@ function createFacilityEntryChoice(returnSceneId, facilityId, label) {
 }
 
 function createExplorationFacilityEntryChoices(returnSceneId, facilityNodes) {
-  if (!facilityNodes.length) {
-    return [createDisabledChoice('附近暫時沒有可互動的物件。')];
-  }
-
   return facilityNodes.map((node) => createFacilityEntryChoice(returnSceneId, node.instanceId, node.name));
 }
 
@@ -6644,7 +7615,6 @@ function createFacilityChoices(returnSceneId, facility, facilityContext = null) 
     choices.push(...createSpecialAccessChoices(returnSceneId, facility, context));
   }
 
-  choices.push(createReturnChoice(returnSceneId));
   return choices;
 }
 
@@ -6674,7 +7644,7 @@ function createFacilityObtainChoices(returnSceneId, facility, facilityContext) {
   const obtainAction = getFacilityObtainAction(facility);
   const stock = normalizeInventory((facilityContext?.state || {}).items || []);
   if (!stock.length) {
-    return [createDisabledChoice(obtainAction.emptyMessage)];
+    return [];
   }
 
   if (shouldWithdrawSmallStorageAllAtOnce(facility)) {
@@ -6746,7 +7716,7 @@ function createRandomGatherChoices(returnSceneId, facility, facilityContext) {
 function createCraftingChoices(returnSceneId, facility, facilityContext) {
   const availableRecipes = getFacilityRecipes(facility);
   if (!availableRecipes.length) {
-    return [createDisabledChoice('目前沒有可製作的配方。')];
+    return [];
   }
 
   return availableRecipes.map((recipe) => {
@@ -6907,7 +7877,11 @@ function createGenericFacilityScene(sceneId, facility, context, returnSceneId) {
 function createGenericFacilityChoiceGroups(returnSceneId, facility, context) {
   const groups = [{
     title: '可互動',
-    choices: createFacilityChoices(returnSceneId, facility, context)
+    choices: createFacilityChoices(returnSceneId, facility, context),
+    emptyLabel: getFacilityEmptyInteractionLabel(facility)
+  }, {
+    title: '其他',
+    choices: [createReturnChoice(returnSceneId)]
   }];
   const reviewChoices = createFacilityEventReviewChoices(returnSceneId, facility, context);
   if (reviewChoices.length) {
@@ -6917,6 +7891,16 @@ function createGenericFacilityChoiceGroups(returnSceneId, facility, context) {
     });
   }
   return groups;
+}
+
+function getFacilityEmptyInteractionLabel(facility) {
+  if (facility?.facilityType === 'small_storage') {
+    return getFacilityObtainAction(facility).emptyMessage || `${facility.name || '這裡'}目前沒有可取得的東西。`;
+  }
+  if (facility?.facilityType === 'crafting') {
+    return '目前沒有可製作的配方。';
+  }
+  return '目前沒有可互動的內容。';
 }
 
 function createFacilityEventReviewChoices(returnSceneId, facility, context) {
@@ -6950,6 +7934,12 @@ function createFacilityStatusRows(facility, context) {
       label: '等級',
       value: maxLevel > 0 ? `${level} / ${maxLevel}` : String(level)
     });
+    if (facility.progress) {
+      rows.push({
+        label: '開墾進度',
+        value: `${formatProgressPercent(context.state?.progress, facility.progress.max)}%`
+      });
+    }
   }
 
   const storageText = getFacilityStorageText(facility, context);
@@ -8235,7 +9225,7 @@ function createEventScene(sceneId) {
     id: sceneId,
     title: page.title || event.title,
     location: returnPosition.name || getSceneLocationLabel(returnSceneId),
-    description: page.text || '',
+    description: resolveEventPageText(page.text || ''),
     choiceGroups: [
       {
         title: pageChoices.length ? '選擇' : '繼續',
@@ -8243,6 +9233,55 @@ function createEventScene(sceneId) {
       }
     ]
   };
+}
+
+function resolveEventPageText(text) {
+  const source = String(text || '');
+  if (!source.includes('{mealFood')) {
+    return source;
+  }
+  const context = normalizeDinnerContext(gameState.events?.active?.dinnerContext);
+  if (!context) {
+    return source
+      .replaceAll('{mealFood}', getDinnerTokenFallback('{mealFood}'))
+      .replaceAll('{mealFoodPhrase}', getDinnerTokenFallback('{mealFoodPhrase}'))
+      .replaceAll('{mealFoodPair}', getDinnerTokenFallback('{mealFoodPair}'))
+      .replaceAll('{mealFoodComment}', getDinnerTokenFallback('{mealFoodComment}'));
+  }
+  return source
+    .replaceAll('{mealFood}', getDinnerTokenValue(context, 'mealFood'))
+    .replaceAll('{mealFoodPhrase}', getDinnerTokenValue(context, 'mealFoodPhrase'))
+    .replaceAll('{mealFoodPair}', getDinnerFoodPairText(context))
+    .replaceAll('{mealFoodComment}', getDinnerTokenValue(context, 'mealFoodComment'));
+}
+
+function getDinnerTokenValue(context, key) {
+  const itemId = context?.tokenFoodIds?.[key] || context?.selectedFoods?.[0]?.itemId || '';
+  const food = getDinnerFoodConfig(itemId);
+  if (!food) {
+    return getDinnerTokenFallback(`{${key}}`);
+  }
+  if (key === 'mealFoodPhrase') {
+    return food.dinnerPhrase || food.dinnerLabel || getItem(itemId)?.name || itemId;
+  }
+  if (key === 'mealFoodComment') {
+    return food.dinnerComment || food.dinnerPhrase || food.dinnerLabel || getItem(itemId)?.name || itemId;
+  }
+  return food.dinnerLabel || getItem(itemId)?.name || itemId;
+}
+
+function getDinnerFoodPairText(context) {
+  const labels = (context?.mealFoodPairIds || [])
+    .map((itemId) => getDinnerFoodConfig(itemId)?.dinnerLabel || getItem(itemId)?.name || '')
+    .filter(Boolean);
+  if (!labels.length) {
+    return getDinnerTokenValue(context, 'mealFood');
+  }
+  return formatNaturalList(labels);
+}
+
+function getDinnerTokenFallback(token) {
+  return getDinnerActivity()?.dynamicText?.fallbacks?.[token] || '食材';
 }
 
 function createNameProtagonistScene() {
@@ -8378,23 +9417,195 @@ function createNpcInteractionChoiceGroups(villager, returnSceneId) {
 
   return [
     {
-      title: '共同互動',
-      choices: commandIds.map((commandId) => createDialogueChoice(villager, commandId, returnSceneId))
+      title: '互動',
+      choices: [
+        ...commandIds.map((commandId) => createDialogueChoice(villager, commandId, returnSceneId)),
+        ...createNpcFeatureChoices(villager, returnSceneId)
+      ]
     },
     ...(questGroup ? [questGroup] : []),
-    {
-      title: '角色功能',
-      choices: createNpcFeatureChoices(villager, returnSceneId)
-    },
     {
       title: '設施協助',
       choices: createFacilityUpgradeChoices(villager)
     },
     {
-      title: '返回',
+      title: '其他',
       choices: [createReturnChoice(returnSceneId, villager)]
     }
   ];
+}
+
+function createLocationInquiryScene(sceneId) {
+  const [, villagerId, returnSceneId = FALLBACK_SCENE_ID] = sceneId.split(':');
+  const villager = villagers.find((candidate) => candidate.id === villagerId);
+  if (!villager) {
+    return createLocationScene(locations.find((location) => location.id === returnSceneId) || locations[0]);
+  }
+  const targets = getLocationInquiryTargets(villager, returnSceneId);
+  return {
+    id: sceneId,
+    title: '詢問位置',
+    subtitle: villager.role || '',
+    location: getSceneLocationLabel(returnSceneId),
+    description: createLocationInquiryPrompt(villager, targets),
+    choiceGroups: [
+      {
+        title: '想問誰的位置',
+        choices: targets.map((target) => createLocationInquiryTargetChoice(villager, target, returnSceneId))
+      },
+      {
+        title: '其他',
+        choices: [createReturnChoice(`dialogue:${villager.id}:${returnSceneId}`)]
+      }
+    ]
+  };
+}
+
+function createLocationInquiryPrompt(villager, targets) {
+  if (!targets.length) {
+    return `${villager.name}看了看附近。\n\n現在能想到的人都在這裡，沒有什麼需要特地問的位置。`;
+  }
+  const authored = villager.locationInquiry?.prompt;
+  if (authored) {
+    return authored;
+  }
+  return `${villager.name}順著你的問題想了想。\n\n村裡地方不大，只要知道現在是什麼時候，大概就能猜到誰在哪裡。`;
+}
+
+function createLocationInquiryTargetChoice(asker, target, returnSceneId) {
+  return {
+    id: `${asker.id}_ask_location_${target.id}`,
+    label: target.name,
+    subtitle: target.role || '',
+    actionType: 'specialInfo',
+    timeCostSeconds: 0,
+    hideCost: true,
+    dynamicAction: 'askVillagerLocation',
+    villagerId: asker.id,
+    targetVillagerId: target.id,
+    returnSceneId
+  };
+}
+
+function createLocationInquiryResponse(asker, target) {
+  const targetLocationId = getVillagerLocationId(target);
+  const targetLocationName = getLocationLabel(targetLocationId) || '不太確定的地方';
+  const timeBlock = getTimeBlock(gameState.time.secondsOfDay);
+  const authoredResponses = getLocationInquiryAuthoredResponses(asker, target, targetLocationId, timeBlock);
+  const responsePool = authoredResponses.length
+    ? authoredResponses
+    : [{ text: createFallbackLocationInquiryResponse(asker, target, targetLocationName, timeBlock), weight: 1 }];
+  const selected = weightedPick(responsePool.filter((entry) => entry.text));
+  return applyLocationInquiryTemplate(selected?.text || '', {
+    asker,
+    target,
+    locationName: targetLocationName,
+    timeBlock
+  });
+}
+
+function getLocationInquiryAuthoredResponses(asker, target, targetLocationId, timeBlock) {
+  return (asker.locationInquiry?.responses || [])
+    .filter((entry) => {
+      const conditions = entry.conditions || {};
+      if (!Array.isArray(conditions.targetVillagerIds) || !conditions.targetVillagerIds.includes(target.id)) return false;
+      if (Array.isArray(conditions.targetLocationIds) && !conditions.targetLocationIds.includes(targetLocationId)) return false;
+      if (Array.isArray(conditions.timeBlocks) && !conditions.timeBlocks.includes(timeBlock)) return false;
+      return true;
+    })
+    .map((entry) => ({
+      text: entry.text || '',
+      weight: Number(entry.weight || 1)
+    }));
+}
+
+function applyLocationInquiryTemplate(text, context) {
+  return String(text || '')
+    .replaceAll('{targetName}', context.target?.name || '她')
+    .replaceAll('{targetRole}', context.target?.role || '')
+    .replaceAll('{locationName}', context.locationName || '')
+    .replaceAll('{timeBlock}', context.timeBlock || '');
+}
+
+function createFallbackLocationInquiryResponse(asker, target, locationName, timeBlock) {
+  const openerByAsker = {
+    aida: '艾妲把記事紙往下壓：「往{locationName}找{targetName}。」她說得很穩，像先把這件事放進今天還能處理的清單裡。',
+    mira: '米菈收好手邊的藥草：「{targetName}的話，去{locationName}看看。」她說得很輕，卻沒有敷衍這個問題。',
+    nuosi: '諾絲把工具放回桌邊：「找{targetName}就去{locationName}。」她答得很快，像不想讓這種問題占用太多工坊時間。',
+    sela: '賽拉先看了一眼你要走的路：「{locationName}，找{targetName}。」她把答案壓得很短，注意力卻仍在出口。',
+    tori: '托莉眼睛一亮：「去{locationName}！{targetName}常會在那邊冒出來。」她說得像剛發現一條小捷徑。',
+    elaine: '伊蓮輕輕碰了碰鑰匙串：「往{locationName}找{targetName}吧。」那語氣像把一頁折角重新攤平。'
+  };
+  const followupByTarget = {
+    aida: {
+      aida: '「如果她正在看記錄，先讓她把那一行寫完。艾妲最怕事情被打斷後少了一個人手。」',
+      mira: '「艾妲通常不會離該處理的事太遠。你找到她時，先把來意說清楚，她比較能安排。」',
+      nuosi: '「找艾妲就直接說重點。她不是不聽閒話，是手上通常已經排著三件正事。」',
+      sela: '「她若在那裡，多半是在確認村裡的安排。別從她背後突然開口。」',
+      tori: '「艾妲在忙的時候也會聽人說話，可是你要先等她抬頭。不然她會一邊答你，一邊把事情記到紙上。」',
+      elaine: '「她會在能看見大家動向的地方停下。你找到她時，大概也會被順手交代一件事。」'
+    },
+    mira: {
+      aida: '「米菈若正在處理藥草，門邊動作放輕一點。她安靜，不代表沒注意到誰進來。」',
+      mira: '「如果她手上有藥草或繃帶，先等她放穩。她會回答，只是不喜歡急著打斷手邊的事。」',
+      nuosi: '「去找米菈別亂碰瓶子。弄倒一排的話，我可不幫你修尷尬。」',
+      sela: '「找米菈時先出聲。藥草棚裡東西多，讓她知道是你，比突然靠近安全。」',
+      tori: '「米菈如果在那裡，可能正在忙很細的事。你可以小聲一點，然後不要碰看起來很好奇的瓶子。」',
+      elaine: '「米菈常在安靜的地方把事情做完。你若找她，讓聲音先到，人再靠近。」'
+    },
+    nuosi: {
+      aida: '「諾絲若在工坊附近，先看地上有沒有工具。她嘴上會嫌你擋路，其實是怕你踩壞或踩傷。」',
+      mira: '「如果聽見敲打聲，多半就是她。你找她時別急著插話，等她手上的力道停一下。」',
+      nuosi: '「找我？你已經找到了。找別人就快去，別在這裡把路也問壞。」',
+      sela: '「諾絲做事時警覺也不差，只是她會先罵工具。你靠近前最好讓她聽見。」',
+      tori: '「諾絲嗎？如果她看起來很兇，不一定是生氣，也可能只是某個東西又壞得很有主見。」',
+      elaine: '「諾絲留下的痕跡很好認：木屑、鐵屑，還有一句被她忍住沒說完的抱怨。」'
+    },
+    sela: {
+      aida: '「賽拉通常會站在能看見出口的位置。你找她時別只顧著喊人，先注意腳下。」',
+      mira: '「賽拉如果在那裡，多半不是閒逛。你靠近時讓她先看見你，別讓她以為有什麼追上來。」',
+      nuosi: '「找賽拉就別繞小路。她會知道，而且八成會用那種眼神看你。」',
+      sela: '「如果你找的是我，先說事。若是要問路，我會希望你聽完再走。」',
+      tori: '「賽拉會注意很遠的地方，所以你不要突然從旁邊跳出來。她不會嚇到，但你可能會。」',
+      elaine: '「賽拉常把自己放在能替大家多看一眼的位置。找到她時，先讓她把遠處確認完。」'
+    },
+    tori: {
+      aida: '「托莉若在那裡，八成已經把事情做得比她自己說的還多。你過去時提醒她慢一點。」',
+      mira: '「托莉容易一忙就忘記休息。你找到她時，順手問她有沒有喝水。」',
+      nuosi: '「托莉？她多半跑得比事情還快。你要找她就快點，免得她又把下一件事也接走。」',
+      sela: '「托莉會把腳步放得很輕，直到她忘記自己該放輕。你找到她時，讓她先停下來看路。」',
+      tori: '「咦，是找我嗎？我在這裡！如果你要找的是剛才的我，那她可能已經跑去下一件事那邊了。」',
+      elaine: '「托莉留下的位置通常不難找。哪裡多了一點泥、一點笑聲，或一個被扶正的小東西，她大概剛經過。」'
+    },
+    elaine: {
+      aida: '「伊蓮若在那裡，可能正在把舊事和今天的事放到同一張紙上。你找她時，給她一點收尾的時間。」',
+      mira: '「伊蓮會聽見你靠近，只是未必馬上抬頭。她常像在看書，其實也在看大家。」',
+      nuosi: '「找伊蓮就去那邊。她說話繞，可人不難找，通常哪裡需要鑰匙或記錄，她就在哪裡。」',
+      sela: '「伊蓮看起來慢，其實記得很多路。你問她事時，別被她的玩笑帶得忘了原本要問什麼。」',
+      tori: '「伊蓮的話，她可能在那裡。你找到她時要小心，她會笑著講一句話，然後你才發現自己被點名了。」',
+      elaine: '「如果你要找我，我就在這裡。若你找的是剛才那個想偷懶的我，她大概已經被舍監本人抓回來了。」'
+    }
+  };
+  const opener = openerByAsker[asker?.id] || '「往{locationName}找{targetName}。」';
+  const followup = followupByTarget[target?.id]?.[asker?.id] || '';
+  return [opener, followup].filter(Boolean).join('\n\n');
+}
+
+function getLocationInquiryTargets(asker, returnSceneId = '') {
+  if (!asker || !isCoreVillager(asker)) {
+    return [];
+  }
+  const askerLocationId = returnSceneId || getVillagerLocationId(asker);
+  return villagers
+    .filter((villager) => villager.id !== asker.id && isCoreVillager(villager))
+    .filter((villager) => {
+      const locationId = getVillagerLocationId(villager);
+      return locationId && locationId !== askerLocationId && !isDormitoryDeepNightUnavailable(villager, getTimeBlock(gameState.time.secondsOfDay));
+    });
+}
+
+function hasLocationInquiryTargets(villager, returnSceneId = '') {
+  return getLocationInquiryTargets(villager, returnSceneId).length > 0;
 }
 
 function createNpcQuestChoiceGroup(villager, returnSceneId) {
@@ -8421,8 +9632,148 @@ function createNpcQuestChoiceGroup(villager, returnSceneId) {
 function createNpcFeatureChoices(villager, returnSceneId) {
   return [
     ...createNpcRuleActionChoices(villager, returnSceneId),
-    ...createVillagerInteractionActionChoices(villager, returnSceneId)
+    ...createVillagerInteractionActionChoices(villager, returnSceneId),
+    ...createAidaSkillTrainingEntryChoices(villager, returnSceneId),
+    ...createDinnerActivityChoices(villager, returnSceneId)
   ];
+}
+
+function createAidaSkillTrainingEntryChoices(villager, returnSceneId) {
+  if (villager?.id !== 'aida') {
+    return [];
+  }
+  return [{
+    id: 'aida_open_training_menu',
+    label: '安排訓練',
+    actionType: 'training',
+    timeCostSeconds: 0,
+    hideCost: true,
+    dynamicAction: 'openAidaSkillTrainingMenu',
+    villagerId: villager.id,
+    returnSceneId
+  }];
+}
+
+function openAidaSkillTrainingMenu(choice) {
+  if (choice.villagerId !== 'aida') {
+    recordFailedAction(choice, '只有艾妲能安排這類訓練。');
+    return;
+  }
+  clearActionResultDisplay();
+  gameState.currentSceneId = `aidaTraining:${choice.returnSceneId || FALLBACK_SCENE_ID}`;
+  saveGame();
+  render();
+}
+
+function createAidaSkillTrainingScene(sceneId) {
+  const [, returnSceneId = FALLBACK_SCENE_ID] = sceneId.split(':');
+  const aida = villagers.find((villager) => villager.id === 'aida');
+  return {
+    id: sceneId,
+    title: '安排訓練',
+    subtitle: aida?.role || '',
+    location: getSceneLocationLabel(returnSceneId),
+    description: '艾妲把手上的記錄紙合起來，看了看你，又看向村裡幾條通往工坊、藥草棚和開墾區的路。\n\n「你可能要累積足夠的貢獻，我才能說動大家幫你安排訓練。」她說得很直接，卻不是拒絕。「大家手上的事都不少；可如果你真的一直在幫忙，她們會願意花時間替你想辦法。」',
+    choiceGroups: [
+      {
+        title: '訓練',
+        choices: createAidaSkillTrainingChoices(aida, returnSceneId)
+      },
+      {
+        title: '其他',
+        choices: [createReturnChoice(`dialogue:aida:${returnSceneId}`)]
+      }
+    ]
+  };
+}
+
+function createAidaSkillTrainingChoices(villager, returnSceneId) {
+  if (villager?.id !== 'aida') {
+    return [];
+  }
+  return AIDA_SKILL_TRAINING_OPTIONS.map((training) => {
+    const currentLevel = getSkillValue(training.skillKey);
+    const nextLevel = currentLevel + 1;
+    const cost = getAidaSkillTrainingCost(nextLevel);
+    const eventId = training.eventIds[nextLevel] || '';
+    const label = nextLevel <= AIDA_SKILL_TRAINING_MAX_LEVEL
+      ? `${training.label} Lv.${nextLevel}`
+      : `${training.label} Lv.${AIDA_SKILL_TRAINING_MAX_LEVEL}`;
+    return {
+      id: `aida_training_${training.skillKey}_${nextLevel}`,
+      label,
+      subtitle: nextLevel <= AIDA_SKILL_TRAINING_MAX_LEVEL
+        ? `耗時 ${formatDuration(AIDA_SKILL_TRAINING_TIME_COST_SECONDS)} / 需要貢獻 ${cost}`
+        : '',
+      actionType: 'training',
+      timeCostSeconds: 0,
+      hideCost: true,
+      dynamicAction: 'startAidaSkillTraining',
+      villagerId: villager.id,
+      skillKey: training.skillKey,
+      nextLevel,
+      cost,
+      eventId,
+      returnSceneId,
+      disabledReason: getAidaSkillTrainingDisabledReason(training, nextLevel, cost, eventId)
+    };
+  });
+}
+
+function getAidaSkillTrainingCost(level) {
+  const costsByLevel = {
+    1: 100,
+    2: 150
+  };
+  const normalizedLevel = Math.max(1, Number(level || 1));
+  return costsByLevel[normalizedLevel] || 100 + (normalizedLevel - 1) * 50;
+}
+
+function getAidaSkillTrainingDisabledReason(training, nextLevel, cost, eventId) {
+  if (nextLevel > AIDA_SKILL_TRAINING_MAX_LEVEL) {
+    return '目前這項訓練暫時只能到 2 級。';
+  }
+  if (!eventId || !getEventById(eventId)) {
+    return '這項訓練演出尚未準備好。';
+  }
+  const contribution = Number(gameState.player.contribution || 0);
+  if (contribution < cost) {
+    return `需要貢獻 ${cost}，目前 ${contribution}。`;
+  }
+  return '';
+}
+
+function startAidaSkillTraining(choice) {
+  if (choice.villagerId !== 'aida') {
+    recordFailedAction(choice, '只有艾妲能安排這類訓練。');
+    return;
+  }
+  const training = AIDA_SKILL_TRAINING_OPTIONS.find((entry) => entry.skillKey === choice.skillKey);
+  if (!training) {
+    recordFailedAction(choice, '找不到這項訓練資料。');
+    return;
+  }
+  const currentLevel = getSkillValue(training.skillKey);
+  const expectedNextLevel = currentLevel + 1;
+  const cost = getAidaSkillTrainingCost(expectedNextLevel);
+  const eventId = training.eventIds[expectedNextLevel] || '';
+  const disabledReason = getAidaSkillTrainingDisabledReason(training, expectedNextLevel, cost, eventId);
+  if (disabledReason) {
+    recordFailedAction(choice, disabledReason);
+    return;
+  }
+  clearActionResultDisplay();
+  if (!startEvent(eventId, {
+    returnSceneId: `dialogue:aida:${choice.returnSceneId || FALLBACK_SCENE_ID}`,
+    triggerType: 'skillTraining',
+    triggerSourceId: `aida:${training.skillKey}:${expectedNextLevel}`,
+    triggerContextKey: `skillTraining:aida:${training.skillKey}:${expectedNextLevel}`
+  })) {
+    recordFailedAction(choice, '訓練事件不存在。');
+    return;
+  }
+  saveGame(`艾妲開始安排${training.label}。`);
+  render();
 }
 
 function openKnowledge(choice) {
@@ -8504,7 +9855,8 @@ function createKnowledgeCategoryScene(sceneId) {
     choiceGroups: [
       {
         title: '可以問',
-        choices: topicChoices.length ? topicChoices : [createDisabledChoice('目前沒有整理好的內容。')]
+        choices: topicChoices,
+        emptyLabel: '目前沒有整理好的內容。'
       },
       {
         title: '返回',
@@ -9139,7 +10491,7 @@ function createVillagerInteractionActionChoices(villager, returnSceneId) {
       villagerId: villager.id,
       commandId: action.id,
       returnSceneId,
-      progressLabel: `正在${action.label}...`,
+      progressLabel: action.progressLabel || `正在${action.label}...`,
       resultText: action.dynamicAction ? '' : createInteractionActionResultText(villager, action)
     }));
 }
@@ -9151,6 +10503,18 @@ function isInteractionActionAvailable(villager, action, returnSceneId) {
   }
   if (requiredVillagerId && getVillagerLocationId(villager) !== returnSceneId) {
     return false;
+  }
+  if (action.availability?.hasAbsentCoreVillagers && !hasLocationInquiryTargets(villager, returnSceneId)) {
+    return false;
+  }
+  const timeBlocks = action.availability?.timeBlocks || [];
+  if (timeBlocks.length && !timeBlocks.includes(getTimeBlock(gameState.time.secondsOfDay))) {
+    return false;
+  }
+  for (const [facilityId, maxLevel] of Object.entries(action.availability?.facilityLevelBelow || {})) {
+    if (getFacilityLevel(facilityId) >= Number(maxLevel || 0)) {
+      return false;
+    }
   }
   return true;
 }
@@ -9405,8 +10769,13 @@ function applyQuestRewards(rewards, returnSceneId = FALLBACK_SCENE_ID) {
     flags: rewards.flags || [],
     player: rewards.player || {}
   });
+  applyQuestFacilityRewards(rewards.facilities || {});
   learnRecipes(rewards.recipeIds || []);
   return applyCarryAwareItemRewards(rewards.items || {}, returnSceneId);
+}
+
+function applyQuestFacilityRewards(facilityRewards = {}) {
+  applyFacilityEffectsToState(gameState, facilityRewards);
 }
 
 function resolveDropLocationSceneId(sceneId = FALLBACK_SCENE_ID) {
@@ -9592,6 +10961,11 @@ function getPresentVillagers(locationId) {
     ;
 }
 
+function isVillagerPresentAtCurrentScene(villagerId) {
+  const sceneId = getResolvedPlayerPosition(gameState.currentSceneId).id;
+  return getPresentVillagers(sceneId).some((villager) => villager.id === villagerId);
+}
+
 function canInteractWithVillager(villagerId) {
   const villager = villagers.find((candidate) => candidate.id === villagerId);
   return Boolean(villager && !isDormitoryDeepNightUnavailable(villager, getTimeBlock(gameState.time.secondsOfDay)));
@@ -9650,7 +11024,8 @@ function createUseItemScene(sceneId) {
     choiceGroups: [
       {
         title: '可使用的道具',
-        choices: useChoices.length ? useChoices : [createDisabledChoice('目前沒有可直接使用的消耗品。')]
+        choices: useChoices,
+        emptyLabel: '目前沒有可直接使用的消耗品。'
       },
       {
         title: '其他',
@@ -9708,7 +11083,8 @@ function createPortableCraftScene(sceneId) {
     choiceGroups: [
       {
         title: '可製作',
-        choices: craftChoices.length ? craftChoices : [createDisabledChoice('目前沒有能徒手處理的簡易配方。')]
+        choices: craftChoices,
+        emptyLabel: '目前沒有能徒手處理的簡易配方。'
       },
       {
         title: '返回',
@@ -9726,6 +11102,7 @@ function createGiftScene(sceneId) {
   }
 
   const choices = [];
+  let emptyLabel = '目前沒有可送出的禮物。';
   if (hasGivenGiftToday(villagerId)) {
     choices.push(createDisabledChoice('今天已經送過禮了。'));
   } else {
@@ -9745,20 +11122,22 @@ function createGiftScene(sceneId) {
     })));
   }
 
-  if (!choices.length) {
-    choices.push(createDisabledChoice('目前沒有可送出的禮物。'));
-  }
-  choices.push(createReturnChoice(`dialogue:${villagerId}:${returnSceneId}`));
-
   return {
     id: sceneId,
     title: `送禮給${villager.name}`,
     location: getLocationLabel(returnSceneId),
     description: `從背包裡挑一樣你願意交到${villager.name}手上的東西。`,
-    choiceGroups: [{
-      title: '選擇禮物',
-      choices
-    }]
+    choiceGroups: [
+      {
+        title: '選擇禮物',
+        choices,
+        emptyLabel
+      },
+      {
+        title: '其他',
+        choices: [createReturnChoice(`dialogue:${villagerId}:${returnSceneId}`)]
+      }
+    ]
   };
 }
 
@@ -10800,12 +12179,14 @@ function getFacilityMaxLevel(facilityId) {
   return facility?.storage?.maxLevel || facility?.upgrade?.maxLevel || 99;
 }
 
+function getFacilityLevel(facilityId, state = gameState) {
+  const facility = facilities.find((candidate) => candidate.id === facilityId);
+  return getFacilityInitialLevel(facility, state?.facilities?.[facilityId]?.level);
+}
+
 function getContainerCapacity(facility) {
   const state = gameState.facilities[facility.id] || {};
-  const initial = facility.storage?.initialCapacityWeight || 0;
-  const increase = facility.storage?.capacityIncreasePerLevel || 0;
-  const level = Number(state.level || 0);
-  return Number(state.capacityWeight || initial + increase * level);
+  return getFacilityContainerCapacity(facility, state);
 }
 
 function getInventoryWeight(inventory) {
@@ -10922,6 +12303,9 @@ function renderSidebar() {
   renderTimebarTone(timeBlock);
   renderPlayerGauge('life');
   renderPlayerGauge('stamina');
+  if (elements.contributionDisplay) {
+    elements.contributionDisplay.textContent = String(Math.max(0, Number(gameState.player.contribution || 0)));
+  }
   elements.statusToggle.setAttribute('aria-expanded', String(!statusCollapsed));
   elements.statusToggle.querySelector('.inventory-toggle-icon').textContent = statusCollapsed ? '[展開]' : '[收合]';
   elements.statusBody.hidden = statusCollapsed;
@@ -11067,34 +12451,179 @@ function renderDebugTools() {
   elements.debugLifeInput.max = String(gameState.player.maxLife);
   elements.debugStaminaInput.value = String(gameState.player.stamina);
   elements.debugStaminaInput.max = String(gameState.player.maxStamina);
-
-  const flags = [...(gameState.player.flags || [])];
-  if (!flags.length) {
-    elements.debugFlagList.replaceChildren(createTextRow('目前沒有旗標。'));
-    return;
-  }
-
-  elements.debugFlagList.replaceChildren(...flags.map((flagId) => {
-    const row = document.createElement('div');
-    row.className = 'debug-flag-row';
-
-    const label = document.createElement('span');
-    label.textContent = formatDebugFlagLabel(flagId);
-    label.title = flagId;
-
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.textContent = '刪除';
-    button.addEventListener('click', () => removeFlag(flagId));
-
-    row.append(label, button);
-    return row;
-  }));
+  elements.debugContributionInput.value = String(Math.max(0, Math.floor(Number(gameState.player.contribution || 0))));
+  renderDebugQuickControlOptions();
+  renderDebugFacilityInputs();
+  renderDebugFlagBrowser();
 }
 
 function formatDebugFlagLabel(flagId) {
   const source = getFlagSource(flagId);
   return source?.description ? `${flagId}：${source.description}` : flagId;
+}
+
+function renderDebugQuickControlOptions() {
+  renderDebugSelectOptions(
+    elements.debugLocationSelect,
+    DEBUG_LOCATION_IDS.filter((locationId) => isKnownRuntimeSceneId(locationId)),
+    (locationId) => getSceneLocationLabel(locationId) || getLocationLabel(locationId) || locationId
+  );
+  renderDebugSelectOptions(
+    elements.debugVillagerSelect,
+    villagers.map((villager) => villager.id),
+    (villagerId) => getVillagerName(villagerId)
+  );
+  renderDebugSelectOptions(
+    elements.debugTimeblockSelect,
+    TIME_BLOCKS.map((block) => block.id),
+    (timeBlockId) => `${timeBlockId} ${formatTime(TIME_BLOCKS.find((block) => block.id === timeBlockId)?.startSecond || 0)}`
+  );
+}
+
+function renderDebugSelectOptions(select, values, labelGetter) {
+  if (!select) {
+    return;
+  }
+  const currentValue = select.value;
+  select.replaceChildren(...values.map((value) => {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = labelGetter(value);
+    return option;
+  }));
+  select.value = values.includes(currentValue) ? currentValue : (values[0] || '');
+}
+
+function renderDebugFacilityInputs() {
+  const fieldState = gameState.facilities?.field || {};
+  elements.debugFieldLevelInput.value = String(Number(fieldState.level || getFacilityInitialLevel(getFacility('field'), 1)));
+  elements.debugFieldLevelInput.max = String(getFacilityMaxLevel('field'));
+  elements.debugFieldProgressInput.value = String(Number(fieldState.progress || 0));
+  const storageState = gameState.facilities?.storage_box || {};
+  elements.debugStorageLevelInput.value = String(Number(storageState.level || getFacilityInitialLevel(getFacility('storage_box'), 1)));
+  elements.debugStorageLevelInput.max = String(getFacilityMaxLevel('storage_box'));
+}
+
+function renderDebugFlagBrowser() {
+  const query = normalizeSearchText(elements.debugFlagFilterInput?.value || '');
+  const sources = flagSources
+    .filter((source) => source?.flagId)
+    .filter((source) => !query || normalizeSearchText(createDebugFlagSearchText(source)).includes(query))
+    .sort((a, b) => a.flagId.localeCompare(b.flagId));
+  const acquired = sources.filter((source) => hasDebugFlag(source.flagId));
+  const available = sources.filter((source) => !hasDebugFlag(source.flagId));
+  const selectedStillVisible = sources.some((source) => source.flagId === debugSelectedFlagId);
+  if (!selectedStillVisible) {
+    debugSelectedFlagId = acquired[0]?.flagId || available[0]?.flagId || '';
+  }
+  elements.debugAcquiredFlagList.replaceChildren(...createDebugFlagListRows(acquired, '目前沒有符合條件的已獲取旗標。'));
+  elements.debugAvailableFlagList.replaceChildren(...createDebugFlagListRows(available, '目前沒有符合條件的可新增旗標。'));
+  renderDebugFlagDetail();
+}
+
+function createDebugFlagListRows(sources, emptyLabel) {
+  if (!sources.length) {
+    return [createTextRow(emptyLabel)];
+  }
+  return sources.map((source) => createDebugFlagBrowserRow(source));
+}
+
+function createDebugFlagSearchText(source) {
+  return [
+    source.flagId,
+    source.description,
+    source.sourceType,
+    source.sourceId,
+    ...(source.unlocks || []),
+    source.notes
+  ].filter(Boolean).join(' ');
+}
+
+function createDebugFlagBrowserRow(source) {
+  const flagId = source.flagId;
+  const enabled = hasDebugFlag(flagId);
+  const row = document.createElement('button');
+  row.type = 'button';
+  row.className = 'debug-flag-row';
+  row.dataset.flagId = flagId;
+  row.classList.toggle('is-selected', flagId === debugSelectedFlagId);
+  row.addEventListener('click', () => {
+    selectDebugFlag(flagId);
+  });
+
+  const meta = document.createElement('div');
+  meta.className = 'debug-flag-meta';
+
+  const title = document.createElement('div');
+  title.className = 'debug-flag-title';
+  title.textContent = flagId;
+
+  meta.append(title);
+  row.append(meta);
+  return row;
+}
+
+function selectDebugFlag(flagId) {
+  debugSelectedFlagId = flagId;
+  for (const row of elements.debugModal.querySelectorAll('.debug-flag-row')) {
+    row.classList.toggle('is-selected', row.dataset.flagId === flagId);
+  }
+  renderDebugFlagDetail();
+}
+
+function renderDebugFlagDetail() {
+  const source = getFlagSource(debugSelectedFlagId);
+  if (!source) {
+    elements.debugFlagDetail.replaceChildren(createTextRow('選取左側旗標後查看詳細資訊。'));
+    return;
+  }
+  const enabled = hasDebugFlag(source.flagId);
+  const title = document.createElement('div');
+  title.className = 'debug-flag-detail-title';
+  title.textContent = source.flagId;
+
+  const description = document.createElement('p');
+  description.className = 'debug-flag-detail-description';
+  description.textContent = source.description || '沒有說明。';
+
+  const meta = document.createElement('div');
+  meta.className = 'debug-flag-detail-meta';
+  meta.textContent = [
+    enabled ? '已獲取' : '未獲取',
+    getDebugFlagStorageLabel(source.flagId),
+    source.sourceType || '',
+    source.sourceId || ''
+  ].filter(Boolean).join(' / ');
+
+  const action = document.createElement('button');
+  action.type = 'button';
+  action.textContent = enabled ? '移除此旗標' : '加入此旗標';
+  action.addEventListener('click', () => setDebugFlagState(source.flagId, !enabled));
+
+  elements.debugFlagDetail.replaceChildren(title, description, meta, action);
+}
+
+function normalizeSearchText(text) {
+  return String(text || '').trim().toLocaleLowerCase();
+}
+
+function isDebugDailyFlag(flagId) {
+  const source = getFlagSource(flagId);
+  return Boolean(source && (
+    String(source.sourceId || '').includes('dailyFlags')
+    || String(source.description || '').includes('每日旗標')
+    || String(source.notes || '').includes('每日旗標')
+  ));
+}
+
+function getDebugFlagStorageLabel(flagId) {
+  return isDebugDailyFlag(flagId) ? '每日旗標' : '進度旗標';
+}
+
+function hasDebugFlag(flagId) {
+  return isDebugDailyFlag(flagId)
+    ? hasPlayerDailyFlag(flagId)
+    : gameState.player.flags.includes(flagId);
 }
 
 function renderDebugItemOptions() {
@@ -11432,11 +12961,31 @@ function addDebugItemsToInventory(entries, label) {
 }
 
 function applyDebugStat(key) {
-  const isLife = key === 'life';
-  const input = isLife ? elements.debugLifeInput : elements.debugStaminaInput;
-  const max = isLife ? gameState.player.maxLife : gameState.player.maxStamina;
-  const label = isLife ? '生命' : '體力';
-  const nextValue = clampNumber(Number(input.value), 0, max);
+  const statConfigs = {
+    life: {
+      input: elements.debugLifeInput,
+      max: gameState.player.maxLife,
+      label: '生命'
+    },
+    stamina: {
+      input: elements.debugStaminaInput,
+      max: gameState.player.maxStamina,
+      label: '體力'
+    },
+    contribution: {
+      input: elements.debugContributionInput,
+      max: Number.POSITIVE_INFINITY,
+      label: '貢獻'
+    }
+  };
+  const config = statConfigs[key];
+  if (!config) {
+    return;
+  }
+  const input = config.input;
+  const max = config.max;
+  const label = config.label;
+  const nextValue = Math.floor(clampNumber(Number(input.value), 0, max));
 
   runTrackedAction({
     id: `debug_${key}`,
@@ -11449,19 +12998,265 @@ function applyDebugStat(key) {
   render();
 }
 
-function removeFlag(flagId) {
+function resetDebugTransientSceneState() {
+  gameState.events.active = null;
+  gameState.pendingEncounterReport = null;
+  tradeDraft = null;
+  droppedItemsDraft = null;
+  containerDraft = null;
+  forageLootDraft = null;
+  pendingActionFlow = null;
+}
+
+function jumpDebugLocation() {
+  const locationId = elements.debugLocationSelect.value;
+  if (!isKnownRuntimeSceneId(locationId)) {
+    recordFailedAction({ id: 'debug_jump_location', label: 'Debug 跳轉地點' }, '找不到指定地點。');
+    return;
+  }
+
+  runTrackedAction({
+    id: `debug_jump_location_${locationId}`,
+    label: 'Debug 跳轉地點',
+    timeCostSeconds: 0
+  }, () => {
+    resetDebugTransientSceneState();
+    gameState.currentSceneId = locationId;
+  }, { message: `已跳到${getSceneLocationLabel(locationId) || getLocationLabel(locationId) || locationId}。` });
+  saveGame(gameState.lastActionResult?.message || '已跳轉地點。');
+  render();
+}
+
+function openDebugVillager() {
+  const villagerId = elements.debugVillagerSelect.value;
+  openDebugVillagerScene(villagerId, false);
+}
+
+function openDebugVillagerMenu() {
+  const villagerId = elements.debugVillagerSelect.value;
+  openDebugVillagerScene(villagerId, true);
+}
+
+function openDebugVillagerScene(villagerId, bypassTriggeredEvents = false) {
+  const villager = villagers.find((entry) => entry.id === villagerId);
+  if (!villager) {
+    recordFailedAction({ id: 'debug_open_villager', label: 'Debug 開啟角色互動' }, '找不到指定角色。');
+    return;
+  }
+
+  const returnSceneId = getVillagerLocationId(villager) || FALLBACK_SCENE_ID;
+  runTrackedAction({
+    id: `debug_open_villager_${bypassTriggeredEvents ? 'menu_' : ''}${villagerId}`,
+    label: bypassTriggeredEvents ? 'Debug 直接開啟角色選單' : 'Debug 開啟角色互動',
+    timeCostSeconds: 0
+  }, () => {
+    resetDebugTransientSceneState();
+    debugBypassNextTriggeredEvent = Boolean(bypassTriggeredEvents);
+    gameState.currentSceneId = `dialogue:${villagerId}:${returnSceneId}`;
+  }, { message: bypassTriggeredEvents
+    ? `已直接開啟${villager.name || villagerId}選單，略過本次初始互動事件檢查。`
+    : `已開啟${villager.name || villagerId}互動。` });
+  saveGame(gameState.lastActionResult?.message || (bypassTriggeredEvents ? '已直接開啟角色選單。' : '已開啟角色互動。'));
+  closeDebugModal();
+  render();
+}
+
+function setDebugTimeBlock() {
+  const timeBlockId = elements.debugTimeblockSelect.value;
+  const block = TIME_BLOCKS.find((entry) => entry.id === timeBlockId);
+  if (!block) {
+    recordFailedAction({ id: 'debug_set_timeblock', label: 'Debug 調整時段' }, '找不到指定時段。');
+    return;
+  }
+
+  runTrackedAction({
+    id: `debug_set_timeblock_${timeBlockId}`,
+    label: 'Debug 調整時段',
+    timeCostSeconds: 0
+  }, () => {
+    gameState.time.secondsOfDay = block.startSecond;
+  }, { message: `已把時間調整到${block.id} ${formatTime(block.startSecond)}。` });
+  saveGame(gameState.lastActionResult?.message || '已調整時段。');
+  render();
+}
+
+function applyDebugAidaDinnerPreset() {
+  const activity = getDinnerActivity();
+  const hostVillagerId = activity?.hostVillagerId || 'aida';
+  const host = villagers.find((entry) => entry.id === hostVillagerId);
+  if (!host) {
+    recordFailedAction({ id: 'debug_preset_aida_dinner', label: '艾妲晚餐測試' }, '找不到艾妲資料。');
+    return;
+  }
+
+  const returnSceneId = getVillagerLocationId(host) || FALLBACK_SCENE_ID;
+  const eveningBlock = TIME_BLOCKS.find((entry) => entry.id === '傍晚');
+  const dinnerDailyFlag = activity?.entry?.dailyLimitFlag || '';
+  const foodEntries = [
+    { itemId: 'apple', count: 2 },
+    { itemId: 'lettuce', count: 1 },
+    { itemId: 'dry_ration', count: 1 }
+  ];
+
+  runTrackedAction({
+    id: 'debug_preset_aida_dinner',
+    label: '艾妲晚餐測試',
+    timeCostSeconds: 0
+  }, () => {
+    resetDebugTransientSceneState();
+    gameState.player.name = gameState.player.name || DEFAULT_PROTAGONIST_NAME;
+    ensurePlayerFlag('opening_recovery_intro_seen');
+    ensurePlayerFlag('aida_first_village_briefing_seen');
+    if (dinnerDailyFlag) {
+      gameState.player.dailyFlags = (gameState.player.dailyFlags || []).filter((flag) => flag !== dinnerDailyFlag);
+    }
+    if (eveningBlock) {
+      gameState.time.secondsOfDay = eveningBlock.startSecond;
+    }
+    ensureInventoryCounts(foodEntries);
+    debugBypassNextTriggeredEvent = true;
+    gameState.currentSceneId = `dialogue:${hostVillagerId}:${returnSceneId}`;
+  }, { message: '已套用艾妲晚餐測試：主角名、初期旗標、傍晚時段與測試食材都已準備，並直接開啟艾妲選單。' });
+  saveGame(gameState.lastActionResult?.message || '已套用艾妲晚餐測試。');
+  closeDebugModal();
+  render();
+}
+
+function ensurePlayerFlag(flagId) {
+  if (!flagId) {
+    return;
+  }
+  if (!Array.isArray(gameState.player.flags)) {
+    gameState.player.flags = [];
+  }
   if (!gameState.player.flags.includes(flagId)) {
+    gameState.player.flags.push(flagId);
+  }
+}
+
+function ensureInventoryCounts(entries = []) {
+  for (const entry of entries) {
+    const itemId = entry?.itemId;
+    const count = Math.max(0, Number(entry?.count || 0));
+    if (!itemId || count <= 0 || !getItem(itemId)) {
+      continue;
+    }
+    const owned = getInventoryCount(gameState.player.inventory || [], itemId);
+    if (owned < count) {
+      changeInventoryItem(gameState.player.inventory, itemId, count - owned);
+    }
+  }
+  gameState.player.inventory = normalizeInventory(gameState.player.inventory || []);
+}
+
+function applyDebugFieldState() {
+  const facility = getFacility('field');
+  if (!facility) {
+    recordFailedAction({ id: 'debug_apply_field', label: 'Debug 調整田地' }, '找不到田地設施資料。');
+    return;
+  }
+
+  const maxLevel = getFacilityMaxLevel('field');
+  const level = clampNumber(Number(elements.debugFieldLevelInput.value || 1), getFacilityInitialLevel(facility, 1), maxLevel);
+  const maxProgress = Number(facility.progress?.max ?? 100);
+  const progress = clampNumber(Number(elements.debugFieldProgressInput.value || 0), 0, maxProgress);
+  runTrackedAction({
+    id: 'debug_apply_field',
+    label: 'Debug 調整田地',
+    timeCostSeconds: 0
+  }, () => {
+    gameState.facilities.field = {
+      ...createUpgradeableFacilityState(facility, { level, progress }),
+      level,
+      progress
+    };
+  }, { message: `已調整田地為等級 ${level}、進度 ${progress}%。` });
+  saveGame(gameState.lastActionResult?.message || '已調整田地。');
+  render();
+}
+
+function applyDebugStorageState() {
+  const facility = getFacility('storage_box');
+  if (!facility) {
+    recordFailedAction({ id: 'debug_apply_storage_box', label: 'Debug 調整倉庫箱' }, '找不到倉庫箱設施資料。');
+    return;
+  }
+
+  const current = gameState.facilities.storage_box || {};
+  const level = clampNumber(
+    Number(elements.debugStorageLevelInput.value || 1),
+    getFacilityInitialLevel(facility, 1),
+    getFacilityMaxLevel('storage_box')
+  );
+  const capacityWeight = getFacilityContainerCapacity(facility, { ...current, level });
+  runTrackedAction({
+    id: 'debug_apply_storage_box',
+    label: 'Debug 調整倉庫箱',
+    timeCostSeconds: 0
+  }, () => {
+    gameState.facilities.storage_box = {
+      ...current,
+      level,
+      capacityWeight,
+      items: normalizeInventory(current.items || [])
+    };
+  }, { message: `已調整倉庫箱為等級 ${level}、容量 ${formatNumber(capacityWeight)}。` });
+  saveGame(gameState.lastActionResult?.message || '已調整倉庫箱。');
+  render();
+}
+
+function setFlag(flagId, enabled) {
+  setDebugFlagState(flagId, enabled);
+}
+
+function setDebugFlagState(flagId, enabled) {
+  if (!flagId) {
+    recordFailedAction({ id: 'debug_set_flag', label: 'Debug 調整旗標' }, '找不到指定旗標。');
+    return;
+  }
+  if (enabled && hasDebugFlag(flagId)) {
+    recordFailedAction({ id: `debug_add_flag_${flagId}`, label: '新增旗標' }, '這個旗標已經存在。');
+    return;
+  }
+  if (!enabled) {
+    removeFlag(flagId);
+    return;
+  }
+
+  runTrackedAction({
+    id: `debug_add_flag_${flagId}`,
+    label: '新增旗標',
+    timeCostSeconds: 0
+  }, () => {
+    if (isDebugDailyFlag(flagId)) {
+      addPlayerDailyFlag(flagId);
+    } else {
+      ensurePlayerFlag(flagId);
+    }
+  }, { message: `已新增旗標 ${flagId}。` });
+  saveGame(gameState.lastActionResult?.message || '已新增旗標。');
+  debugSelectedFlagId = flagId;
+  render();
+}
+
+function removeFlag(flagId) {
+  if (!hasDebugFlag(flagId)) {
     recordFailedAction({ id: `debug_remove_flag_${flagId}`, label: '刪除旗標' }, '找不到指定旗標。');
     return;
   }
 
-  const relatedEventIds = getEventIdsRecordedByFlag(flagId);
+  const isDailyFlag = isDebugDailyFlag(flagId);
+  const relatedEventIds = isDailyFlag ? [] : getEventIdsRecordedByFlag(flagId);
   runTrackedAction({
     id: `debug_remove_flag_${flagId}`,
     label: '刪除旗標',
     timeCostSeconds: 0
   }, () => {
-    gameState.player.flags = gameState.player.flags.filter((entry) => entry !== flagId);
+    if (isDailyFlag) {
+      gameState.player.dailyFlags = (gameState.player.dailyFlags || []).filter((entry) => entry !== flagId);
+    } else {
+      gameState.player.flags = gameState.player.flags.filter((entry) => entry !== flagId);
+    }
     if (relatedEventIds.length) {
       gameState.events.completedEventIds = gameState.events.completedEventIds
         .filter((eventId) => !relatedEventIds.includes(eventId));
@@ -11471,6 +13266,7 @@ function removeFlag(flagId) {
     gameState.lastActionResult.message = `已刪除旗標 ${flagId}，並解除相關事件完成紀錄。`;
   }
   saveGame(gameState.lastActionResult?.message || '已刪除旗標。');
+  debugSelectedFlagId = flagId;
   render();
 }
 
@@ -11712,6 +13508,11 @@ function formatNumber(value) {
   return String(Math.round((number + Number.EPSILON) * 100) / 100);
 }
 
+function formatProgressPercent(value, max = 100) {
+  const capped = clampNumber(Number(value || 0), 0, Number(max || 100));
+  return String(Math.floor(capped));
+}
+
 function createTextRow(text) {
   const row = document.createElement('div');
   row.textContent = text;
@@ -11754,8 +13555,86 @@ async function loadJson(path) {
   return response.json();
 }
 
+function createDinnerRuntimeEvents() {
+  const activity = getDinnerActivity();
+  if (!activity) {
+    return [];
+  }
+  const preparationEvents = (activity.preparationEvents || []).map((entry) => ({
+    id: entry.id,
+    title: entry.title || activity.name || '黃昏晚餐',
+    repeatable: true,
+    pages: [
+      {
+        id: 'start',
+        title: entry.title || activity.name || '黃昏晚餐',
+        text: entry.pages?.[0] || ''
+      },
+      {
+        id: 'finish',
+        title: entry.title || activity.name || '黃昏晚餐',
+        text: entry.pages?.[1] || '',
+        timeCostSeconds: getDinnerStageTimeCost('preparation'),
+        resultMessage: '晚餐準備好了。',
+        choices: [
+          {
+            id: 'start_meal',
+            label: '一起享用晚餐',
+            targetEventId: DINNER_SELECTED_MEAL_EVENT_TARGET,
+            transition: 'fade'
+          }
+        ]
+      }
+    ]
+  }));
+  const mealEvents = Object.entries(activity.mealEvents || {}).flatMap(([tierId, entries]) => {
+    const tier = (activity.scoring?.resultTiers || []).find((entry) => entry.id === tierId);
+    return (entries || []).map((entry) => ({
+      id: entry.id,
+      title: entry.title || tier?.label || activity.name || '黃昏晚餐',
+      repeatable: true,
+      pages: [
+        {
+          id: 'start',
+          title: entry.title || tier?.label || activity.name || '黃昏晚餐',
+          text: entry.pages?.[0] || ''
+        },
+        {
+          id: 'finish',
+          title: entry.title || tier?.label || activity.name || '黃昏晚餐',
+          text: entry.pages?.[1] || '',
+          timeCostSeconds: getDinnerStageTimeCost('meal'),
+          effects: createDinnerMealEffects(tier),
+          resultMessage: `${activity.name || '晚餐'}結束了。`,
+          finishTransition: 'fade'
+        }
+      ]
+    }));
+  });
+  return [...preparationEvents, ...mealEvents];
+}
+
+function getDinnerStageTimeCost(stageId) {
+  const stage = (getDinnerActivity()?.flow?.stages || []).find((entry) => entry.id === stageId);
+  return Number(stage?.timeCostSeconds || 0);
+}
+
+function createDinnerMealEffects(tier = {}) {
+  const affectionDelta = Number(tier?.allCoreVillagerAffectionDelta || 0);
+  const villagerAffection = {};
+  for (const villager of villagers.filter(isCoreVillager)) {
+    villagerAffection[villager.id] = affectionDelta;
+  }
+  const dailyFlag = getDinnerActivity()?.entry?.dailyLimitFlag || '';
+  return {
+    villagerAffection,
+    dailyFlags: dailyFlag ? [dailyFlag] : [],
+    contributionPerDinnerScore: 5
+  };
+}
+
 async function boot() {
-  [scenes, villagers, items, enemies, recipes, commands, locations, dialogues, quests, events, facilities, flagSources, npcInteractionRules, elaineKnowledge, selaKnowledge, saveTemplate, forageLootConfig, resourceNodeSpawnConfig] = await Promise.all([
+  [scenes, villagers, items, enemies, recipes, commands, locations, dialogues, quests, events, facilities, flagSources, npcInteractionRules, elaineKnowledge, selaKnowledge, saveTemplate, forageLootConfig, resourceNodeSpawnConfig, villageDinnerActivity] = await Promise.all([
     loadJson('./data/scenes/scenes.json'),
     loadJson('./data/villagers/villagers.json'),
     loadJson('./data/items/items.json'),
@@ -11773,8 +13652,11 @@ async function boot() {
     loadJson('./data/knowledge/sela-knowledge.json'),
     loadJson('./data/save/save-template.json'),
     loadJson('./data/exploration/forage-loot.json'),
-    loadJson('./data/exploration/resource-node-spawns.json')
+    loadJson('./data/exploration/resource-node-spawns.json'),
+    loadJson('./data/village-activities/dinner.json')
   ]);
+
+  events = [...events, ...createDinnerRuntimeEvents()];
 
   clearLegacyCookieSave();
   gameState = loadPersistentSave() || createInitialState();
@@ -11825,9 +13707,21 @@ function getResolvedPlayerPosition(sceneId) {
     const returnSceneId = gameState.events?.active?.returnSceneId || FALLBACK_SCENE_ID;
     return { id: returnSceneId, name: getSceneLocationLabel(returnSceneId) };
   }
-    if (sceneId.startsWith('dialogue:')) {
+  if (sceneId.startsWith('dialogue:')) {
       return { id: sceneId.split(':')[2] || FALLBACK_SCENE_ID, name: getSceneLocationLabel(sceneId.split(':')[2] || FALLBACK_SCENE_ID) };
     }
+  if (sceneId.startsWith('aidaTraining:')) {
+    const returnSceneId = sceneId.split(':')[1] || FALLBACK_SCENE_ID;
+    return { id: returnSceneId, name: getSceneLocationLabel(returnSceneId) };
+  }
+  if (sceneId.startsWith('locationInquiry:')) {
+    const returnSceneId = sceneId.split(':')[2] || FALLBACK_SCENE_ID;
+    return { id: returnSceneId, name: getSceneLocationLabel(returnSceneId) };
+  }
+  if (sceneId.startsWith('dinner:')) {
+    const returnSceneId = sceneId.split(':')[2] || FALLBACK_SCENE_ID;
+    return { id: returnSceneId, name: getSceneLocationLabel(returnSceneId) };
+  }
       if (sceneId.startsWith('sleepMenu:') || sceneId.startsWith('sleep:')) {
     const returnSceneId = sceneId.split(':')[1] || FALLBACK_SCENE_ID;
     return { id: returnSceneId, name: getSceneLocationLabel(returnSceneId) };
@@ -11894,6 +13788,21 @@ function createSceneBreadcrumb(scene) {
   if (sceneId.startsWith('dialogue:')) {
     const [, villagerId, returnSceneId] = sceneId.split(':');
     return [...createLocationBreadcrumb(returnSceneId), getVillagerName(villagerId)];
+  }
+
+  if (sceneId.startsWith('aidaTraining:')) {
+    const [, returnSceneId] = sceneId.split(':');
+    return [...createLocationBreadcrumb(returnSceneId), getVillagerName('aida'), '安排訓練'];
+  }
+
+  if (sceneId.startsWith('locationInquiry:')) {
+    const [, villagerId, returnSceneId] = sceneId.split(':');
+    return [...createLocationBreadcrumb(returnSceneId), getVillagerName(villagerId), '詢問位置'];
+  }
+
+  if (sceneId.startsWith('dinner:')) {
+    const [, activityId, returnSceneId] = sceneId.split(':');
+    return [...createLocationBreadcrumb(returnSceneId), getDinnerActivityName(activityId)];
   }
 
   if (sceneId.startsWith('trade:')) {
@@ -12099,6 +14008,15 @@ elements.debugRecipeSelect.addEventListener('change', renderDebugRecipePanel);
 elements.debugAddItemButton.addEventListener('click', () => adjustDebugInventory(1));
 elements.debugApplyLifeButton.addEventListener('click', () => applyDebugStat('life'));
 elements.debugApplyStaminaButton.addEventListener('click', () => applyDebugStat('stamina'));
+elements.debugApplyContributionButton.addEventListener('click', () => applyDebugStat('contribution'));
+elements.debugJumpLocationButton.addEventListener('click', jumpDebugLocation);
+elements.debugOpenVillagerButton.addEventListener('click', openDebugVillager);
+elements.debugOpenVillagerMenuButton.addEventListener('click', openDebugVillagerMenu);
+elements.debugSetTimeblockButton.addEventListener('click', setDebugTimeBlock);
+elements.debugPresetAidaDinnerButton.addEventListener('click', applyDebugAidaDinnerPreset);
+elements.debugApplyFieldButton.addEventListener('click', applyDebugFieldState);
+elements.debugApplyStorageButton.addEventListener('click', applyDebugStorageState);
+elements.debugFlagFilterInput.addEventListener('input', renderDebugFlagBrowser);
 elements.itemModalClose.addEventListener('click', closeItemModal);
 elements.recipeModalClose.addEventListener('click', closeRecipeModal);
 elements.debugModalClose.addEventListener('click', closeDebugModal);

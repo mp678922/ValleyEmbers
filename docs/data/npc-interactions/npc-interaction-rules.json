@@ -18,7 +18,21 @@
       "gift": true,
       "affection": true
     },
-    "notes": "六名核心村民使用普通好感、送禮、交易、委託與台詞池規則；交談造成的好感增加每人每日最多 +1，送禮每人每日最多一次。"
+    "notes": "六名核心村民使用普通好感、送禮、交易、委託與台詞池規則；交談造成的好感增加每人每日最多 +1，送禮每人每日最多一次。互動分組中可顯示「問其他人在哪裡」，但只在至少一名核心女孩不在同場景時出現，且只能詢問不在同場景的角色。",
+    "specialActions": [
+      {
+        "id": "ask_other_location",
+        "commandId": "ask_other_location",
+        "label": "問其他人在哪裡",
+        "actionType": "specialInfo",
+        "dynamicAction": "openLocationInquiry",
+        "timeCostSeconds": 0,
+        "hideCost": true,
+        "availability": {
+          "hasAbsentCoreVillagers": true
+        }
+      }
+    ]
   },
   {
     "npcType": "special_forest_npc",

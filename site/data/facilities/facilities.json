@@ -478,8 +478,8 @@
       "採集",
       "藥草",
       "森林",
-      "每日",
-      "月露草"
+      "月露草",
+      "探索臨時資源點"
     ]
   },
   {
@@ -565,51 +565,14 @@
     ]
   },
   {
-    "id": "medical_supply_box",
-    "name": "醫藥補給箱",
-    "category": "facility",
-    "facilityType": "small_storage",
-    "description": "箱子不大，卻被整理得很乾淨。裡頭放的多半是米菈順手備下的藥材，像是怕誰一轉身就急著用上。",
-    "locationIds": [
-      "herb_shed"
-    ],
-    "baseActions": [
-      "withdraw"
-    ],
-    "smallStorage": {
-      "canDeposit": false,
-      "canWithdraw": true,
-      "maxTotalItemCount": 3,
-      "restockRule": {
-        "type": "dailyFixed",
-        "resetTime": "06:00",
-        "onlyRestockWhenTotalBelow": 3,
-        "items": {
-          "moondew_herb": 1
-        }
-      }
-    },
-    "obtainAction": {
-      "label": "取出月露草",
-      "contentsLabel": "補給",
-      "emptyMessage": "醫藥補給箱目前沒有可取出的月露草。",
-      "successMessage": "已取出月露草。"
-    },
-    "tags": [
-      "設施",
-      "藥草棚",
-      "補給",
-      "月露草",
-      "每日"
-    ]
-  },
-  {
     "id": "field",
     "name": "田地",
     "category": "facility",
     "facilityType": "upgradeable",
     "description": "這片地才剛被翻整過不久，泥土還鬆，踩上去會微微下陷。雖然看起來還不算成氣候，但已經能讓人想像再過些日子會種出什麼。",
-    "locationIds": [],
+    "locationIds": [
+      "reclamation_area"
+    ],
     "baseActions": [],
     "functionality": {
       "directEffects": "none",
@@ -620,6 +583,18 @@
       "initialLevel": 1,
       "minLevel": 1,
       "maxLevel": 5
+    },
+    "progress": {
+      "initial": 0,
+      "max": 100,
+      "upgradeThreshold": 100,
+      "resetOnLevelUp": true,
+      "stepCountsByLevel": {
+        "1": 5,
+        "2": 7,
+        "3": 9,
+        "4": 11
+      }
     },
     "tags": [
       "設施",
@@ -664,10 +639,6 @@
       "alreadyUsedMessage": "今天已經找過了。",
       "emptyResultMessage": "沒有找到可用的東西。",
       "results": [
-        {
-          "itemId": "moondew_herb",
-          "count": 1
-        },
         {
           "itemId": "flower",
           "count": 1
@@ -827,7 +798,7 @@
     ],
     "storage": {
       "initialCapacityWeight": 20,
-      "capacityIncreasePerLevel": 10,
+      "capacityIncreasePerLevel": 20,
       "maxLevel": 5
     },
     "upgrade": {

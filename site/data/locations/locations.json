@@ -35,6 +35,25 @@
     ],
     "baseCommandSet": "standardLocation",
     "allowPresentVillagers": true,
+    "localActions": [
+      {
+        "id": "village_square_noon_rest",
+        "label": "午間休息",
+        "actionType": "rest",
+        "dynamicAction": "participateNoonRest",
+        "returnSceneId": "village_square_hub",
+        "timeCostSeconds": 1800,
+        "progressLabel": "正在和大家一起休息...",
+        "visibleWhen": {
+          "timeBlocks": [
+            "中午"
+          ],
+          "blockedDailyFlags": [
+            "village_square_noon_rest_done"
+          ]
+        }
+      }
+    ],
     "exits": [
       {
         "to": "dormitory",

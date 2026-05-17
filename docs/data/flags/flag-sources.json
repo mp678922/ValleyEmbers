@@ -30,6 +30,26 @@
     "notes": "這是每日旗標，清晨每日重置時會清除。"
   },
   {
+    "flagId": "village_square_noon_rest_done",
+    "description": "今天已經在村莊廣場完成一次午間休息。",
+    "sourceType": "event",
+    "sourceId": "village_square_noon_rest_*.effects.dailyFlags",
+    "unlocks": [
+      "限制午間休息每天只完成一次"
+    ],
+    "notes": "這是每日旗標，清晨每日重置時會清除。"
+  },
+  {
+    "flagId": "tori_sweat_help_received_today",
+    "description": "今天托莉已在主角體力偏低時主動幫忙擦汗或照顧一次。",
+    "sourceType": "event",
+    "sourceId": "tori_sweat_help_*.effects.dailyFlags",
+    "unlocks": [
+      "限制托莉低體力照顧事件每天只觸發一次"
+    ],
+    "notes": "這是每日旗標，清晨每日重置時會清除。"
+  },
+  {
     "flagId": "notice_board_tori_sela_seed_argument_seen",
     "description": "已看過托莉和賽拉關於種子袋的看板拌嘴。",
     "sourceType": "event",

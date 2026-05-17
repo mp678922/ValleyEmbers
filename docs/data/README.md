@@ -1,4 +1,4 @@
-﻿# Data Structure Notes
+# Data Structure Notes
 
 The data is split to reduce repeated text and token usage.
 
@@ -16,6 +16,7 @@ The data is split to reduce repeated text and token usage.
 - `recipes/recipes.json`: crafting recipe definitions, including result item, required materials, target workstation, time cost, and learning defaults.
 - `enemies/enemies.json`: forest enemy definitions, categories, difficulty, ranged dodge, feared combat tools, and weapon/ammo effectiveness. Combat-tool weakness follows enemy category by default: 飛獸 -> `capture_net`, 四足獸 -> `trap`, 雙足獸 -> `torch`; 巨獸 is the exception, with low ranged dodge but difficulty 3 points above its region, no guaranteed combat tool, no trap weakness, and no melee-weapon weakness. The night black shadow is a special night-encounter replacement enemy and should not be treated as part of the normal region enemy pool.
 - `facilities/facilities.json`: interactable facilities and objects inside locations, such as bushes, storage boxes, and notice boards.
+- `village-activities/dinner.json`: planning data for the 黃昏晚餐 village activity. It owns eligible food scoring, two-stage timing, event pools, dynamic ingredient text tokens, and state-ownership notes until a generic village-activity runtime handler exists. Runtime dinner completion grants contribution at `score * 5`.
 - `flags/flag-sources.json`: small flag source table. Each record must include a Chinese `description` for author/debug lookup, and explain which scene, quest, or interaction creates a flag and what that flag unlocks. Flags are hidden from normal player output unless `playerVisible: true`; visible flags must use `playerDescription` for player-facing text and must not show the raw flag id.
 - `npc-interactions/npc-interaction-rules.json`: minimal interaction matrix for core villagers and special NPCs.
 - `knowledge/elaine-knowledge.json`: Elaine's immersive knowledge/help topics. Category labels are player-facing questions, while item-source answers are generated from existing item, facility, quest, event, recipe, trade, and exploration data.
@@ -38,6 +39,7 @@ Token-saving rules:
 - Keep `flags/flag-sources.json` updated when adding a new player flag. The table should name the source scene/quest/interaction, the content unlocked by the flag, and a Chinese `description` for non-player-facing lookup. If the flag should be shown to players, set `playerVisible: true` and provide a player-facing `playerDescription`.
 - Keep event, quest, and flag ownership separate. `events/events.json` owns triggerable scenes and immediate page effects; `quests/quests.json` owns trackable objectives and turn-in rewards; `flags/flag-sources.json` owns source lookup, replay locks, and unlock records after content has happened.
 - Use events plus flags for one-time narrative beats. Use quests when the player needs an active objective, count, turn-in, or sidebar tracking. Do not use flags as a replacement for quest progress.
+- Reusable random event pools must rotate through every eligible event before reshuffling. Store enough runtime state to know the last played event id and the remaining ids in the current cycle. After a cycle resets, avoid immediately repeating the last event when the pool has more than one candidate. This rule is for narrative event pools, not for random item rewards, restocks, or forage loot.
 - Keep `npc-interactions/npc-interaction-rules.json` updated when adding a new NPC type or changing whether an NPC can chat, trade, give quests, receive gifts, use affection, or provide special information.
 - Use `save.player.dailyFlags` for per-day social locks. The first version reserves `chat_affection_gained:{villagerId}` for the daily `+1` chat affection cap and `gift_given:{villagerId}` for the daily one-gift-per-character limit.
 - Keep relationship text in `relationships.json` only.
@@ -62,10 +64,14 @@ Token-saving rules:
 - Use `lost_and_found_box` for recoverable expired dropped items. When `discarded_items` expires, `equipment` and `quest_item` entries move there; other categories disappear.
 - `quests/quests.json` is a read-only quest template table, not save data. Player quest progress belongs in the exported/imported save JSON.
 - Every item must include a `price` object using `fluorite` as currency. Non-sellable items keep `price.sellable: false`; story-critical, quest, clue, and equipment items are usually non-sellable.
+- Village activities are not quests by default. Use `village-activities/*.json` when the player joins a time-limited village routine, receives immediate event scenes, and gets simple rewards without sidebar tracking. Do not copy a village activity into `quests.json` unless the player needs an active objective or later turn-in.
+- The first village activity is 艾妲主持的黃昏晚餐. It should be entered from Aida's interaction menu at 黃昏, consume selected eligible food from the player inventory or storage box, play one preparation event and one meal event, reward all six core villagers' affection according to the meal score, and grant contribution at `score * 5`. Its preparation pool and each meal-result pool must follow the reusable random event pool rotation rule.
+- Skill training quests have been removed. Current skill growth starts from Aida's contribution-paid training interactions, with unique three-page events in `events/events.json`.
 - Dialogue scenes should be menu entry records, not hard-coded lists of `chat/gift/trade/quest/leave` choices. Use `baseCommandSet: "dialogueMenu"` and generate actual menu availability from command rules, quest prerequisites, trade rules, and NPC type.
 - Triggered narrative events belong in `events/events.json`, not in `locations.json` or dialogue-menu scaffolding. Use event triggers for things like entering a place, talking to a specific NPC, moving toward a specific location, or gated one-time scenes; let each event page own its text and state changes.
 - Event trigger types currently used by the browser runtime include:
   - `sceneEnter`: checked when the current scene is a location or story/exploration scene.
+  - `moveArriveLocation`: checked immediately after a location exit finishes moving to its target scene.
   - `villagerInteract`: checked when entering a generated character interaction page such as `dialogue:aida:village_square_hub`.
   - `villagerInteractionLeave`: checked only when the player presses `返回` from a character interaction page back to its parent location. Use this for one-time affection or trust events that should happen after the player has seen the latest chat, gift, quest, treatment, or other interaction response.
   - `facilityInteract`: checked when opening facilities that point to an event pool, such as notice-board messages.
